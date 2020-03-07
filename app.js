@@ -12,8 +12,8 @@ const app = express();
 app.use(cookieParser());
 
 app.use(session({
-	secret: 'fighter jet',
-	name: 'mangga bie',
+	secret: 'sksksk',
+	name: 'saeshun',
 	resave: true,
 	saveUninitialized: true
 }));
@@ -24,7 +24,7 @@ app.set('views', __dirname + 'views/');
 app.engine('hbs', hbs.create({
 	extname: 'hbs',
 	partialsDir: 'views/partials'
-}));
+}).engine);
 
 // init the middleware helpers (authenticates if input passed is correct)
 	// addtl info: middlewares check if there's content passed through the form and if they also pass 
@@ -38,6 +38,6 @@ const router = require('./router/animoRouter');
 app.use('/', router);
 
 // console output when server is ran
-app.listen(8000, () => {
-	console.log("Listening to localhost at port 8000");
+app.listen(3000, () => {
+	console.log("Listening to localhost at port 3000");
 });
