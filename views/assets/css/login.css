@@ -1,0 +1,76 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
+body {
+	font-family: 'Roboto', sans-serif;
+	background: url(img/vector.png) no-repeat center;
+	background-color: #184725;
+	background-size: cover;
+}
+.main-section {
+	margin: 0 auto;
+	margin-top: 130px;
+	padding: 0;
+}
+.modal-content {
+	background-color: #ffffffde;
+	margin-left: auto; margin-right: auto;
+	width: 400px;
+	opacity: .8;
+	padding: 0 18px;
+	border-radius: 10px;
+	-webkit-box-shadow: 0px 0px 14px 3px #000000;
+	-moz-box-shadow: 0px 0px 14px 3px #000000;
+    box-shadow: 0px 0px 14px 3px #000000;
+}
+.logo-img img {
+	height: 140px;
+	width: 140px;
+}
+.logo-img {
+	margin-top: -70px;
+	margin-bottom: 40px;
+}
+.form-group {
+	margin-bottom: 25px;
+}
+.form-group input {
+	height: 42px;
+	border-radius: 5px;
+	border: 0;
+	font-size: 18px;
+	padding-left: 50px;
+	background-color:white;
+}
+.form-group::before {
+	font-family: 'Font Awesome\ 5 Free';
+	content: "\f1fa";
+	position: absolute;
+	font-size: 22px;
+	left: 28px;
+	padding-top: 4px;
+	color: #184725;
+}
+.form-group:last-of-type::before {
+	content: "\f023";
+}
+.form-input button {
+	width: 40%;
+	margin: 5px 0 20px;
+}
+.btn-success {
+	background-color: #184725;
+	font-size: 18px;
+	border-color: #184725;
+	border-radius: 5px;
+	padding: 7px 14px;
+}
+.btn-success:hover {
+	background-color: #13361d;
+	border-color: #13361d;
+}
+.register {
+	padding-bottom: 30px;
+}
+.register a {
+	color: #13361d;
+}
