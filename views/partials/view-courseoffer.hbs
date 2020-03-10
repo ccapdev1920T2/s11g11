@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>View Course Offerings</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Alegreya+Sans">
+    <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/css/Navigation-Clean.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" type="text/javascript"></script>
+    <script src="assets/js/view-courseoffer.js" type="text/javascript"></script>
+</head>
+
+<body>
+    <nav class="navbar navbar-light navbar-expand-lg d-lg-flex justify-content-lg-end align-items-lg-start navigation-clean" style="background-color: #184728;padding: 5px 5px 5px 5px;min-width: 300px;">
+            <div class="container-fluid"><a href="home.html"><img style="width: 70px;height: 70px;margin: 0px;" src="assets/img/dlsulogo.png"><a class="navbar-brand" href="home.html" style="margin: 0px 0px 0px 10px;color: rgb(255,255,255);font-size: 30px;">ANIMO.SYS</a></a>
+                <div class="collapse navbar-collapse" id="navcol-1"
+                    style="color: rgb(255,255,255);">
+                    <ul class="nav navbar-nav ml-auto">
+            <li class="nav-item" role="presentation"><a class="nav-link" href="home.html" style="color: rgb(255,255,255);">Home</a></li>
+                        <li class="nav-item" role="presentation"><a class="nav-link" href="view-courseoffer.html" style="color: rgb(255,255,255);">Course Offerings</a></li>
+                        <li class="nav-item" role="presentation"></li>
+                        <li class="nav-item" role="presentation"></li>
+                        <li class="nav-item" role="presentation"></li>
+                        <li class="nav-item" role="presentation"></li>
+                        <li class="nav-item" role="presentation"></li>
+                        <li class="nav-item dropdown"><a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false" href="#" style="color: rgb(255,255,255);">Enlistment</a>
+                            <div class="dropdown-menu" role="menu"><a class="dropdown-item" role="presentation" href="addclass.html">Add Classes</a><a class="dropdown-item" role="presentation" href="dropclass.html">Drop Classes</a><a class="dropdown-item" role="presentation" href="swapclass.html">Swap Classes</a></div>
+                        </li>
+                    </ul><a href="vieweaf.html" style="color: rgb(255,255,255);padding: 8px 18px;">Enrolled Courses</a>
+                    <div class="dropdown" style="color: #efe8d7;"><a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="#" style="color: #efe8d7;">User</a>
+                        <div class="dropdown-menu dropdown-menu-right" role="menu"><a class="dropdown-item" role="presentation" href="userprofile.html">Profile</a><a class="dropdown-item" role="presentation" href="login.html">Log Out</a></div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    <div class="card" id="course-offer">
+        <div class="card-header">
+            <h5 class="float-left mb-0" style="color: #5b6066;width: 70%;margin: 10px 0px 0px 0px;"><strong>Course Offerings</strong></h5>
+            <div class="float-right" id="search-bar" style="width: 30%;">
+                <div class="float-right" id="search-btn" style="height: 50px;"><i class="fa fa-search float-right" style="height: 30px;margin: 15px 0px 0px 0px;"></i></div><input class="float-right" type="text" style="margin: 10px;"></div>
+        </div>
+        <div class="card-body" style="height: 95px;">
+            <p class="card-text" style="width: 100%;"><strong>Note:</strong>&nbsp;Failure to <strong>pre-enlist</strong> regardless of academic standing and special privileges (<em>e.g Dean’s Lister, advance enrollees, etc</em>.) will have the <strong>least priority</strong> during the online
+                enrollment.<br><br></p>
+        </div>
+    </div>
+    <div style="padding: 20px;">
+        <div class="table-responsive d-table m-auto" style="width: 100%;">
+            <table class="table">
+                <thead id="courseoffer-header">
+                    <tr class="border rounded-0">
+                        <th class="border rounded-0" style="background-color: #427f50;color: #fcfcfc;width: 10%;">Class No.</th>
+                        <th class="text-center border rounded-0" style="background-color: #427f50;color: #fcfcfc;width: 11%;">Course Code</th>
+                        <th class="text-center border rounded-0" style="background-color: #427f50;color: #fcfcfc;width: 25%;">Course Name</th>
+                        <th class="text-right border rounded-0" style="background-color: #427f50;color: #fcfcfc;width: 2%;">Section</th>
+                        <th class="text-center border rounded-0" style="background-color: #427f50;color: #fcfcfc;width: 15%;">Class Schedule</th>
+                        <th class="text-center border rounded-0" style="background-color: #427f50;color: #fcfcfc;width: 5%;">Room</th>
+                        <th class="text-center border rounded-0" style="background-color: #427f50;color: #fcfcfc;width: 15%;">Faculty</th>
+                        <th class="text-center border rounded-0" style="background-color: #427f50;color: #fcfcfc;width: 10%;">No. of Units</th>
+                    </tr>
+                </thead>
+                <tbody id="co-body">
+                    <!-- insert course-unit rows here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+</body>
+
+</html>
