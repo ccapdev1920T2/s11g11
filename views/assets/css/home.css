@@ -1,0 +1,48 @@
+body{
+    background-color: #76b160;
+}
+.image-holder{
+        background: url("img/cheer.gif") no-repeat top;
+        width: 100%;
+        height: 100%;
+        margin: auto;
+        border-bottom: 5px solid #184725;
+        border-radius: 80%;
+}
+.col-mid-3{
+    margin-left: auto;
+    margin-right: auto;
+}
+.col-4 img{
+    width: 150px;
+    height: 150px;
+}
+.btn{
+    background-color: #184725;
+    font-size: 15px;
+    border-color: #184725;
+    border-radius: 5px;
+    width: 200px;
+}
+.btn:hover{
+    background-color: #13361d;
+    border-color: #13361d;
+}
+.container{
+    margin-bottom: -50px;
+}
+.img-div{
+    background-color: #76b160; 
+    width: 100%; 
+    height: 450px;
+    margin-bottom: 50px;
+}
+.down{
+    background-color: #184725ea;
+    color: white;
+    width: 200px;
+}
+.dropdown-item:hover{
+    background-color: #13361d;
+    color: white;
+}
