@@ -151,7 +151,7 @@ const rendFunctions = {
 
 
 // for sample data to populate Lists
-initLists: function(req, res, next) {
+const initLists = function(req, res, next) {
     if (users.length === 0){
         users.push(createUser("11836814", 
             "MANZANO", 
