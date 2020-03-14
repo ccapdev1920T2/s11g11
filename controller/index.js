@@ -56,6 +56,8 @@ const rendFunctions = {
     // GET methods (for rendering pages)
     getLogin: function(req, res, next) {
         console.log("Email: " + req.session.email);
+        var {email, password} = req.body;
+        
         if (req.session.email){ // checks if a user is logged in
             res.redirect('/'); // navigates to home page 
         } else {
