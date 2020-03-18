@@ -24,9 +24,11 @@
         </div>
         <div class="card-body" style="height: 95px;">
             <p class="card-text" style="width: 100%;"><strong>Note:</strong>&nbsp;Failure to <strong>pre-enlist</strong> regardless of academic standing and special privileges (<em>e.g Dean’s Lister, advance enrollees, etc</em>.) will have the <strong>least priority</strong> during the online
-                enrollment.<br><br></p>
+                enrollment.<br><br>
+            </p>
         </div>
     </div>
+    
     <div style="padding: 20px;">
         <div class="table-responsive d-table m-auto" style="width: 100%;">
             <table class="table">
@@ -43,7 +45,19 @@
                     </tr>
                 </thead>
                 <tbody id="co-body">
-                    <!-- insert course-unit rows here -->
+                    <!-- display course-unit per row -->
+                    {{ #each courseOffer }}
+                        <tr class="courseoffer-row">
+                            <td class="border rounded-0"> {{ classNum }} </td>
+                            <td class="border rounded-0"> {{ courseCode }} </td>
+                            <td class="border rounded-0"> {{ courseName }} </td>
+                            <td class="text-right border rounded-0"> {{ section }} </td>
+                            <td class="text-left border rounded-0"> {{ classSched }} </td>
+                            <td class="text-left border rounded-0"> {{ room }} </td>
+                            <td class="text-left border rounded-0"> {{ faculty }} </td>
+                            <td class="text-right border rounded-0"> {{ numUnits }} </td>
+                        </tr>                    
+                    {{ /each }}
                 </tbody>
             </table>
         </div>
