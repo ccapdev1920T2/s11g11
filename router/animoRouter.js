@@ -12,6 +12,7 @@ router.get('/login', controller.getLogin);
 router.get('/register', controller.getRegister);
 router.get('/profile', controller.getProfile);
 router.get('/viewcourses', controller.getCourseOffer);
+router.get('/vieweaf', controller.getViewEAF);
 router.get('/addclass', controller.getAddClass);
 router.get('/dropclass', controller.getDropClass);
 router.get('/swapclass', controller.getSwapClass);

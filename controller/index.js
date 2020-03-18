@@ -6,7 +6,6 @@
 const users = [];
 const courseList = [];
 
-
 //constructor for a Student object
 function createUser(idno, ln, fn, email, pass, degprog, college) {
         var tempUser = {
@@ -16,7 +15,8 @@ function createUser(idno, ln, fn, email, pass, degprog, college) {
             email: email,
             pass: pass,
             degprog: degprog,
-            college: college
+            college: college,
+            compCourses = [...courseList]
         };
         return tempUser;
 }
@@ -30,7 +30,7 @@ function createCourse(cNum, cCode, cName, sec, sched, rm, fac, nUnits) {
             section: sec,
             classSched: sched,
             room : rm,
-            facultyName: fac,
+            faculty: fac,
             numUnits: nUnits
         };
         return tempCourse;
@@ -77,24 +77,43 @@ const rendFunctions = {
         if (req.session.email) {
             res.render('home', { 
                 // insert needed contents for home.hbs 
+                userName: req.session.lname + ", " + req.session.fname
             });
         } else {
             res.render('home', {
-                    name: "NO NAME"
+                    userName: "NOT FOUND"
             });
-            
         }        
     },
 
     getProfile: function(req, res, next) {
         res.render('userprofile', {
             // insert needed contents for userprofile.hbs 
+            idNum: req.session.idNum,
+            lname: req.session.lname,
+            fname: req.session.fname,
+            email: req.session.email,
+            degprog: req.session.degprog,
+            college: req.session.college,
+            compCourses: req.session.compCourses
         });        
     },
     
     getCourseOffer: function(req, res, next) {
         res.render('view-courseoffer', {
-            // insert needed contents for view-courseoffer.hbs 
+            // insert needed contents for view-courseoffer.hbs
+            courseOffer: courseList
+        });        
+    },
+    
+    getViewEAF: function(req, res, next) {
+        res.render('vieweaf', {
+            // insert needed contents for vieweaf.hbs
+            idNum: req.session.idNum,
+            lname: req.session.lname,
+            fname: req.session.fname,
+            degprog: req.session.degprog,
+            compCourses: req.session.compCourses           
         });        
     },
     
@@ -119,7 +138,7 @@ const rendFunctions = {
     //POST methods (for any changes/manipulation on data)
     postRegister: function(req, res, next) {
 	// retrieves user input from the register form
-        const { idNum, email, fname, lname, college, degprog, password, conpass} = req.body;
+        const { idNum, email, fname, lname, college, degprog, password, cpass} = req.body;
         if (users.filter(function(e) {
             return e.email === email;
         })) {

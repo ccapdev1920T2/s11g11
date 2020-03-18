@@ -29,30 +29,60 @@
             </div>
             <div class="card-body" style="padding: 5px;">
                 <ul class="list-group">
-          <li class="list-group-item"><span id="idnum" class="float-right info-field">11836814</span><span class="float-left info-label" style="color: #427f50;"><strong>ID No.</strong>&nbsp;</span></li>
+                  <li class="list-group-item">
+                    <span class="float-left info-label" style="color: #427f50;"><strong>ID No.</strong>&nbsp;</span>
+                    <span id="idnum" class="float-right info-field"> {{ idNum }} </span>
+                  </li>
 
-          <li class="list-group-item"><span class="info-label" style="color: #427f50;"><strong>Last Name:</strong>&nbsp;</span><span id="lname" class="float-right info-field">MANZANO</span></li>
+                  <li class="list-group-item">
+                    <span class="info-label" style="color: #427f50;"><strong>Last Name:</strong>&nbsp;</span>
+                    <span id="lname" class="float-right info-field"> {{ lname }} </span>
+                  </li>
 
-          <li class="list-group-item"><span class="info-label" style="color: #427f50;"><strong>First Name:</strong>&nbsp;</span><span id="fname" class="float-right info-field">NINNA ROBYN</span></li>
-          
-          <li class="list-group-item"><span class="float-left info-label" style="color: #427f50;"><strong>Degree Program:</strong>&nbsp;</span><span id="degprog" class="float-right info-field">BS Information Systems</span></li>
-        </ul>
+                  <li class="list-group-item">
+                    <span class="info-label" style="color: #427f50;"><strong>First Name:</strong>&nbsp;</span>
+                    <span id="fname" class="float-right info-field"> {{ fname }} </span>
+                  </li>
+                  
+                  <li class="list-group-item">
+                    <span class="float-left info-label" style="color: #427f50;"><strong>Degree Program:</strong>&nbsp;</span>
+                    <span id="degprog" class="float-right info-field"> {{ degprog }} </span>
+                  </li>
+                </ul>
             </div>
         </div>
     </div>
+
     <div class="float-left" style="width: 70%;margin: 5px;margin-top: 20px;">
         <div class="card">
             <div class="card-header">
                 <h5 class="mb-0">Enrolled Classes</h5>
             </div>
+
             <ul class="list-group list-group-flush" id="enrolledclasses">
-                <li class="list-group-item"><span class="float-left" style="width: 15%;"><strong>Course Code</strong></span><span class="float-left" style="width: 35%;"><strong>Course Name</strong></span><span class="float-left" style="width: 10%;"><strong>Section</strong></span>
-                    <span
-                        class="float-left" style="width: 20%;"><strong>Class Schedule</strong></span><span class="float-left" style="width: 10%;"><strong>Room</strong></span><span class="float-left" style="width: 10%;"><strong>Units</strong></span></li>
-            
+                <li class="list-group-item">
+                    <span class="float-left" style="width: 15%;"><strong> Course Code</strong></span>
+                    <span class="float-left" style="width: 35%;"><strong> Course Name</strong></span>
+                    <span class="float-left" style="width: 10%;"><strong> Section</strong></span>
+                    <span class="float-left" style="width: 20%;"><strong> Class Schedule</strong></span>
+                    <span class="float-left" style="width: 10%;"><strong> Room</strong></span>
+                    <span class="float-left" style="width: 10%;"><strong> Units</strong></span>
+                </li>
+
+                {{ #each compCourses }}
+                    <li class="list-group-item">
+                        <span class="float-left" style="width: 15%;"> {{ courseCode }} </span>
+                        <span class="float-left" style="width: 35%;"> {{ courseName }} </span>
+                        <span class="float-left" style="width: 10%;"> {{ section }} </span>
+                        <span class="float-left" style="width: 20%;"> {{ classSched }} </span>
+                        <span class="float-left" style="width: 10%;"> {{ room }} </span>
+                        <span class="float-left" style="width: 10%;"> {{ numUnits }} </span>
+                    </li>  
+                {{ /each }}
             </ul>
         </div>
     </div>
+
     <script src="assets/js/jquery.min.js"></script>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
 </body>
