@@ -17,6 +17,12 @@ router.get('/addclass', controller.getAddClass);
 router.get('/dropclass', controller.getDropClass);
 router.get('/swapclass', controller.getSwapClass);
 
-router.post('/login', middleware.validateLogin, controller.postLogin);
-router.post('/register', middleware.validateRegister, controller.postRegister);
-modules.exports = animoRouter;
+// @kresshamae patapos na nitong middlewares pls
+//router.post('/login', middleware.validateLogin, controller.postLogin);
+//router.post('/register', middleware.validateRegister, controller.postRegister);
+
+router.post('/login', controller.postLogin);
+router.post('/logout', controller.postLogout);
+router.post('/register', controller.postRegister);
+
+module.exports = router;

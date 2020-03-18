@@ -30,7 +30,7 @@ app.engine('hbs', hbs.create({
 	// addtl info: middlewares check if there's content passed through the form and if they also pass 
 	// additonal requirements ("is it an email?", "does the password contain at least 8 chars?")
 	// initing the middleware itself will be done in the router
-app.use(bodyParser.urlEncoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 // init the router/s

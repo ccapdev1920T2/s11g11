@@ -14,8 +14,17 @@
                     <div class="dropdown-menu" role="menu"><a class="dropdown-item" role="presentation" href="/addclass">Add Classes</a><a class="dropdown-item" role="presentation" href="/dropclass">Drop Classes</a><a class="dropdown-item" role="presentation" href="/swapclass">Swap Classes</a></div>
                 </li>
             </ul><a href="/vieweaf" style="color: rgb(255,255,255);padding: 8px 18px;">Enrolled Courses</a>
-            <div class="dropdown" style="color: #efe8d7;"><a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="#" style="color: #efe8d7;">User</a>
-                <div class="dropdown-menu dropdown-menu-right" role="menu"><a class="dropdown-item" role="presentation" href="/userprofile">Profile</a><a class="dropdown-item" role="presentation" href="/login">Log Out</a></div>
+            <div class="dropdown" style="color: #efe8d7;">
+                <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="#" style="color: #efe8d7;"> User</a>
+                <div class="dropdown-menu dropdown-menu-right" role="menu">
+                    <a class="dropdown-item" role="presentation" href="/userprofile"> Profile </a>
+                    <form method="post" action="/logout">
+                      <input type="hidden" name="name" value="value" /> 
+                      <a onclick="this.parentNode.submit();" class="dropdown-item" role="presentation"> Log Out </a>
+                    </form>
+                </div>
+
+
             </div>
         </div>
     </div>

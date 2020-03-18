@@ -156,9 +156,12 @@ const rendFunctions = {
 
             console.log("USER Found: ", foundUser);
 
-            //searches for only (1) user
+            // searches for only (1) user
             if (foundUser.length === 1) {
-                
+                req.session.user = foundUser[0];
+                res.render('home', { 
+                    userName: req.session.user.lname + ", " + req.session.user.fname
+                });
             }
     
     },
