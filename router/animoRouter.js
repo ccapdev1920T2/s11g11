@@ -3,9 +3,10 @@
 
 const express = require('express');
 const router = express();
-const middleware = require('../middlewares/animoMiddleware');
+const middleware = require('../middleware/animoMiddleware');
 const controller = require('../controller/index');
 
+router.get('/init', controller.initLists);
 router.get('/', controller.getHome);
 router.get('/home', controller.getHome);
 router.get('/login', controller.getLogin);

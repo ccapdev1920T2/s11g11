@@ -23,8 +23,12 @@ app.use(express.static(__dirname + '/'));
 app.set('views', __dirname + 'views/');
 app.engine('hbs', hbs.create({
 	extname: 'hbs',
-	partialsDir: 'views/partials'
+        defaultLayout: 'main',
+	partialsDir: 'views/partials',
+        layoutsDir: 'views/layouts'
+        
 }).engine);
+app.set('view engine', 'hbs');
 
 // init the middleware helpers (authenticates if input passed is correct)
 	// addtl info: middlewares check if there's content passed through the form and if they also pass 

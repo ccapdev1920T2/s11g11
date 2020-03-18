@@ -16,7 +16,7 @@ function createUser(idno, ln, fn, email, pass, degprog, college) {
             pass: pass,
             degprog: degprog,
             college: college,
-            compCourses = [...courseList]
+            compCourses: [...courseList]
         };
         return tempUser;
 }
@@ -55,10 +55,9 @@ const rendFunctions = {
     
     // GET methods (for rendering pages)
     getLogin: function(req, res, next) {
-        console.log("Email: " + req.session.email);
         var {email, password} = req.body;
         
-        if (req.session.email){ // checks if a user is logged in
+        if (req.session.user){ // checks if a user is logged in
             res.redirect('/'); // navigates to home page 
         } else {
             res.render('login', { // redirects back to login if none found
@@ -68,16 +67,16 @@ const rendFunctions = {
     },
     
     getRegister: function(req, res, next) {
-        res.render('registration', {
+        res.render('register', {
             // insert needed contents for register.hbs 
         });
     },
     
     getHome: function(req, res, next) {
-        if (req.session.email) {
+        if (req.session.user) {
             res.render('home', { 
                 // insert needed contents for home.hbs 
-                userName: req.session.lname + ", " + req.session.fname
+                userName: req.session.user.lname + ", " + req.session.user.fname
             });
         } else {
             res.render('home', {
@@ -89,13 +88,13 @@ const rendFunctions = {
     getProfile: function(req, res, next) {
         res.render('userprofile', {
             // insert needed contents for userprofile.hbs 
-            idNum: req.session.idNum,
-            lname: req.session.lname,
-            fname: req.session.fname,
-            email: req.session.email,
-            degprog: req.session.degprog,
-            college: req.session.college,
-            compCourses: req.session.compCourses
+            idNum: req.session.user.idNum,
+            lname: req.session.user.lname,
+            fname: req.session.user.fname,
+            email: req.session.user.email,
+            degprog: req.session.user.degprog,
+            college: req.session.user.college,
+            compCourses: req.session.user.compCourses
         });        
     },
     
@@ -109,11 +108,11 @@ const rendFunctions = {
     getViewEAF: function(req, res, next) {
         res.render('vieweaf', {
             // insert needed contents for vieweaf.hbs
-            idNum: req.session.idNum,
-            lname: req.session.lname,
-            fname: req.session.fname,
-            degprog: req.session.degprog,
-            compCourses: req.session.compCourses           
+            idNum: req.session.user.idNum,
+            lname: req.session.user.lname,
+            fname: req.session.user.fname,
+            degprog: req.session.user.degprog,
+            compCourses: req.session.user.compCourses           
         });        
     },
     
@@ -139,6 +138,7 @@ const rendFunctions = {
     postRegister: function(req, res, next) {
 	// retrieves user input from the register form
         const { idNum, email, fname, lname, college, degprog, password, cpass} = req.body;
+        
         if (users.filter(function(e) {
             return e.email === email;
         })) {
@@ -169,63 +169,64 @@ const rendFunctions = {
     postLogout: function(req, res, next) {
             req.session.destroy();
             res.redirect("/login");
-    }
-
-};
-
-
-// for sample data to populate Lists
-const initLists = function(req, res, next) {
-    if (users.length === 0){
-        users.push(createUser("11836814", 
-            "MANZANO", 
-            "NINNA ROBYN", 
-            "ninna_manzano@dlsu.edu.ph", 
-            "11111",
-            "BS Information Systems", 
-            "College of Computer Studies"));
-        users.push(createUser("11818700", 
-            "LATORRE", 
-            "KAYLA DWYNETT", 
-            "kayla_latorre@dlsu.edu.ph",
-            "kapeuwu",
-            "BS Information Systems", 
-            "College of Computer Studies"));
-        users.push(createUser("11847999", 
-            "CALARANAN", 
-            "KRESSHA MAE", 
-            "krissha_calaranan@dlsu.edu.ph",
-            "jazzae123",
-            "BS Information Systems", 
-            "College of Computer Studies"));
-    }
+    },
     
-    if (courseList.length === 0) {
-        courseList.push(createCourse("1544",
-            "CCAPDEV", 
-            "Web Application Development",
-            "S11",
-            "MW 1100-1230H",
-            "G302A",
-            "ANTIOQUIA, ARREN MATTHEW CAPUCHINO", 
-            3.0));
-        courseList.push(createCourse("2665",
-            "ITISHCI",
-            "Human Computer Interaction",
-            "S14",
-            "MW 0915-1045H",
-            "G209",
-            "ARCILLA, MARY JANE BACONG", 
-            3.0));
-        courseList.push(createCourse("3890",
-            "ISBUSPE",
-            "Business Performance Management",
-            "S14",
-            "TH 0915-1045H",
-            "G211",
-            "SIPIN, GLENN",
-            3.0));
-    }
+    // for sample data to populate Lists
+    initLists: function(req, res, next) {
+        if (users.length === 0){
+            users.push(createUser("11836814", 
+                "MANZANO", 
+                "NINNA ROBYN", 
+                "ninna_manzano@dlsu.edu.ph", 
+                "11111",
+                "BS Information Systems", 
+                "College of Computer Studies"));
+            users.push(createUser("11818700", 
+                "LATORRE", 
+                "KAYLA DWYNETT", 
+                "kayla_latorre@dlsu.edu.ph",
+                "kapeuwu",
+                "BS Information Systems", 
+                "College of Computer Studies"));
+            users.push(createUser("11847999", 
+                "CALARANAN", 
+                "KRESSHA MAE", 
+                "krissha_calaranan@dlsu.edu.ph",
+                "jazzae123",
+                "BS Information Systems", 
+                "College of Computer Studies"));
+        }
+
+        if (courseList.length === 0) {
+            courseList.push(createCourse("1544",
+                "CCAPDEV", 
+                "Web Application Development",
+                "S11",
+                "MW 1100-1230H",
+                "G302A",
+                "ANTIOQUIA, ARREN MATTHEW CAPUCHINO", 
+                3.0));
+            courseList.push(createCourse("2665",
+                "ITISHCI",
+                "Human Computer Interaction",
+                "S14",
+                "MW 0915-1045H",
+                "G209",
+                "ARCILLA, MARY JANE BACONG", 
+                3.0));
+            courseList.push(createCourse("3890",
+                "ISBUSPE",
+                "Business Performance Management",
+                "S14",
+                "TH 0915-1045H",
+                "G211",
+                "SIPIN, GLENN",
+                3.0));
+        }
+            res.redirect('/login');
+        }
+
 };
+
 
 module.exports = rendFunctions;
