@@ -1,59 +1,53 @@
-<!DOCTYPE html>
-<html>
+{{> navbar}}
+<title> User Profile </title>
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>User Profile</title>
-    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Alegreya+Sans">
-    <link rel="stylesheet" href="assets/css/Navigation-Clean.css">
-    <link rel="stylesheet" href="assets/css/styles.css">
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js" type="text/javascript"></script>
-    <script src="assets/js/userprofile.js" type="text/javascript"></script>
-</head>
-
-<body>
-    {{> navbar}}
-    <div class="card float-left" id="user-info" style="width: 30%;">
-        <div class="card-header">
-            <h5 class="mb-0" style="color: #5b6066;"><strong>User Information</strong></h5>
-        </div>
-        <div class="card-body">
-            <ul class="list-group">
-                <li class="list-group-item"><span id="idnum" class="float-right info-field">11836814</span><span class="float-left info-label" style="color: #427f50;"><strong>ID No.</strong>&nbsp;</span></li>
-
-                <li class="list-group-item"><span class="info-label" style="color: #427f50;"><strong>Last Name:</strong>&nbsp;</span><span id="lname" class="float-right info-field">MANZANO</span></li>
-
-                <li class="list-group-item"><span class="info-label" style="color: #427f50;"><strong>First Name:</strong>&nbsp;</span><span id="fname" class="float-right info-field">NINNA ROBYN</span></li>
-                
-                <li class="list-group-item"><span class="info-label" style="color: #427f50;"><strong>Email:</strong></span><span id="email" class="float-right info-field">ninna_manzano@dlsu.edu.ph</span></li>
-                
-                <li class="list-group-item"><span class="float-left info-label" style="color: #427f50;"><strong>Degree Program:</strong>&nbsp;</span><span id="degprog" class="float-right info-field">BS Information Systems</span></li>
-
-                <li class="list-group-item"><span class="info-label" style="color: #427f50;"><strong>College:</strong></span><span id="college" class="float-right info-field">College of Computer Studies</span></li>
-            </ul>
-        </div>
+<div class="card float-left" id="user-info" style="width: 30%;">
+    <div class="card-header">
+        <h5 class="mb-0" style="color: #5b6066;"><strong>User Information</strong></h5>
     </div>
-    <div class="float-right" id="cont-courses" style="height: 600px;width: 70%;background-color: #fcfcfc;">
-        <div class="card" id="complete-units">
-            <div class="card-header">
-                <h5 class="mb-0" style="color: #5b6066;"><strong>Completed Courses</strong></h5>
-            </div>
-            <div class="card-body">
-                <p class="card-text"><strong>Total Units:&nbsp;</strong> 
-                    <span id="total-units">0.0</span> 
-                </p>
-            </div>
-        </div>
-        <ul id="course-container" class="list-group">
-            <li class="list-group-item" id="course-unit" style="padding: 0px 0px 15px 0px;">
-                <div style="width: 100%;height: 2px;background-color: #427f50;margin: 0px;"></div><span class="float-left" style="width: 20%;margin: 10px 0px 0px 20px;"><strong>Course Code</strong></span><span class="float-left" style="width: 53%;margin: 10px 0px 0px 10px;"><strong>Course Name</strong></span><span class="text-right float-right" style="width: 20%;margin: 10px 20px 0px 0px;"><strong>Units</strong></span></li>
+    <div class="card-body">
+        <ul class="list-group">
+            <li class="list-group-item"><span id="idnum" class="float-right info-field"> {{ idNum }} </span><span class="float-left info-label" style="color: #427f50;"><strong>ID No.</strong>&nbsp;</span></li>
+
+            <li class="list-group-item"><span class="info-label" style="color: #427f50;"><strong>Last Name:</strong>&nbsp;</span><span id="lname" class="float-right info-field"> {{ lname }} </span></li>
+
+            <li class="list-group-item"><span class="info-label" style="color: #427f50;"><strong>First Name:</strong>&nbsp;</span><span id="fname" class="float-right info-field"> {{ fname }} </span></li>
+            
+            <li class="list-group-item"><span class="info-label" style="color: #427f50;"><strong>Email:</strong></span><span id="email" class="float-right info-field"> {{ email }} </span></li>
+            
+            <li class="list-group-item"><span class="float-left info-label" style="color: #427f50;"><strong>Degree Program:</strong>&nbsp;</span><span id="degprog" class="float-right info-field">  {{ degprog }}</span></li>
+
+            <li class="list-group-item"><span class="info-label" style="color: #427f50;"><strong>College:</strong></span><span id="college" class="float-right info-field"> {{ college }} </span></li>
         </ul>
     </div>
-    <div class="text-primary float-left" id="menu" style="height: 600px;width: 30%;color: rgb(244,245,247);background-color: #d6d5d3;"><button class="btn btn-primary" id="view-flowchart" type="button" style="margin: 20px;background-color: #427f50;" data-toggle="popover" data-img="assets/img/is-flowchart.png"> View Flowchart </button></div>
-    <script src="assets/js/jquery.min.js"></script>
-    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-</body>
+</div>
+<div class="float-right" id="cont-courses" style="height: 600px;width: 70%;background-color: #fcfcfc;">
+    <div class="card" id="complete-units">
+        <div class="card-header">
+            <h5 class="mb-0" style="color: #5b6066;"><strong>Completed Courses</strong></h5>
+        </div>
+        <div class="card-body">
+            <p class="card-text"><strong>Total Units:&nbsp;</strong> 
+                <span id="total-units">0.0</span> 
+            </p>
+        </div>
+    </div>
+    <ul id="course-container" class="list-group">
+        <li class="list-group-item" id="course-unit" style="padding: 0px 0px 15px 0px;">
+            <div style="width: 100%;height: 2px;background-color: #427f50;margin: 0px;"></div><span class="float-left" style="width: 20%;margin: 10px 0px 0px 20px;"><strong>Course Code</strong></span><span class="float-left" style="width: 53%;margin: 10px 0px 0px 10px;"><strong>Course Name</strong></span><span class="text-right float-right" style="width: 20%;margin: 10px 20px 0px 0px;"><strong>Units</strong></span>
+        </li>
 
-</html>
+        <!-- show completed courses per row -->
+        {{#each compCourses}}
+            <li class="list-group-item" id="course-unit" style="padding: 0px 0px 15px 0px;">
+                <div id="inline" style="width: 100%;height: 2px;background-color: #427f50;margin: 0px;"></div>
+                    <span class="float-left" style="width: 20%;margin: 10px 0px 0px 20px;"> {{ courseCode }} </span>
+                    <span class="float-left" style="width: 53%;margin: 10px 0px 0px 10px;">  {{ courseName }} </span><span class="text-right float-right" style="width: 20%;margin: 10px 20px 0px 0px;"> {{ numUnits }} </span>
+            </li>
+        {{/each}}
+    </ul>
+</div>
+
+
+<div class="text-primary float-left" id="menu" style="height: 600px;width: 30%;color: rgb(244,245,247);background-color: #d6d5d3;"><button class="btn btn-primary" id="view-flowchart" type="button" style="margin: 20px;background-color: #427f50;" data-toggle="popover" data-img="assets/img/is-flowchart.png"> View Flowchart </button>
+</div>

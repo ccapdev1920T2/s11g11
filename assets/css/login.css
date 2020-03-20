@@ -1,11 +1,14 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto');
 
-body {
+#login-container {
 	font-family: 'Roboto', sans-serif;
 	background: url(img/vector.png) no-repeat center;
 	background-color: #184725;
 	background-size: cover;
+	max-height: 100%;
+	max-width: 100%;
 }
+
 .main-section {
 	margin: 0 auto;
 	margin-top: 130px;
