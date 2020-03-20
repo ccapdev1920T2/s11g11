@@ -16,7 +16,7 @@ function createUser(idno, ln, fn, email, pass, degprog, college) {
             pass: pass,
             degprog: degprog,
             college: college,
-            compCourses: [...courseList]
+            compCourses: courseList
         };
         return tempUser;
 }
@@ -99,6 +99,7 @@ const rendFunctions = {
     },
     
     getCourseOffer: function(req, res, next) {
+        console.table(courseList);
         res.render('view-courseoffer', {
             // insert needed contents for view-courseoffer.hbs
             courseOffer: courseList
@@ -118,19 +119,24 @@ const rendFunctions = {
     
     getAddClass: function(req, res, next) {
         res.render('addclass', {
-            // insert needed contents for addclass.hbs 
+            // insert needed contents for addclass.hbs
+            courseOffer: courseList,
+            myCourses: req.session.user.compCourses
         });        
     },
     
     getDropClass: function(req, res, next) {
         res.render('dropclass', {
             // insert needed contents for dropclass.hbs 
+            myCourses: req.session.user.compCourses
         });        
     },
     
     getSwapClass: function(req, res, next) {
         res.render('swapclass', {
             // insert needed contents for swapclass.hbs 
+            courseOffer: courseList,
+            myCourses: req.session.user.compCourses            
         });        
     },
     
@@ -223,8 +229,10 @@ const rendFunctions = {
                 "SIPIN, GLENN",
                 3.0));
         }
+            console.table(courseList);
             res.redirect('/login');
         }
+        
 
 };
 

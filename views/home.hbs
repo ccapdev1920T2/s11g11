@@ -22,19 +22,21 @@
 <div class="container text-center pt-4">
     <div class="row py-5">
         <div class="col-4">
-            <button type="button" class="btn btn-primary" id="offers" location.href="view-courseoffer.html">View Course Offerings
+            <button type="button" class="btn btn-primary" id="offers" onclick="window.location.href = '/viewcourses';">View Course Offerings
             </button>
         </div>
         <div class="col-4 dropdown">
-            <a class="dropdown-toggle btn btn-primary" data-toggle="dropdown" aria-expanded="false" href="userprofile.html" style="color: #ffffff;">Enlistment</a>
+            <a class="dropdown-toggle btn btn-primary" data-toggle="dropdown" aria-expanded="false" href="#" style="color: #ffffff;"> Enlistment </a>
                 <div class="dropdown-menu down" role="menu">
-                    <a class="dropdown-item" role="presentation" href="addclass.html">Add Classes</a>
-                    <a class="dropdown-item" role="presentation" href="dropclass.html">Drop Classes</a>
-                    <a class="dropdown-item" role="presentation" href="swapclass.html">Swap Classes</a>
+                    <a class="dropdown-item" role="presentation" href="/addclass"> Add Classes</a>
+                    <a class="dropdown-item" role="presentation" href="/dropclass"> Drop Classes</a>
+                    <a class="dropdown-item" role="presentation" href="/swapclass"> Swap Classes</a>
                 </div>
         </div>
+
         <div class="col-4">
-            <button type="button" class="btn btn-primary" id="courses" location.href="vieweaf.html">Enrolled Courses</button>
+            <button type="button" class="btn btn-primary" id="courses" onclick="window.location.href = '/vieweaf';"> Enrolled Courses
+            </button>
         </div>
     </div>
 </div>

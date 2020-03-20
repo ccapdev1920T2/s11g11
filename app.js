@@ -6,7 +6,7 @@ const hbs = require('express-handlebars');
 const bodyParser = require('body-parser'); //converts posted form into an array
 const cookieParser = require('cookie-parser'); //generates cookies to keep track of logged-in user
 const session = require('express-session'); //keeps track of who's logged in
-
+const mongoose = require('mongoose');
 const app = express();
 
 app.use(cookieParser());

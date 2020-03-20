@@ -1,69 +1,50 @@
-<!DOCTYPE html>
-<html>
-
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>View Course Offerings</title>
-    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Alegreya+Sans">
-    <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
-    <link rel="stylesheet" href="assets/css/Navigation-Clean.css">
-    <link rel="stylesheet" href="assets/css/styles.css">
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js" type="text/javascript"></script>
-    <script src="assets/js/view-courseoffer.js" type="text/javascript"></script>
-</head>
-
-<body>
-    {{> navbar}}
-    <div class="card" id="course-offer">
-        <div class="card-header">
-            <h5 class="float-left mb-0" style="color: #5b6066;width: 70%;margin: 10px 0px 0px 0px;"><strong>Course Offerings</strong></h5>
-            <div class="float-right" id="search-bar" style="width: 30%;">
-                <div class="float-right" id="search-btn" style="height: 50px;"><i class="fa fa-search float-right" style="height: 30px;margin: 15px 0px 0px 0px;"></i></div><input class="float-right" type="text" style="margin: 10px;"></div>
-        </div>
-        <div class="card-body" style="height: 95px;">
-            <p class="card-text" style="width: 100%;"><strong>Note:</strong>&nbsp;Failure to <strong>pre-enlist</strong> regardless of academic standing and special privileges (<em>e.g Dean’s Lister, advance enrollees, etc</em>.) will have the <strong>least priority</strong> during the online
-                enrollment.<br><br>
-            </p>
-        </div>
+{{> navbar}}
+<title>View Course Offerings</title>
+<div class="card" id="course-offer">
+    <div class="card-header">
+        <h5 class="float-left mb-0" style="color: #5b6066;width: 70%;margin: 10px 0px 0px 0px;"><strong> Course Offerings </strong>
+        </h5>
+        <div class="float-right" id="search-bar" style="width: 30%;">
+            <div class="float-right" id="search-btn" style="height: 50px;"><i class="fa fa-search float-right" style="height: 30px;margin: 15px 0px 0px 0px;"></i></div><input class="float-right" type="text" style="margin: 10px;"></div>
     </div>
-    
-    <div style="padding: 20px;">
-        <div class="table-responsive d-table m-auto" style="width: 100%;">
-            <table class="table">
-                <thead id="courseoffer-header">
-                    <tr class="border rounded-0">
-                        <th class="border rounded-0" style="background-color: #427f50;color: #fcfcfc;width: 10%;">Class No.</th>
-                        <th class="text-center border rounded-0" style="background-color: #427f50;color: #fcfcfc;width: 11%;">Course Code</th>
-                        <th class="text-center border rounded-0" style="background-color: #427f50;color: #fcfcfc;width: 25%;">Course Name</th>
-                        <th class="text-right border rounded-0" style="background-color: #427f50;color: #fcfcfc;width: 2%;">Section</th>
-                        <th class="text-center border rounded-0" style="background-color: #427f50;color: #fcfcfc;width: 15%;">Class Schedule</th>
-                        <th class="text-center border rounded-0" style="background-color: #427f50;color: #fcfcfc;width: 5%;">Room</th>
-                        <th class="text-center border rounded-0" style="background-color: #427f50;color: #fcfcfc;width: 15%;">Faculty</th>
-                        <th class="text-center border rounded-0" style="background-color: #427f50;color: #fcfcfc;width: 10%;">No. of Units</th>
-                    </tr>
-                </thead>
-                <tbody id="co-body">
-                    <!-- display course-unit per row -->
-                    {{ #each courseOffer }}
-                        <tr class="courseoffer-row">
-                            <td class="border rounded-0"> {{ classNum }} </td>
-                            <td class="border rounded-0"> {{ courseCode }} </td>
-                            <td class="border rounded-0"> {{ courseName }} </td>
-                            <td class="text-right border rounded-0"> {{ section }} </td>
-                            <td class="text-left border rounded-0"> {{ classSched }} </td>
-                            <td class="text-left border rounded-0"> {{ room }} </td>
-                            <td class="text-left border rounded-0"> {{ faculty }} </td>
-                            <td class="text-right border rounded-0"> {{ numUnits }} </td>
-                        </tr>                    
-                    {{ /each }}
-                </tbody>
-            </table>
-        </div>
-    </div>
-    <script src="assets/js/jquery.min.js"></script>
-    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-</body>
 
-</html>
+    <div class="card-body" style="height: 95px;">
+        <p class="card-text" style="width: 100%;"><strong>Note:</strong>&nbsp;Failure to <strong>pre-enlist</strong> regardless of academic standing and special privileges (<em>e.g Dean’s Lister, advance enrollees, etc</em>.) will have the <strong>least priority</strong> during the online
+            enrollment.<br><br>
+        </p>
+    </div>
+</div>
+
+<div style="padding: 20px;">
+    <div class="table-responsive d-table m-auto" style="width: 100%;">
+        <table class="table">
+            <thead id="courseoffer-header">
+                <tr class="border rounded-0">
+                    <th class="border rounded-0" style="background-color: #427f50;color: #fcfcfc;width: 10%;">Class No.</th>
+                    <th class="text-center border rounded-0" style="background-color: #427f50;color: #fcfcfc;width: 11%;">Course Code</th>
+                    <th class="text-center border rounded-0" style="background-color: #427f50;color: #fcfcfc;width: 25%;">Course Name</th>
+                    <th class="text-right border rounded-0" style="background-color: #427f50;color: #fcfcfc;width: 2%;">Section</th>
+                    <th class="text-center border rounded-0" style="background-color: #427f50;color: #fcfcfc;width: 15%;">Class Schedule</th>
+                    <th class="text-center border rounded-0" style="background-color: #427f50;color: #fcfcfc;width: 5%;">Room</th>
+                    <th class="text-center border rounded-0" style="background-color: #427f50;color: #fcfcfc;width: 15%;">Faculty</th>
+                    <th class="text-center border rounded-0" style="background-color: #427f50;color: #fcfcfc;width: 10%;">No. of Units</th>
+                </tr>
+            </thead>
+            <tbody id="co-body">
+                <!-- display course-unit per row -->
+                {{#each courseOffer}}
+                    <tr class="courseoffer-row">
+                        <td class="border rounded-0"> {{ classNum }} </td>
+                        <td class="border rounded-0"> {{ courseCode }} </td>
+                        <td class="border rounded-0"> {{ courseName }} </td>
+                        <td class="text-right border rounded-0"> {{ section }} </td>
+                        <td class="text-left border rounded-0"> {{ classSched }} </td>
+                        <td class="text-left border rounded-0"> {{ room }} </td>
+                        <td class="text-left border rounded-0"> {{ faculty }} </td>
+                        <td class="text-right border rounded-0"> {{ numUnits }} </td>
+                    </tr>                    
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+</div>
