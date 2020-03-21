@@ -11,7 +11,7 @@ function createUser(idno, ln, fn, email, pass, degprog, college) {
             lname: ln,
             fname: fn,
             email: email,
-            pass: pass,
+            password: pass,
             degprog: degprog,
             college: college,
             compCourses: []
