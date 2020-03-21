@@ -1,13 +1,8 @@
-/**
- * LOG: [] all const, let, and var names must agree when using req.body
- */
 
-//locally stores all Student and Course data
-const users = [];
-const courseList = [];
-const studentModel = require('../model/studentsdb');
-const courseModel = require('../model/coursesdb');
-const classModel = require('../model/classesdb');
+const studentModel = require('../models/studentsdb');
+const courseModel = require('../models/coursesdb');
+const classModel = require('../models/classesdb');
+
 
 //constructor for a Student object
 function createUser(idno, ln, fn, email, pass, degprog, college) {
@@ -19,7 +14,7 @@ function createUser(idno, ln, fn, email, pass, degprog, college) {
             pass: pass,
             degprog: degprog,
             college: college,
-            compCourses: courseList
+            compCourses: []
         };
         return tempUser;
 }
@@ -147,96 +142,57 @@ const rendFunctions = {
     postRegister: function(req, res, next) {
 	// retrieves user input from the register form
         const { idNum, email, fname, lname, college, degprog, password, cpass} = req.body;
+
+        // looks for ERRORS
+        studentModel.findOne({email: email}, function(error, match){ //searches for existing user in db
+            if (error){
+                return res.status(500).end("ERROR: Cannot connect to db.");
+            }
+            else if (match){
+                return res.status(500).end("ERROR: Existing user with this email.");             
+            }            
+
+            var student = createUser(idNum, lname, fname, email, password, degprog, college);
+
+            studentModel.create(student, function(error){
+                if (error){
+                    return res.status(500).end("ERROR: Cannot create user.");               
+                }
+                else {
+                    res.redirect("/login"); 
+                }
+            });
+        });
         
-        if (users.filter(function(e) {
-            return e.email === email;
-        })) {
-            console.log("TRACE: reg passed");
-            users.push(createUser(idNum, lname, fname, email, password, degprog, college));
-            res.redirect('/');
-        }
+
+        
     },
     
     postLogin: function(req, res, next) {
         console.log(req.body); 
-        let { email, password } = req.body;
-            // **to be changed when schema in db is created
-            var foundUser = users.filter(searchUser(email, password));        
+        let { email, password } = req.body;       
 
-            console.log("USER Found: ", foundUser);
-
-            // searches for only (1) user
-            if (foundUser.length === 1) {
-                req.session.user = foundUser[0];
+        //searches for user in db
+        studentModel.findOne({email: email, password: password}, function(error, match){
+            if (error){
+                return res.status(500).end("ERROR: No users found.");               
+                res.redirect("/login");
+            }
+           
+            if (match){
+                console.log(match);
+                req.session.user = match;
                 res.render('home', { 
                     userName: req.session.user.lname + ", " + req.session.user.fname
                 });
             }
-    
+        });   
     },
     
     postLogout: function(req, res, next) {
             req.session.destroy();
             res.redirect("/login");
-    },
-    
-    // for sample data to populate Lists
-    initLists: function(req, res, next) {
-        if (users.length === 0){
-            users.push(createUser("11836814", 
-                "MANZANO", 
-                "NINNA ROBYN", 
-                "ninna_manzano@dlsu.edu.ph", 
-                "11111",
-                "BS Information Systems", 
-                "College of Computer Studies"));
-            users.push(createUser("11818700", 
-                "LATORRE", 
-                "KAYLA DWYNETT", 
-                "kayla_latorre@dlsu.edu.ph",
-                "kapeuwu",
-                "BS Information Systems", 
-                "College of Computer Studies"));
-            users.push(createUser("11847999", 
-                "CALARANAN", 
-                "KRESSHA MAE", 
-                "krissha_calaranan@dlsu.edu.ph",
-                "jazzae123",
-                "BS Information Systems", 
-                "College of Computer Studies"));
-        }
-
-        if (courseList.length === 0) {
-            courseList.push(createCourse("1544",
-                "CCAPDEV", 
-                "Web Application Development",
-                "S11",
-                "MW 1100-1230H",
-                "G302A",
-                "ANTIOQUIA, ARREN MATTHEW CAPUCHINO", 
-                3.0));
-            courseList.push(createCourse("2665",
-                "ITISHCI",
-                "Human Computer Interaction",
-                "S14",
-                "MW 0915-1045H",
-                "G209",
-                "ARCILLA, MARY JANE BACONG", 
-                3.0));
-            courseList.push(createCourse("3890",
-                "ISBUSPE",
-                "Business Performance Management",
-                "S14",
-                "TH 0915-1045H",
-                "G211",
-                "SIPIN, GLENN",
-                3.0));
-        }
-            console.table(courseList);
-            res.redirect('/login');
-        }
-        
-
+    }     
 };
 
 
