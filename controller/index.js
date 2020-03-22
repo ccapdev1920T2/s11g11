@@ -84,35 +84,45 @@ const rendFunctions = {
     },
 
     getProfile: function(req, res, next) {
-        res.render('userprofile', {
-            // insert needed contents for userprofile.hbs 
-            idNum: req.session.user.idNum,
-            lname: req.session.user.lname,
-            fname: req.session.user.fname,
-            email: req.session.user.email,
-            degprog: req.session.user.degprog,
-            college: req.session.user.college,
-            compCourses: req.session.user.compCourses
-        });        
+        
+        studentModel.findOne({email: req.session.user.email}) // finds the logged-in student 
+                .populate("compCourses") // matches the ObjectId in each element of courses collection
+                .then(function(student){ // passes the populated array "compCourses"
+                    res.render('userprofile', {
+                        // insert needed contents for userprofile.hbs 
+                        idNum: req.session.user.idNum,
+                        lname: req.session.user.lname,
+                        fname: req.session.user.fname,
+                        email: req.session.user.email,
+                        degprog: req.session.user.degprog,
+                        college: req.session.user.college,
+                        compCourses: JSON.parse(JSON.stringify(student.compCourses)) // parses BSON into JSON 
+                    });                              
+                });
     },
     
     getCourseOffer: function(req, res, next) {
         console.table(courseList);
         res.render('view-courseoffer', {
             // insert needed contents for view-courseoffer.hbs
-            courseOffer: courseList
+            courseOffer: classList
         });        
     },
     
     getViewEAF: function(req, res, next) {
-        res.render('vieweaf', {
-            // insert needed contents for vieweaf.hbs
-            idNum: req.session.user.idNum,
-            lname: req.session.user.lname,
-            fname: req.session.user.fname,
-            degprog: req.session.user.degprog,
-            compCourses: req.session.user.compCourses           
-        });        
+       
+        studentModel.findOne({email: req.session.user.email}) // finds the logged-in student 
+                .populate("classList") // matches the ObjectId in each element of classes collection
+                .then(function(student){ // passes the populated array "compCourses"
+                    res.render('vieweaf', {
+                        // insert needed contents for vieweaf.hbs
+                        idNum: req.session.user.idNum,
+                        lname: req.session.user.lname,
+                        fname: req.session.user.fname,
+                        degprog: req.session.user.degprog,   
+                        classList: JSON.parse(JSON.stringify(student.classList))
+                    });                              
+                });
     },
     
     getAddClass: function(req, res, next) {

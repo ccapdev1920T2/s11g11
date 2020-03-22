@@ -13,7 +13,8 @@ var studentsSchema = new mongoose.Schema({
 	password: String,
 	degprog: String,
 	college: String,
-	courseList: [{type: mongoose.Schema.Types.ObjectId, ref: 'Course'}]
+        compCourses: [{type: mongoose.Schema.Types.ObjectId, ref: 'courses'}],
+	classList: [{type: mongoose.Schema.Types.ObjectId, ref: 'classes'}]
 }, {collection: "students"});
 
 const studentModel = db.model("students", studentsSchema);
