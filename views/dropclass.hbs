@@ -1,48 +1,22 @@
-<!DOCTYPE html>
-<html>
+{{> navbar}}
+<title>Drop Classes</title>
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Drop Classes</title>
-    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Alegreya+Sans">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Bitter:400,700">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
-    <link rel="stylesheet" href="assets/css/Header-Dark.css">
-    <link rel="stylesheet" href="assets/css/Navigation-Clean.css">
-    <link rel="stylesheet" href="assets/css/styles.css">
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js" type="text/javascript"></script>
-    <script src="assets/js/dropclass.js" type="text/javascript"></script>
-</head>
-
-<body style="background-color: #ffffff;">
-
-    <script type="text/javascript">
-
-    </script>
-    
-    <div style="padding: 0px 0px 0px 0px;margin: 0px 0px 0px 0px;background-color: #f5f5f5;">
-        {{> navbar}}
-        <div style="padding: 10px 30px 0px 30px;">
-            <h1 class="d-inline-block float-none" style="margin: 0px 0px;color: #555555;font-size: 30px;font-family: Roboto, sans-serif;"><strong>Drop Classes</strong></h1>
-            <p class="d-inline-block float-none" style="margin: 0px 5px 0px 5px;color: #888888;font-family: Roboto, sans-serif;">Enter the course code of the class you want to drop.</p>
-        </div>
-        <hr style="background-color: #a0a0a0;margin: 0px;">
-        <div class="float-left" style="width: 100%;padding: 0px 30px 0px 30px;"><button class="btn btn-primary text-center float-right" type="submit" style="font-family: Roboto, sans-serif;background-color: #427f50;padding: 2px;margin: 5px;width: 5%;">Enter</button><input class="form-control-sm float-right" type="search"
-                placeholder="Enter Class Number" style="margin: 5px;width: 15%;">
-            <h3 class="d-inline-block float-none" style="margin: 0px 0px;color: #555555;font-size: 25px;font-family: Roboto, sans-serif;padding: 10px 0px  5px 0px;width: 50%;"><strong>My Classes</strong><br></h3>
-            <hr style="background-color: #427f50;margin: 0px;height: 2px;width: 100%;">
-            <ul class="list-group" id="myclasses">
-                <li class="list-group-item text-left d-inline-block flex-row"><span class="float-left" style="width: 10%;padding: 10px 10px 10px 10px;height: 24px;"><strong>Class No.</strong></span><span class="float-left" style="width: 10%;padding: 10px 10px 10px 10px;height: 24px;"><strong>Course Code</strong></span>
-                    <span
-                        class="text-left float-left" style="width: 30%;padding: 10px 10px 10px 10px;"><strong>Course Name</strong></span><span class="float-left" style="width: 10%;padding: 10px;"><strong>Section</strong></span><span class="float-left" style="padding: 10px;width: 20%;"><strong>Class Schedule</strong></span><span class="float-left"
-                            style="padding: 10px;width: 10%;"><strong>Room</strong></span></li>
-            </ul>
-        </div>
+<div style="padding: 0px 0px 0px 0px;margin: 0px 0px 0px 0px;background-color: #f5f5f5;">
+    {{> navbar}}
+    <div style="padding: 10px 30px 0px 30px;">
+        <h1 class="d-inline-block float-none" style="margin: 0px 0px;color: #555555;font-size: 30px;font-family: Roboto, sans-serif;"><strong>Drop Classes</strong></h1>
+        <p class="d-inline-block float-none" style="margin: 0px 5px 0px 5px;color: #888888;font-family: Roboto, sans-serif;">Enter the course code of the class you want to drop.</p>
     </div>
-    <script src="assets/js/jquery.min.js"></script>
-    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-</body>
-
-</html>
+    <hr style="background-color: #a0a0a0;margin: 0px;">
+    <div class="float-left" style="width: 100%;padding: 0px 30px 0px 30px;"><button class="btn btn-primary text-center float-right" type="submit" style="font-family: Roboto, sans-serif;background-color: #427f50;padding: 2px;margin: 5px;width: 5%;">Enter</button><input class="form-control-sm float-right" type="search"
+            placeholder="Enter Class Number" style="margin: 5px;width: 15%;">
+        <h3 class="d-inline-block float-none" style="margin: 0px 0px;color: #555555;font-size: 25px;font-family: Roboto, sans-serif;padding: 10px 0px  5px 0px;width: 50%;"><strong>My Classes</strong><br></h3>
+        <hr style="background-color: #427f50;margin: 0px;height: 2px;width: 100%;">
+        <ul class="list-group" id="myclasses">
+            <li class="list-group-item text-left d-inline-block flex-row"><span class="float-left" style="width: 10%;padding: 10px 10px 10px 10px;height: 24px;"><strong>Class No.</strong></span><span class="float-left" style="width: 10%;padding: 10px 10px 10px 10px;height: 24px;"><strong>Course Code</strong></span>
+                <span
+                    class="text-left float-left" style="width: 30%;padding: 10px 10px 10px 10px;"><strong>Course Name</strong></span><span class="float-left" style="width: 10%;padding: 10px;"><strong>Section</strong></span><span class="float-left" style="padding: 10px;width: 20%;"><strong>Class Schedule</strong></span><span class="float-left"
+                        style="padding: 10px;width: 10%;"><strong>Room</strong></span></li>
+        </ul>
+    </div>
+</div>

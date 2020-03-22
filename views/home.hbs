@@ -1,42 +1,44 @@
 {{> navbar}}
 <title> Home </title>
 
-<div class="img-div">
-    <div class="image-holder"></div>
-</div>
+<div  style="background-color: #76b160;">
+    <div class="img-div">
+        <div class="image-holder"></div>
+    </div>
 
-<div class="container text-center pt-4">
-    <div class="row">
-        <div class="col-4">
-            <img src="assets/img/search.png" class="img-fluid">
-        </div>
-        <div class="col-4">
-            <img src="assets/img/shop.png" class="img-fluid">
-        </div>
-        <div class="col-4">
-            <img src="assets/img/list.png" class="img-fluid">
+    <div class="container text-center pt-4">
+        <div class="row">
+            <div class="col-4">
+                <img src="assets/img/search.png" class="img-fluid">
+            </div>
+            <div class="col-4">
+                <img src="assets/img/shop.png" class="img-fluid">
+            </div>
+            <div class="col-4">
+                <img src="assets/img/list.png" class="img-fluid">
+            </div>
         </div>
     </div>
-</div>
 
-<div class="container text-center pt-4">
-    <div class="row py-5">
-        <div class="col-4">
-            <button type="button" class="btn btn-primary" id="offers" onclick="window.location.href = '/viewcourses';">View Course Offerings
-            </button>
-        </div>
-        <div class="col-4 dropdown">
-            <a class="dropdown-toggle btn btn-primary" data-toggle="dropdown" aria-expanded="false" href="#" style="color: #ffffff;"> Enlistment </a>
-                <div class="dropdown-menu down" role="menu">
-                    <a class="dropdown-item" role="presentation" href="/addclass"> Add Classes</a>
-                    <a class="dropdown-item" role="presentation" href="/dropclass"> Drop Classes</a>
-                    <a class="dropdown-item" role="presentation" href="/swapclass"> Swap Classes</a>
-                </div>
-        </div>
+    <div class="container text-center pt-4" style="background-color: #76b160;">
+        <div class="row py-5">
+            <div class="col-4">
+                <button type="button" class="btn btn-primary" id="offers" onclick="window.location.href = '/viewcourses';">View Course Offerings
+                </button>
+            </div>
+            <div class="col-4 dropdown">
+                <a class="dropdown-toggle btn btn-primary" data-toggle="dropdown" aria-expanded="false" href="#" style="color: #ffffff;"> Enlistment </a>
+                    <div class="dropdown-menu down" role="menu">
+                        <a class="dropdown-item" role="presentation" href="/addclass"> Add Classes</a>
+                        <a class="dropdown-item" role="presentation" href="/dropclass"> Drop Classes</a>
+                        <a class="dropdown-item" role="presentation" href="/swapclass"> Swap Classes</a>
+                    </div>
+            </div>
 
-        <div class="col-4">
-            <button type="button" class="btn btn-primary" id="courses" onclick="window.location.href = '/vieweaf';"> Enrolled Courses
-            </button>
+            <div class="col-4">
+                <button type="button" class="btn btn-primary" id="courses" onclick="window.location.href = '/vieweaf';"> Enrolled Courses
+                </button>
+            </div>
         </div>
     </div>
 </div>

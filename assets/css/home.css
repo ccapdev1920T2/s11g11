@@ -1,6 +1,3 @@
-body{
-    background-color: #76b160;
-}
 .image-holder{
         background: url("img/cheer.gif") no-repeat top;
         width: 100%;
@@ -41,6 +38,10 @@ body{
     background-color: #184725ea;
     color: white;
     width: 200px;
+}
+
+.dropdown-item {
+    color: white;
 }
 .dropdown-item:hover{
     background-color: #13361d;

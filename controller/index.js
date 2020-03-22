@@ -5,9 +5,9 @@
 //locally stores all Student and Course data
 const users = [];
 const courseList = [];
-const studentModel = require('../model/studentsdb');
-const courseModel = require('../model/coursesdb');
-const classModel = require('../model/classesdb');
+const studentModel = require('../models/studentsdb');
+const courseModel = require('../models/coursesdb');
+const classModel = require('../models/classesdb');
 
 //constructor for a Student object
 function createUser(idno, ln, fn, email, pass, degprog, college) {
