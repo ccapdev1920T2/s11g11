@@ -44,7 +44,8 @@
             <li class="list-group-item" id="course-unit" style="padding: 0px 0px 15px 0px;">
                 <div id="inline" style="width: 100%;height: 2px;background-color: #427f50;margin: 0px;"></div>
                     <span class="float-left" style="width: 20%;margin: 10px 0px 0px 20px;"> {{ courseCode }} </span>
-                    <span class="float-left" style="width: 53%;margin: 10px 0px 0px 10px;">  {{ courseName }} </span><span class="text-right float-right" style="width: 20%;margin: 10px 20px 0px 0px;"> {{ numUnits }} </span>
+                    <span class="float-left" style="width: 53%;margin: 10px 0px 0px 10px;">  {{ courseName }} </span>
+                    <span class="text-right float-right num-units" style="width: 20%;margin: 10px 20px 0px 0px;"> {{ convertDouble numUnits }} </span>
             </li>
         {{/each}}
     </ul>

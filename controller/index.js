@@ -103,8 +103,13 @@ const rendFunctions = {
     getCourseOffer: function(req, res, next) {
         
         studentModel.findOne({email: req.session.user.email}) // finds the logged-in student 
-                .populate("classList") // matches the ObjectId in each element of classes collection
+                .populate({path: 'classList',
+                    populate: { path: 'course' }
+                    }) // matches the ObjectId in each element of classes collection
                 .then(function(student){ // passes the populated array 
+                    
+                    console.log(JSON.parse(JSON.stringify(student.classList)));
+                    
                     res.render('view-courseoffer', {
                         // insert needed contents for vieweaf.hbs 
                         courseOffer: JSON.parse(JSON.stringify(student.classList))
@@ -116,7 +121,9 @@ const rendFunctions = {
     getViewEAF: function(req, res, next) {
        
         studentModel.findOne({email: req.session.user.email}) // finds the logged-in student 
-                .populate("classList") // matches the ObjectId in each element of classes collection
+                .populate({path: 'classList',
+                    populate: { path: 'course'}
+                    }) // matches the ObjectId in each element of classes collection
                 .then(function(student){ // passes the populated array "classList"
                     res.render('vieweaf', {
                         // insert needed contents for vieweaf.hbs
