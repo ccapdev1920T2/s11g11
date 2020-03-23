@@ -29,6 +29,9 @@ app.engine('hbs', hbs.create({
         helpers: {
             convertDouble: function(number){ // converts a Double type in mongo with a .0
                 return number.toFixed(1);
+            },
+            getFacultyName: function(lname, fname){
+                return lname + ", " + fname;
             }
         }}).engine);
 app.set('view engine', 'hbs');

@@ -11,7 +11,8 @@ var classesSchema = new mongoose.Schema({
 	section: String,
 	classSched: String,
 	room: String,
-	faculty: String
+	faculty_lname: String,
+        faculty_fname: String
 }, {collection: "classes"});
 
 const classModel = db.model("classes", classesSchema);

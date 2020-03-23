@@ -102,20 +102,16 @@ const rendFunctions = {
     
     getCourseOffer: function(req, res, next) {
         
-        studentModel.findOne({email: req.session.user.email}) // finds the logged-in student 
-                .populate({path: 'classList',
-                    populate: { path: 'course' }
-                    }) // matches the ObjectId in each element of classes collection
-                .then(function(student){ // passes the populated array 
+        classModel.find({}).populate('course')
+                .then(function(classes){ // passes the populated array 
                     
-                    console.log(JSON.parse(JSON.stringify(student.classList)));
+                    console.log(JSON.parse(JSON.stringify(classes)));
                     
                     res.render('view-courseoffer', {
                         // insert needed contents for vieweaf.hbs 
-                        courseOffer: JSON.parse(JSON.stringify(student.classList))
+                        courseOffer: JSON.parse(JSON.stringify(classes))
                     });                              
-                });
-    
+                });    
     },
     
     getViewEAF: function(req, res, next) {
@@ -136,12 +132,25 @@ const rendFunctions = {
                 });
     },
     
-    getAddClass: function(req, res, next) {
-        res.render('addclass', {
-            // insert needed contents for addclass.hbs
-            courseOffer: courseList,
-            myCourses: req.session.user.compCourses
-        });        
+    getAddClass: async function(req, res, next) {
+        // for searched 'Course Offerings' table
+        var classes = await classModel.find({}).populate('course');          
+        
+        // for 'My Classes' table
+        var student = await studentModel.findOne({email: req.session.user.email}) 
+                .populate({path: 'classList',
+                    populate: { path: 'course'}});
+                
+        console.log(JSON.parse(JSON.stringify(classes)));
+        console.log(JSON.parse(JSON.stringify(student.classList)));
+        
+                    res.render('addclass', {
+                        // insert needed contents for addclass.hbs 
+                        courseOffer: JSON.parse(JSON.stringify(classes)),
+                        myClasses: JSON.parse(JSON.stringify(student.classList))
+                    });   
+    
+    
     },
     
     getDropClass: function(req, res, next) {
