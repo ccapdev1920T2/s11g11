@@ -3,7 +3,6 @@ const studentModel = require('../models/studentsdb');
 const courseModel = require('../models/coursesdb');
 const classModel = require('../models/classesdb');
 
-
 //constructor for a Student object
 function createUser(idno, ln, fn, email, pass, degprog, college) {
         var tempUser = {
@@ -102,18 +101,23 @@ const rendFunctions = {
     },
     
     getCourseOffer: function(req, res, next) {
-        console.table(courseList);
-        res.render('view-courseoffer', {
-            // insert needed contents for view-courseoffer.hbs
-            courseOffer: classList
-        });        
+        
+        studentModel.findOne({email: req.session.user.email}) // finds the logged-in student 
+                .populate("classList") // matches the ObjectId in each element of classes collection
+                .then(function(student){ // passes the populated array 
+                    res.render('view-courseoffer', {
+                        // insert needed contents for vieweaf.hbs 
+                        courseOffer: JSON.parse(JSON.stringify(student.classList))
+                    });                              
+                });
+    
     },
     
     getViewEAF: function(req, res, next) {
        
         studentModel.findOne({email: req.session.user.email}) // finds the logged-in student 
                 .populate("classList") // matches the ObjectId in each element of classes collection
-                .then(function(student){ // passes the populated array "compCourses"
+                .then(function(student){ // passes the populated array "classList"
                     res.render('vieweaf', {
                         // insert needed contents for vieweaf.hbs
                         idNum: req.session.user.idNum,
