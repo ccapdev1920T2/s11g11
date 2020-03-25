@@ -6,7 +6,7 @@ mongoose.connect('mongodb://localhost/animosysdb', {useNewUrlParser: true, useUn
 var db = mongoose.connection;
 
 var classesSchema = new mongoose.Schema({
-	course: {type: mongoose.Schema.Types.ObjectId, ref: 'courses'},
+	course: String,
 	classNum: Number,
 	section: String,
 	classSched: String,
@@ -14,6 +14,15 @@ var classesSchema = new mongoose.Schema({
 	faculty_lname: String,
         faculty_fname: String
 }, {collection: "classes"});
+
+classesSchema.virtual('courseId', {
+    ref: 'courses',
+    localField: 'course',
+    foreignField: '_id',
+    justOne: false
+});
+classesSchema.set('toObject', { virtuals: true });
+classesSchema.set('toJSON', { virtuals: true });
 
 const classModel = db.model("classes", classesSchema);
 

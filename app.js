@@ -27,8 +27,8 @@ app.engine('hbs', hbs.create({
 	partialsDir: 'views/partials',
         layoutsDir: 'views/layouts',
         helpers: {
-            convertDouble: function(number){ // converts a Double type in mongo with a .0
-                return number.toFixed(1);
+            convertDouble: function(number){ console.log(number); // converts a Double type in mongo with a .0
+                return Number.parseFloat(number).toFixed(1);
             },
             getFacultyName: function(lname, fname){
                 return lname + ", " + fname;

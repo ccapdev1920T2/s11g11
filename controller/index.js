@@ -85,7 +85,7 @@ const rendFunctions = {
     getProfile: function(req, res, next) {
         
         studentModel.findOne({email: req.session.user.email}) // finds the logged-in student 
-                .populate("compCourses") // matches the ObjectId in each element of courses collection
+                .populate("courseId") // matches the ObjectId in each element of courses collection
                 .then(function(student){ // passes the populated array "compCourses"
                     res.render('userprofile', {
                         // insert needed contents for userprofile.hbs 
@@ -95,23 +95,45 @@ const rendFunctions = {
                         email: req.session.user.email,
                         degprog: req.session.user.degprog,
                         college: req.session.user.college,
-                        compCourses: JSON.parse(JSON.stringify(student.compCourses)) // parses BSON into JSON 
+                        compCourses: JSON.parse(JSON.stringify(student.courseId)) // parses BSON into JSON (virtual attribute) 
                     });                              
                 });
     },
     
     getCourseOffer: function(req, res, next) {
         
-        classModel.find({}).populate('course')
+        classModel.find({}).populate('courseId')
                 .then(function(classes){ // passes the populated array 
                     
-                    console.log(JSON.parse(JSON.stringify(classes)));
+                    var offers = JSON.parse(JSON.stringify(classes));
+                    let details = offers.map((item, i) => Object.assign({}, item, offers[i].courseId));
                     
                     res.render('view-courseoffer', {
                         // insert needed contents for vieweaf.hbs 
-                        courseOffer: JSON.parse(JSON.stringify(classes))
+                        courseOffer: details
                     });                              
-                });    
+                }); 
+
+    },
+    
+    getSearchCOffer: function(req, res) {
+        let query = new RegExp(req.query.searchCO, 'gi'); // convery input string to regex
+        
+        
+        // populates the collection with found matches with the query using 'lookup' flag in mongo
+        classModel.aggregate([{'$lookup': {"from": "courses", "localField": "course", "foreignField": "_id", "as": "courseId"}},
+                            { '$match': {$or:[{'courseId.0.courseName': query}, {'courseId.0.courseCode' : query}, {classNum : query}]} }], function(err, match) {
+
+                    if (err) { console.log(err);
+                        return res.status(500).end('500 Internal Server error, query not found');
+                    }
+                    
+                    let details = match.map((item, i) => Object.assign({}, item, match[i].courseId));
+                    console.log(details);
+                    res.render('view-courseoffer', {
+                        courseOffer: details
+                    });
+        });
     },
     
     getViewEAF: function(req, res, next) {
@@ -199,7 +221,6 @@ const rendFunctions = {
     },
     
     postLogin: function(req, res, next) {
-        console.log(req.body); 
         let { email, password } = req.body;       
 
         //searches for user in db
@@ -210,7 +231,6 @@ const rendFunctions = {
             }
            
             if (match){
-                console.log(match);
                 req.session.user = match;
                 res.render('home', { 
                     userName: req.session.user.lname + ", " + req.session.user.fname
