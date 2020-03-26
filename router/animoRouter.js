@@ -26,5 +26,7 @@ router.post('/login', controller.postLogin);
 router.post('/logout', controller.postLogout);
 router.post('/register', controller.postRegister);
 router.post('/addclass', controller.postAddClass);
+router.post('/dropclass', controller.postDropClass);
+router.post('/swapclass', controller.postSwapClass);
 
 module.exports = router;
