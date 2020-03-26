@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<title>Add Classes</title>
+<title> Add Classes </title>
 
 <div style="padding: 0px 0px 0px 0px;margin: 0px 0px 0px 0px;background-color: #f5f5f5;">
     {{> navbar}}
@@ -12,9 +12,14 @@
     <hr style="background-color: #a0a0a0;margin: 0px;">
     <div style="margin: 0px 0px 50px 0px;">
         <div class="float-left" style="background-color: #ffffff;padding: 0px 30px 0px 30px;width: 50%;">
-            <div><button class="btn btn-primary text-center float-right" type="submit" style="font-family: Roboto, sans-serif;background-color: #427f50;padding: 2px;margin: 5px;">Enter</button>
-                <input class="form-control-sm float-right" type="search" placeholder="Enter Class Number"
-                    style="margin: 5px;">
+            <div>
+                <form action="/addclass" method="POST">
+                    <button class="btn btn-primary text-center float-right" type="submit" style="font-family: Roboto, sans-serif;background-color: #427f50;padding: 2px;margin: 5px;"> Enter 
+                    </button>                        
+                    <input class="form-control-sm float-right" type="search" placeholder="Enter Class Number"
+                        style="margin: 5px;" name="searchAddC">
+                </form>
+
                 <h3 class="d-inline-block float-none" style="margin: 0px 0px;color: #555555;font-size: 25px;font-family: Roboto, sans-serif;padding: 10px 0px  5px 0px;width: 50%;"><strong>Course Offerings</strong><br>
                 </h3>
 
@@ -35,11 +40,10 @@
                 {{#each courseOffer}}
                     <li class="list-group-item">
                         <span class="float-left" style="width: 15%;"> {{ classNum }} </span>
-                        <span class="float-left" style="width: 25%;"> {{ course.courseCode }} </span>
+                        <span class="float-left" style="width: 25%;"> {{ 0.courseCode }} </span>
                         <span class="float-left" style="width: 15%;"> {{ section }} </span>
                         <span class="float-left" style="width: 25%;"> {{ classSched }} </span>
                         <span class="float-left" style="width: 10%;"> {{ room }} </span>
-                        <button class="btn btn-primary text-center float-right" type="submit" style="font-family: Roboto, sans-serif;background-color: #427f50;padding: 2px;margin: 0px;width: 10%;"> Add </button> 
                     </li>
                 {{/each}}
             </ul>
@@ -58,7 +62,7 @@
 
                 {{#each myClasses}}
                     <li class="list-group-item text-nowrap text-left d-inline-block flex-row flex-nowrap">
-                        <span class="float-left" style="width: 30%; padding: 10px; height: 24px;"> {{ course.courseCode }} </span>
+                        <span class="float-left" style="width: 30%; padding: 10px; height: 24px;"> {{ 0.courseCode }} </span>
                         <span class="float-left" style="width: 15%; padding: 10px;"> {{ section }} </span>
                         <span class="float-left" style="width: 35%; padding: 10px;"> {{ classSched }} </span>
                         <span class="float-left" style="width: 10%; padding: 10px;"> {{ room }} </span>

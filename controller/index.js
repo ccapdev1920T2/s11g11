@@ -153,26 +153,58 @@ const rendFunctions = {
                     });                              
                 });
     },
-    
-    getAddClass: async function(req, res, next) {
+
+
+    getAddClass: function(req, res, next) {
         // for searched 'Course Offerings' table
-        var classes = await classModel.find({}).populate('course');          
-        
-        // for 'My Classes' table
-        var student = await studentModel.findOne({email: req.session.user.email}) 
-                .populate({path: 'classList',
-                    populate: { path: 'course'}});
-                
-        console.log(JSON.parse(JSON.stringify(classes)));
-        console.log(JSON.parse(JSON.stringify(student.classList)));
-        
-                    res.render('addclass', {
-                        // insert needed contents for addclass.hbs 
-                        courseOffer: JSON.parse(JSON.stringify(classes)),
-                        myClasses: JSON.parse(JSON.stringify(student.classList))
-                    });   
+        classModel.find({}).populate('courseId').exec(function(err, match){
+            // for 'My Classes' table
+            studentModel.findOne({email: req.session.user.email}) 
+                    .populate({path: 'classList', populate: { path: 'courseId'}})
+
+                    .then(function(student){
+                        let classes = JSON.parse(JSON.stringify(student.classList));
+                        let classDetails = classes.map((item, i) => Object.assign({}, item, classes[i].courseId));                        
+                        
+                        let course = JSON.parse(JSON.stringify(match));
+                        let courseDetails = course.map((item, i) => Object.assign({}, item, course[i].courseId));    
+                        
+                        res.render('addclass', {
+                            // insert needed contents for addclass.hbs 
+                            courseOffer: courseDetails,
+                            myClasses: classDetails
+                        });   
+                    });            
+        });          
+         
+
+    },
     
+    postAddClass: function(req, res) {
     
+        let {searchAddC} = req.body; // accessing input for POST
+        
+        // SEARCH
+        // populates the collection with found matches with the query using 'lookup' flag in mongo
+        classModel.findOne({classNum: searchAddC}, function(err, match) {
+
+                    console.log(searchAddC);
+                    console.log(match);
+
+                    if (err) { console.log(err);
+                        return res.status(500).end('500 Internal Server error, query not found');
+                    }
+                    
+                    // UPDATE
+                    studentModel.findOneAndUpdate({email: req.session.user.email},
+                                    {$push: {classList: match}}, 
+                                    {useFindAndModify: false}, function(err) {
+                            if (err) res.status(500).end('500, cannot update classList in db');
+                    });                    
+                    
+        });    
+        res.redirect("/addclass");
+
     },
     
     getDropClass: function(req, res, next) {

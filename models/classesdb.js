@@ -7,7 +7,7 @@ var db = mongoose.connection;
 
 var classesSchema = new mongoose.Schema({
 	course: String,
-	classNum: Number,
+	classNum: String,
 	section: String,
 	classSched: String,
 	room: String,
