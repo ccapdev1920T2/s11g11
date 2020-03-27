@@ -214,13 +214,81 @@ const rendFunctions = {
         });        
     },
     
-    getSwapClass: function(req, res, next) {
-        res.render('swapclass', {
-            // insert needed contents for swapclass.hbs 
-            courseOffer: courseList,
-            myCourses: req.session.user.compCourses            
-        });        
+    getSwapClass: function(req, res, next) {     
+        // for searched 'Course Offerings' table
+        classModel.find({}).populate('courseId').exec(function(err, match){
+            // for 'My Classes' table
+            studentModel.findOne({email: req.session.user.email}) 
+                    .populate({path: 'classList', populate: { path: 'courseId'}})
+
+                    .then(function(student){
+                        let classes = JSON.parse(JSON.stringify(student.classList));
+                        let classDetails = classes.map((item, i) => Object.assign({}, item, classes[i].courseId));                        
+                        
+                        let course = JSON.parse(JSON.stringify(match));
+                        let courseDetails = course.map((item, i) => Object.assign({}, item, course[i].courseId));    
+                        
+                        res.render('swapclass', {
+                            // insert needed contents for swapclass.hbs 
+                            courseOffer: courseDetails,
+                            myClasses: classDetails            
+                        });
+                    });            
+        });          
+        
+        
     },
+    
+    postSwapClass: function(req, res) {
+    
+        let {drop, add} = req.body; // accessing input for POST
+        
+        // SEARCH
+        // populates the collection with found matches with the query using 'lookup' flag in mongo
+        classModel.findOne({classNum: drop}, function(err, match) {
+
+                    console.log(drop);
+                    console.log(match);
+
+                    if (err) { console.log(err);
+                        return res.status(500).end('500 Internal Server error, query not found');
+                    }
+                    
+                    // UPDATE
+                    studentModel.findOneAndUpdate({email: req.session.user.email},
+                                    {$pull: {classList: match._id}}, 
+                                    {useFindAndModify: false, 'new': true}, function(err) {
+                            if (err) res.status(500).end('500, cannot update classList in db');
+                    });                    
+                    
+        });    
+        
+        
+        // SEARCH
+        // populates the collection with found matches with the query using 'lookup' flag in mongo
+        classModel.findOne({classNum: add}, function(err, match) {
+
+                    console.log(add);
+                    console.log(match);
+
+                    if (err) { console.log(err);
+                        return res.status(500).end('500 Internal Server error, query not found');
+                    }
+                    
+                    // UPDATE
+                    studentModel.findOneAndUpdate({email: req.session.user.email},
+                                    {$push: {classList: match}}, 
+                                    {useFindAndModify: false}, function(err) {
+                            if (err) res.status(500).end('500, cannot update classList in db');
+                    });                    
+                    
+        });    
+        
+        res.redirect("/swapclass");
+
+    },
+    
+    
     
     //POST methods (for any changes/manipulation on data)
     postRegister: function(req, res, next) {

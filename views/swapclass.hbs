@@ -6,15 +6,15 @@
         <h1 class="d-inline-block float-none" style="margin: 0px 0px;color: #555555;font-size: 30px;font-family: Roboto, sans-serif;">
             <strong>Swap Classes</strong>
         </h1>
-        <p class="d-inline-block float-none" style="margin: 0px 5px 0px 5px;color: #888888;font-family: Roboto, sans-serif;">Select the classes you want to swap.</p>
+        <p class="d-inline-block float-none" style="margin: 0px 5px 0px 5px;color: #888888;font-family: Roboto, sans-serif;">Enter the class numbers you want to swap.</p>
     </div>
     <hr style="background-color: #a0a0a0;margin: 0px;"></hr>
     <div style="margin: 0px 0px 50px 0px;">
         <div class="float-left" style="background-color: #ffffff;padding: 0px 30px 0px 30px;width: 50%;">
             <form action="/swapclass" method="POST">
-                <button class="btn btn-primary text-center float-right" type="submit" style="font-family: Roboto, sans-serif;background-color: #427f50;padding: 2px;margin: 5px;">Enter</button>
-                <input class="form-control-sm float-right" type="search" placeholder="Enter Class Number to swap" style="margin: 5px;" name="drop"></input>
-                <input class="form-control-sm float-right" type="search" placeholder="Enter Class Number to be swapped with" style="margin: 5px;" name="add"></input>
+                <input class="form-control-sm float-left" type="search" placeholder="To be swapped" style="margin: 5px;width: 175px" name="drop"></input>
+                <input class="form-control-sm float-left" type="search" placeholder="To be swapped with" style="margin: 5px;width: 225px" name="add"></input>
+                <button class="btn btn-primary text-center float-left" type="submit" style="font-family: Roboto, sans-serif;background-color: #427f50;padding: 2px;margin: 5px;width: 100px">Swap</button>
                 <h3 class="d-inline-block float-none" style="margin: 0px 0px;color: #555555;font-size: 25px;font-family: Roboto, sans-serif;padding: 10px 0px  5px 0px;width: 50%;">
                     <strong>Course Offerings</strong><br>
                 </h3>
@@ -24,22 +24,22 @@
             </form>
             <ul class="list-group" id="classoffers_swap">
                 <li class="list-group-item">
-                    <span class="float-left" style="width: 15%;">
-                        <strong>Class No.</strong>
-                    </span>
-                    <span class="float-left" style="width: 25%;">
-                        <strong>Course Code</strong>
-                    </span>
-                    <span class="float-left" style="width: 15%;">
-                        <strong>Section</strong>
-                    </span>
-                    <span class="float-left" style="width: 25%;">
-                        <strong>Class Schedule</strong>
-                    </span>
-                    <span class="float-left" style="width: 10%;">
-                        <strong>Room</strong>
-                    </span>
+                    <span class="float-left" style="width: 15%;"></span>
+                    <span class="float-left" style="width: 25%;"><strong>Course Code</strong></span>
+                    <span class="float-left" style="width: 15%;"><strong>Section</strong></span>
+                    <span class="float-left" style="width: 25%;"><strong>Class Schedule</strong></span>
+                    <span class="float-left" style="width: 10%;"><strong>Room</strong></span>
                 </li>
+                
+                {{#each courseOffer}}
+                    <li class="list-group-item">
+                        <span class="float-left" style="width: 15%;"> {{ classNum }} </span>
+                        <span class="float-left" style="width: 25%;"> {{ 0.courseCode }} </span>
+                        <span class="float-left" style="width: 15%;"> {{ section }} </span>
+                        <span class="float-left" style="width: 25%;"> {{ classSched }} </span>
+                        <span class="float-left" style="width: 10%;"> {{ room }} </span>
+                    </li>
+                {{/each}}
             </ul>
         </div>
         <div class="float-left" style="width: 50%;padding: 0px 10px 0px 10px;">
@@ -49,19 +49,20 @@
             <hr style="background-color: #427f50;margin: 0px;height: 2px;width: 100%;"></hr>
             <ul class="list-group" id="myclasses_swap">
                 <li class="list-group-item text-nowrap text-left d-inline-block flex-row flex-nowrap">
-                    <span class="float-left" style="width: 30%;padding: 10px 10px 10px 10px;height: 24px;">
-                        <strong>Course Code</strong>
-                    </span>
-                    <span class="float-left" style="width: 15%;padding: 10px;">
-                        <strong>Section</strong>
-                    </span>
-                    <span class="float-left" style="padding: 10px;width: 25%;">
-                        <strong>Class Schedule</strong>
-                    </span>
-                    <span class="float-left" style="padding: 10px;width: 15%;">
-                        <strong>Room</strong>
-                    </span>
+                    <span class="float-left" style="width: 30%;padding: 10px 10px 10px 10px;height: 24px;"><strong>Course Code</strong></span>
+                    <span class="float-left" style="width: 15%;padding: 10px;"><strong>Section</strong></span>
+                    <span class="float-left" style="padding: 10px;width: 25%;"><strong>Class Schedule</strong></span>
+                    <span class="float-left" style="padding: 10px;width: 15%;"><strong>Room</strong></span>
                 </li>
+
+                {{#each myClasses}}
+                    <li class="list-group-item text-nowrap text-left d-inline-block flex-row flex-nowrap">
+                        <span class="float-left" style="width: 30%; padding: 10px; height: 24px;"> {{ 0.courseCode }} </span>
+                        <span class="float-left" style="width: 15%; padding: 10px;"> {{ section }} </span>
+                        <span class="float-left" style="width: 35%; padding: 10px;"> {{ classSched }} </span>
+                        <span class="float-left" style="width: 10%; padding: 10px;"> {{ room }} </span>
+                    </li>
+                {{/each}}
             </ul>
         </div>
     </div>
