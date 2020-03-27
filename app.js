@@ -12,7 +12,7 @@ const app = express();
 app.use(cookieParser());
 
 app.use(session({
-	secret: 'sksksk',
+	secret: 'sikret',
 	name: 'saeshun',
 	resave: true,
 	saveUninitialized: true
@@ -25,9 +25,15 @@ app.engine('hbs', hbs.create({
 	extname: 'hbs',
         defaultLayout: 'main',
 	partialsDir: 'views/partials',
-        layoutsDir: 'views/layouts'
-        
-}).engine);
+        layoutsDir: 'views/layouts',
+        helpers: {
+            convertDouble: function(number){ console.log(number); // converts a Double type in mongo with a .0
+                return Number.parseFloat(number).toFixed(1);
+            },
+            getFacultyName: function(lname, fname){
+                return lname + ", " + fname;
+            }
+        }}).engine);
 app.set('view engine', 'hbs');
 
 // init the middleware helpers (authenticates if input passed is correct)

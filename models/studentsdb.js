@@ -13,8 +13,19 @@ var studentsSchema = new mongoose.Schema({
 	password: String,
 	degprog: String,
 	college: String,
-	courseList: [{type: mongoose.Schema.Types.ObjectId, ref: 'Course'}]
+        compCourses: [ String ],
+	classList: [{type: mongoose.Schema.Types.ObjectId, ref: 'classes'}]
 }, {collection: "students"});
+
+studentsSchema.virtual('courseId', {
+    ref: 'courses',
+    localField: 'compCourses',
+    foreignField: '_id',
+    justOne: false
+});
+studentsSchema.set('toObject', { virtuals: true });
+studentsSchema.set('toJSON', { virtuals: true });
+
 
 const studentModel = db.model("students", studentsSchema);
 
