@@ -3,7 +3,6 @@ const studentModel = require('../models/studentsdb');
 const courseModel = require('../models/coursesdb');
 const classModel = require('../models/classesdb');
 
-
 //constructor for a Student object
 function createUser(idno, ln, fn, email, pass, degprog, college) {
         var tempUser = {
@@ -84,43 +83,128 @@ const rendFunctions = {
     },
 
     getProfile: function(req, res, next) {
-        res.render('userprofile', {
-            // insert needed contents for userprofile.hbs 
-            idNum: req.session.user.idNum,
-            lname: req.session.user.lname,
-            fname: req.session.user.fname,
-            email: req.session.user.email,
-            degprog: req.session.user.degprog,
-            college: req.session.user.college,
-            compCourses: req.session.user.compCourses
-        });        
+        
+        studentModel.findOne({email: req.session.user.email}) // finds the logged-in student 
+                .populate("courseId") // matches the ObjectId in each element of courses collection
+                .then(function(student){ // passes the populated array "compCourses"
+                    res.render('userprofile', {
+                        // insert needed contents for userprofile.hbs 
+                        idNum: req.session.user.idNum,
+                        lname: req.session.user.lname,
+                        fname: req.session.user.fname,
+                        email: req.session.user.email,
+                        degprog: req.session.user.degprog,
+                        college: req.session.user.college,
+                        compCourses: JSON.parse(JSON.stringify(student.courseId)) // parses BSON into JSON (virtual attribute) 
+                    });                              
+                });
     },
     
     getCourseOffer: function(req, res, next) {
-        console.table(courseList);
-        res.render('view-courseoffer', {
-            // insert needed contents for view-courseoffer.hbs
-            courseOffer: courseList
-        });        
+        
+        classModel.find({}).populate('courseId')
+                .then(function(classes){ // passes the populated array 
+                    
+                    var offers = JSON.parse(JSON.stringify(classes));
+                    let details = offers.map((item, i) => Object.assign({}, item, offers[i].courseId));
+                    
+                    res.render('view-courseoffer', {
+                        // insert needed contents for vieweaf.hbs 
+                        courseOffer: details
+                    });                              
+                }); 
+
+    },
+    
+    getSearchCOffer: function(req, res) {
+        let query = new RegExp(req.query.searchCO, 'gi'); // convery input string to regex
+        
+        
+        // populates the collection with found matches with the query using 'lookup' flag in mongo
+        classModel.aggregate([{'$lookup': {"from": "courses", "localField": "course", "foreignField": "_id", "as": "courseId"}},
+                            { '$match': {$or:[{'courseId.0.courseName': query}, {'courseId.0.courseCode' : query}, {classNum : query}]} }], function(err, match) {
+
+                    if (err) { console.log(err);
+                        return res.status(500).end('500 Internal Server error, query not found');
+                    }
+                    
+                    let details = match.map((item, i) => Object.assign({}, item, match[i].courseId));
+                    console.log(details);
+                    res.render('view-courseoffer', {
+                        courseOffer: details
+                    });
+        });
     },
     
     getViewEAF: function(req, res, next) {
-        res.render('vieweaf', {
-            // insert needed contents for vieweaf.hbs
-            idNum: req.session.user.idNum,
-            lname: req.session.user.lname,
-            fname: req.session.user.fname,
-            degprog: req.session.user.degprog,
-            compCourses: req.session.user.compCourses           
-        });        
+       
+        studentModel.findOne({email: req.session.user.email}) // finds the logged-in student 
+                .populate({path: 'classList',
+                    populate: { path: 'course'}
+                    }) // matches the ObjectId in each element of classes collection
+                .then(function(student){ // passes the populated array "classList"
+                    res.render('vieweaf', {
+                        // insert needed contents for vieweaf.hbs
+                        idNum: req.session.user.idNum,
+                        lname: req.session.user.lname,
+                        fname: req.session.user.fname,
+                        degprog: req.session.user.degprog,   
+                        classList: JSON.parse(JSON.stringify(student.classList))
+                    });                              
+                });
+    },
+
+
+    getAddClass: function(req, res, next) {
+        // for searched 'Course Offerings' table
+        classModel.find({}).populate('courseId').exec(function(err, match){
+            // for 'My Classes' table
+            studentModel.findOne({email: req.session.user.email}) 
+                    .populate({path: 'classList', populate: { path: 'courseId'}})
+
+                    .then(function(student){
+                        let classes = JSON.parse(JSON.stringify(student.classList));
+                        let classDetails = classes.map((item, i) => Object.assign({}, item, classes[i].courseId));                        
+                        
+                        let course = JSON.parse(JSON.stringify(match));
+                        let courseDetails = course.map((item, i) => Object.assign({}, item, course[i].courseId));    
+                        
+                        res.render('addclass', {
+                            // insert needed contents for addclass.hbs 
+                            courseOffer: courseDetails,
+                            myClasses: classDetails
+                        });   
+                    });            
+        });          
+         
+
     },
     
-    getAddClass: function(req, res, next) {
-        res.render('addclass', {
-            // insert needed contents for addclass.hbs
-            courseOffer: courseList,
-            myCourses: req.session.user.compCourses
-        });        
+    postAddClass: function(req, res) {
+    
+        let {searchAddC} = req.body; // accessing input for POST
+        
+        // SEARCH
+        // populates the collection with found matches with the query using 'lookup' flag in mongo
+        classModel.findOne({classNum: searchAddC}, function(err, match) {
+
+                    console.log(searchAddC);
+                    console.log(match);
+
+                    if (err) { console.log(err);
+                        return res.status(500).end('500 Internal Server error, query not found');
+                    }
+                    
+                    // UPDATE
+                    studentModel.findOneAndUpdate({email: req.session.user.email},
+                                    {$push: {classList: match}}, 
+                                    {useFindAndModify: false}, function(err) {
+                            if (err) res.status(500).end('500, cannot update classList in db');
+                    });                    
+                    
+        });    
+        res.redirect("/addclass");
+
     },
     
     getDropClass: function(req, res, next) {
@@ -169,7 +253,6 @@ const rendFunctions = {
     },
     
     postLogin: function(req, res, next) {
-        console.log(req.body); 
         let { email, password } = req.body;       
 
         //searches for user in db
@@ -180,7 +263,6 @@ const rendFunctions = {
             }
            
             if (match){
-                console.log(match);
                 req.session.user = match;
                 res.render('home', { 
                     userName: req.session.user.lname + ", " + req.session.user.fname

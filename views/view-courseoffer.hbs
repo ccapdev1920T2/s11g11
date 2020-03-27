@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+
 {{> navbar}}
 <title>View Course Offerings</title>
 <div class="card" id="course-offer">
@@ -5,7 +7,15 @@
         <h5 class="float-left mb-0" style="color: #5b6066;width: 70%;margin: 10px 0px 0px 0px;"><strong> Course Offerings </strong>
         </h5>
         <div class="float-right" id="search-bar" style="width: 30%;">
-            <div class="float-right" id="search-btn" style="height: 50px;"><i class="fa fa-search float-right" style="height: 30px;margin: 15px 0px 0px 0px;"></i></div><input class="float-right" type="text" style="margin: 10px;"></div>
+            <form action="/searchclasses" method="get">
+                <!-- search button -->
+                <div class="float-right" id="search-btn" style="height: 50px;">
+                    <i class="fa fa-search float-right" style="height: 30px;margin: 15px 0px 0px 0px;" onclick="this.parentNode.parentNode.submit();"></i>
+                </div>
+                <!--  search bar -->
+                <input class="float-right" type="text" style="margin: 10px;" name="searchCO">
+            </form>
+        </div>
     </div>
 
     <div class="card-body" style="height: 95px;">
@@ -35,13 +45,13 @@
                 {{#each courseOffer}}
                     <tr class="courseoffer-row">
                         <td class="border rounded-0"> {{ classNum }} </td>
-                        <td class="border rounded-0"> {{ courseCode }} </td>
-                        <td class="border rounded-0"> {{ courseName }} </td>
+                        <td class="border rounded-0"> {{ 0.courseCode }} </td>
+                        <td class="border rounded-0"> {{ 0.courseName }} </td>
                         <td class="text-right border rounded-0"> {{ section }} </td>
                         <td class="text-left border rounded-0"> {{ classSched }} </td>
                         <td class="text-left border rounded-0"> {{ room }} </td>
-                        <td class="text-left border rounded-0"> {{ faculty }} </td>
-                        <td class="text-right border rounded-0"> {{ numUnits }} </td>
+                        <td class="text-left border rounded-0"> {{ getFacultyName faculty_lname faculty_fname }} </td>
+                        <td class="text-right border rounded-0"> {{ convertDouble 0.numUnits }} </td>
                     </tr>                    
                 {{/each}}
             </tbody>
