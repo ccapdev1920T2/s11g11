@@ -16,7 +16,7 @@ router.get('/searchclasses', controller.getSearchCOffer);
 router.get('/vieweaf', controller.getViewEAF);
 router.get('/addclass', controller.getAddClass);
 router.get('/dropclass', controller.getDropClass);
-router.get('/swapclass', controller.getSwapClass);
+//router.get('/swapclass', controller.getSwapClass);
 
 // @kresshamae patapos na nitong middlewares pls
 //router.post('/login', middleware.validateLogin, controller.postLogin);
@@ -27,6 +27,6 @@ router.post('/logout', controller.postLogout);
 router.post('/register', controller.postRegister);
 router.post('/addclass', controller.postAddClass);
 router.post('/dropclass', controller.postDropClass);
-router.post('/swapclass', controller.postSwapClass);
+//router.post('/swapclass', controller.postSwapClass);
 
 module.exports = router;

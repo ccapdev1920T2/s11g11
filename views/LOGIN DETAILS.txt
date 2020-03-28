@@ -1,7 +1,0 @@
-E-mail				Password
-
-kayla_latorre@dlsu.edu.ph	678910
-ninna_manzano@dlsu.edu.ph	12345
-krissha_calaranan@dlsu.edu.ph	00000
-eugene_perez@dlsu.edu.ph	11111
-anna_kumiko_catahan@dlsu.edu.ph	22222

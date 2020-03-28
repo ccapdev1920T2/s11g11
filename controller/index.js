@@ -208,16 +208,48 @@ const rendFunctions = {
     },
     
     getDropClass: function(req, res, next) {
-        res.render('dropclass', {
-            // insert needed contents for dropclass.hbs 
-            myCourses: req.session.user.compCourses
-        });        
+        studentModel.findOne({email: req.session.user.email}) 
+                    .populate({path: 'classList', populate: { path: 'courseId'}})
+
+                    .then(function(student){
+                        let classes = JSON.parse(JSON.stringify(student.classList));
+                        let classDetails = classes.map((item, i) => Object.assign({}, item, classes[i].courseId));                        
+                                               
+                        res.render('dropclass', {
+                            // insert needed contents for dropclass.hbs 
+                            myClasses: classDetails
+                        });
+                    });         
     },
     
+    postDropClass: function(req, res) {
+        let {searchDropC} = req.body; 
+
+        classModel.findOne({classNum: searchDropC}, function(err, match) {
+
+                    console.log(searchDropC);
+                    console.log(match);
+
+                    if (err) { console.log(err);
+                        return res.status(500).end('500 Internal Server error, query not found');
+                    }
+                    
+                    // UPDATE
+                    studentModel.findOneAndUpdate({email: req.session.user.email},
+                                    {$pull: {classList: match._id}}, 
+                                    {useFindAndModify: false, 'new': true}, function(err) {
+                            if (err) res.status(500).end('500, cannot update classList in db');
+                    });                    
+                    
+        });
+
+        res.redirect("/dropclass");  
+    },
+
     getSwapClass: function(req, res, next) {
         res.render('swapclass', {
             // insert needed contents for swapclass.hbs 
-            courseOffer: courseList,
+            courseOffer: courseDetails,
             myCourses: req.session.user.compCourses            
         });        
     },
