@@ -89,6 +89,7 @@ const rendFunctions = {
                 .then(function(student){ // passes the populated array "compCourses"
                     res.render('userprofile', {
                         // insert needed contents for userprofile.hbs 
+                        userName: req.session.user.lname + ", " + req.session.user.fname,
                         idNum: req.session.user.idNum,
                         lname: req.session.user.lname,
                         fname: req.session.user.fname,
@@ -110,6 +111,7 @@ const rendFunctions = {
                     
                     res.render('view-courseoffer', {
                         // insert needed contents for vieweaf.hbs 
+                        userName: req.session.user.lname + ", " + req.session.user.fname,
                         courseOffer: details
                     });                              
                 }); 
@@ -131,6 +133,7 @@ const rendFunctions = {
                     let details = match.map((item, i) => Object.assign({}, item, match[i].courseId));
                     console.log(details);
                     res.render('view-courseoffer', {
+                        userName: req.session.user.lname + ", " + req.session.user.fname,
                         courseOffer: details
                     });
         });
@@ -140,16 +143,23 @@ const rendFunctions = {
        
         studentModel.findOne({email: req.session.user.email}) // finds the logged-in student 
                 .populate({path: 'classList',
-                    populate: { path: 'course'}
+                    populate: { path: 'courseId'}
                     }) // matches the ObjectId in each element of classes collection
                 .then(function(student){ // passes the populated array "classList"
+
+                    var classes = JSON.parse(JSON.stringify(student)).classList;
+                    let details = classes.map((item, i) => Object.assign({}, item, classes[i].courseId));
+                    
+                    console.log(details);
+                    
                     res.render('vieweaf', {
                         // insert needed contents for vieweaf.hbs
+                        userName: req.session.user.lname + ", " + req.session.user.fname,
                         idNum: req.session.user.idNum,
                         lname: req.session.user.lname,
                         fname: req.session.user.fname,
                         degprog: req.session.user.degprog,   
-                        classList: JSON.parse(JSON.stringify(student.classList))
+                        classList: details
                     });                              
                 });
     },
@@ -171,6 +181,7 @@ const rendFunctions = {
                         
                         res.render('addclass', {
                             // insert needed contents for addclass.hbs 
+                            userName: req.session.user.lname + ", " + req.session.user.fname,
                             courseOffer: courseDetails,
                             myClasses: classDetails
                         });   
@@ -217,9 +228,33 @@ const rendFunctions = {
                                                
                         res.render('dropclass', {
                             // insert needed contents for dropclass.hbs 
+                            userName: req.session.user.lname + ", " + req.session.user.fname,
                             myClasses: classDetails
                         });
                     });         
+    },
+ postDropClass: function(req, res) {
+        let {searchDropC} = req.body; 
+
+        classModel.findOne({classNum: searchDropC}, function(err, match) {
+
+                    console.log(searchDropC);
+                    console.log(match);
+
+                    if (err) { console.log(err);
+                        return res.status(500).end('500 Internal Server error, query not found');
+                    }
+                    
+                    // UPDATE
+                    studentModel.findOneAndUpdate({email: req.session.user.email},
+                                    {$pull: {classList: match._id}}, 
+                                    {useFindAndModify: false, 'new': true}, function(err) {
+                            if (err) res.status(500).end('500, cannot update classList in db');
+                    });                    
+                    
+        });
+
+        res.redirect("/dropclass");  
     },
     
     getSwapClass: function(req, res, next) {     
@@ -238,6 +273,7 @@ const rendFunctions = {
                         
                         res.render('swapclass', {
                             // insert needed contents for swapclass.hbs 
+                            userName: req.session.user.lname + ", " + req.session.user.fname,
                             courseOffer: courseDetails,
                             myClasses: classDetails            
                         });
@@ -270,8 +306,7 @@ const rendFunctions = {
                     });                    
                     
         });    
-        
-        
+                
         // SEARCH
         // populates the collection with found matches with the query using 'lookup' flag in mongo
         classModel.findOne({classNum: add}, function(err, match) {
@@ -288,12 +323,9 @@ const rendFunctions = {
                                     {$push: {classList: match}}, 
                                     {useFindAndModify: false}, function(err) {
                             if (err) res.status(500).end('500, cannot update classList in db');
-                    });                    
-                    
+                    });                               
         });    
-        
         res.redirect("/swapclass");
-
     },
     
     
@@ -339,7 +371,9 @@ const rendFunctions = {
             }
            
             if (match){
-                req.session.user = match;
+                req.session.user = match;            
+                console.log(req.session.user);
+                
                 res.render('home', { 
                     userName: req.session.user.lname + ", " + req.session.user.fname
                 });

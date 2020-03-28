@@ -55,14 +55,16 @@
             <hr style="background-color: #427f50;margin: 0px;height: 2px;width: 100%;">
             <ul class="list-group" id="addedclasses">
                 <li class="list-group-item text-nowrap text-left d-inline-block flex-row flex-nowrap">
-                    <span class="float-left" style="width: 30%;padding: 10px; height: 24px;"><strong> Course Code</strong></span>
+                    <span class="float-left" style="width: 15%;padding: 10px;"><strong>Class No.</strong></span>
+                    <span class="float-left" style="width: 20%;padding: 10px; height: 24px;"><strong> Course Code</strong></span>
                     <span class="float-left" style="width: 15%;padding: 10px;"><strong> Section</strong></span>
-                    <span class="float-left" style="padding: 10px;width: 35%;"><strong> Class Schedule</strong></span><span class="float-left" style="padding: 10px;width: 15%;"><strong> Room</strong></span>
+                    <span class="float-left" style="width: 35%;padding: 10px;"><strong> Class Schedule</strong></span><span class="float-left" style="width: 10%;padding: 10px;"><strong> Room</strong></span>
                 </li>
 
                 {{#each myClasses}}
                     <li class="list-group-item text-nowrap text-left d-inline-block flex-row flex-nowrap">
-                        <span class="float-left" style="width: 30%; padding: 10px; height: 24px;"> {{ 0.courseCode }} </span>
+                        <span class="float-left" style="width: 15%; padding: 10px;"> {{ classNum }} </span>
+                        <span class="float-left" style="width: 20%; padding: 10px; height: 24px;"> {{ 0.courseCode }} </span>
                         <span class="float-left" style="width: 15%; padding: 10px;"> {{ section }} </span>
                         <span class="float-left" style="width: 35%; padding: 10px;"> {{ classSched }} </span>
                         <span class="float-left" style="width: 10%; padding: 10px;"> {{ room }} </span>
