@@ -192,27 +192,24 @@ const rendFunctions = {
     },
     
     postAddClass: function(req, res) {
-    
+		console.log("postAddClass");
         let {searchAddC} = req.body; // accessing input for POST
         
         // SEARCH
         // populates the collection with found matches with the query using 'lookup' flag in mongo
         classModel.findOne({classNum: searchAddC}, function(err, match) {
-
-                    console.log(searchAddC);
-                    console.log(match);
-
-                    if (err) { console.log(err);
+                    if (err) {
                         return res.status(500).end('500 Internal Server error, query not found');
                     }
                     
                     // UPDATE
-                    studentModel.findOneAndUpdate({email: req.session.user.email},
-                                    {$push: {classList: match}}, 
-                                    {useFindAndModify: false}, function(err) {
-                            if (err) res.status(500).end('500, cannot update classList in db');
-                    });                    
-                    
+                    if (match !== null){
+                        studentModel.findOneAndUpdate({email: req.session.user.email},
+                                        {$push: {classList: match}}, 
+                                        {useFindAndModify: false}, function(err) {
+                                if (err) res.status(500).end('500, cannot update classList in db');
+                        }); 
+                    }
         });    
         res.redirect("/addclass");
 
@@ -233,15 +230,12 @@ const rendFunctions = {
                         });
                     });         
     },
- postDropClass: function(req, res) {
+    
+    postDropClass: function(req, res) {
         let {searchDropC} = req.body; 
 
         classModel.findOne({classNum: searchDropC}, function(err, match) {
-
-                    console.log(searchDropC);
-                    console.log(match);
-
-                    if (err) { console.log(err);
+                    if (err) {
                         return res.status(500).end('500 Internal Server error, query not found');
                     }
                     
@@ -290,11 +284,7 @@ const rendFunctions = {
         // SEARCH
         // populates the collection with found matches with the query using 'lookup' flag in mongo
         classModel.findOne({classNum: drop}, function(err, match) {
-
-                    console.log(drop);
-                    console.log(match);
-
-                    if (err) { console.log(err);
+                    if (err) { 
                         return res.status(500).end('500 Internal Server error, query not found');
                     }
                     
@@ -310,11 +300,7 @@ const rendFunctions = {
         // SEARCH
         // populates the collection with found matches with the query using 'lookup' flag in mongo
         classModel.findOne({classNum: add}, function(err, match) {
-
-                    console.log(add);
-                    console.log(match);
-
-                    if (err) { console.log(err);
+                    if (err) {
                         return res.status(500).end('500 Internal Server error, query not found');
                     }
                     
@@ -366,18 +352,18 @@ const rendFunctions = {
         //searches for user in db
         studentModel.findOne({email: email, password: password}, function(error, match){
             if (error){
-                return res.status(500).end("ERROR: No users found.");               
+                return res.status(500).end("ERROR: cannot connect to the db.");               
                 res.redirect("/login");
             }
            
             if (match){
                 req.session.user = match;            
-                console.log(req.session.user);
-                
                 res.render('home', { 
                     userName: req.session.user.lname + ", " + req.session.user.fname
                 });
             }
+            else
+                return res.status(401).end("ERROR: No users found.");
         });   
     },
     

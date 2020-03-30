@@ -19,14 +19,11 @@ router.get('/dropclass', controller.getDropClass);
 router.get('/swapclass', controller.getSwapClass);
 
 // @kresshamae patapos na nitong middlewares pls
-//router.post('/login', middleware.validateLogin, controller.postLogin);
-//router.post('/register', middleware.validateRegister, controller.postRegister);
-
-router.post('/login', controller.postLogin);
 router.post('/logout', controller.postLogout);
-router.post('/register', controller.postRegister);
-router.post('/addclass', controller.postAddClass);
-router.post('/dropclass', controller.postDropClass);
-router.post('/swapclass', controller.postSwapClass);
+router.post('/login', middleware.validateLogin, controller.postLogin);
+router.post('/register', middleware.validateRegister, controller.postRegister);
+router.post('/addclass', middleware.validateAddClass, controller.postAddClass);
+router.post('/dropclass', middleware.validateDropClass, controller.postDropClass);
+router.post('/swapclass', middleware.validateSwapClass, controller.postSwapClass);
 
 module.exports = router;
