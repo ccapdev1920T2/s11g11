@@ -45,20 +45,20 @@
         <ul class="list-group list-group-flush" id="enrolledclasses">
             <li class="list-group-item">
                 <span class="float-left" style="width: 15%;"><strong> Course Code </strong></span>
-                <span class="float-left" style="width: 35%;"><strong> Course Name </strong></span>
+                <span class="float-left" style="width: 30%;"><strong> Course Name </strong></span>
                 <span class="float-left" style="width: 10%;"><strong> Section </strong></span>
                 <span class="float-left" style="width: 20%;"><strong> Class Schedule </strong></span>
-                <span class="float-left" style="width: 10%;"><strong> Room </strong></span>
+                <span class="float-left" style="width: 15%;"><strong> Room </strong></span>
                 <span class="float-left" style="width: 10%;"><strong> Units </strong></span>
             </li>
 
             {{#each classList}}
                 <li class="list-group-item">
                     <span class="float-left" style="width: 15%;"> {{ 0.courseCode }} </span>
-                    <span class="float-left" style="width: 35%;"> {{ 0.courseName }} </span>
+                    <span class="float-left" style="width: 30%;"> {{ 0.courseName }} </span>
                     <span class="float-left" style="width: 10%;"> {{ section }} </span>
                     <span class="float-left" style="width: 20%;"> {{ classSched }} </span>
-                    <span class="float-left" style="width: 10%;"> {{ room }} </span>
+                    <span class="float-left" style="width: 15%;"> {{ room }} </span>
                     <span class="float-left" style="width: 10%;"> {{ convertDouble 0.numUnits }} </span>
                 </li>  
             {{/each}}
