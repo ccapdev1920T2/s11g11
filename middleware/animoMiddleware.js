@@ -7,6 +7,92 @@ function validateEmail(email) {
     return regex.test(email);
 }
 
+/* Three Steps
+	1. parsing string, return an array of Date objects
+	2. check if input Date will overlap with a class's Date
+	3. loop through a student's existing classes
+*/
+
+function parseSched(sched) {
+	var classSched = [];
+	var arr = sched.split('/');
+	
+	arr.forEach(function(elem) {
+		let dayTime = elem.split(' '); // separate day and time
+		let times = dayTime[1].split('-'); // separate start and end time
+		// hardcoded dates, so only thing that varies is the time
+		var sTime = new Date('2020','01','01', times[0].substring(0,2), times[0].substring(2,4));
+		var eTime = new Date('2020','01','01', times[1].substring(0,2), times[1].substring(2,4));
+		classSched.push(new Sched(dayTime[0], sTime, eTime));
+	});
+	return classSched;
+}
+
+/* toString() method for printing the Sched object, for debugging only! */
+function str(e) {
+	return e.days + " "
+			+ e.startTime.getHours().toString().padStart(2, '0') + ':'
+			+ e.startTime.getMinutes().toString().padStart(2, '0') + ' - '
+			+ e.endTime.getHours().toString().padStart(2, '0') + ':'
+			+ e.endTime.getMinutes().toString().padStart(2, '0');
+}
+
+/* Sched class constructor */
+// Date objects, disregard the date, use .getTime() to access it
+function Sched( days, startTime, endTime ) {
+	this.days = days;
+	this.startTime = startTime;
+	this.endTime = endTime;
+}
+
+/* returns
+	TRUE if schedA overlaps schedB
+	FALSE if schedA doesn't overlap schedB
+*/
+function isOverlap(schedA, schedB) {
+	ADays = schedA.days.split('');
+	BDays = schedB.days.split('');
+	var dayOverlap = false;
+	
+	// check if any day-of-the-week overlaps (MTWHFS)
+	// IMPORTANT NOTE: THIS IGNORES THE LASAREx CASE!!!
+	ADays.forEach(function(day) {
+		if (BDays.includes(day))
+			dayOverlap = true;
+	});
+	
+	// checking for two things: if days overlap and if time also will overlap
+	return ( dayOverlap )
+			&& ((schedB.startTime <= schedA.startTime && schedA.startTime <= schedB.endTime)
+			|| (schedB.startTime <= schedA.endTime && schedA.endTime <= schedB.endTime));
+}
+
+// a class may have multiple schedules (e.g.: BASMATH), so check if a class will overlap with another class
+function isOverlapManyScheds(arrSchedA, arrSchedB) {
+	var overlap = false;
+	arrSchedA.forEach(function(schedAElem) {
+		for (var i = 0; i < arrSchedB.length; i++)
+			if (isOverlap(schedAElem, arrSchedB[i]))
+				overlap = true;
+	});
+	return overlap;
+}
+
+/*	NOTES:
+	- studentClasses is student.classList
+	- newClass is a classes object
+	- the above two will come from MongoDB
+	- if in case it doesn't work, try passing JSON.parse(JSON.stringify(classSched))
+*/
+function checkStudentSched(studentClasses, newClass) {
+	var newClassOverlap = false;
+	studentClasses.forEach(function(studClass) {
+		if (isOverlapManyScheds(parseSched(studClass.classSched), parseSched(newClass.classSched)))
+			newClassOverlap = true;
+	}); console.log('checkStudSched status: ' + newClassOverlap);
+	return newClassOverlap;
+}
+
 const animoMiddleware = {
 	validateLogin: function (req, res, next) {
 		let {email, password} = req.body;
@@ -75,6 +161,9 @@ const animoMiddleware = {
 			if (classMatch.length > 0) {
 				return res.status(401).end('401 Unauthorized error, class already exists in class list');
 			}
+			else if (checkStudentSched(studClass.classList, classNumber)){
+				return res.status(401).end('401 Unauthorized error, schedules overlap');
+			}
 			else return next();
 		} 
 	},
@@ -141,6 +230,9 @@ const animoMiddleware = {
 			// if addMatch is NOT empty, that means that the class already exists in student's class list
 			if (addMatch.length > 0) {
 				return res.status(401).end('401 Unauthorized error, class to add already exists in class list');
+			}
+			else if (checkStudentSched(studClass.classList, aClassNumber)){
+				return res.status(401).end('401 Unauthorized error, schedules overlap');
 			}
 			
 			// if dropMatch is empty, that means that the class does not exist in student's class list

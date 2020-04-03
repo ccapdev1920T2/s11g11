@@ -198,21 +198,21 @@ const rendFunctions = {
         // SEARCH
         // populates the collection with found matches with the query using 'lookup' flag in mongo
         classModel.findOne({classNum: searchAddC}, function(err, match) {
-                    if (err) {
-                        return res.status(500).end('500 Internal Server error, query not found');
-                    }
-                    
-                    // UPDATE
-                    if (match !== null){
-                        studentModel.findOneAndUpdate({email: req.session.user.email},
-                                        {$push: {classList: match}}, 
-                                        {useFindAndModify: false}, function(err) {
-                                if (err) res.status(500).end('500, cannot update classList in db');
-                        }); 
-                    }
-        });    
+			if (err) {
+				return res.status(500).end('500 Internal Server error, query not found');
+			}
+			
+			// UPDATE
+			if (match !== null){
+				studentModel.findOneAndUpdate({email: req.session.user.email},
+					{$push: {classList: match}}, 
+					{useFindAndModify: false}, function(err) {
+						if (err) res.status(500).end('500, cannot update classList in db');
+					});
+			}
+		});
         res.redirect("/addclass");
-
+		
     },
     
     getDropClass: function(req, res, next) {
