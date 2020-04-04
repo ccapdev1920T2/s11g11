@@ -93,6 +93,19 @@ function checkStudentSched(studentClasses, newClass) {
 	return newClassOverlap;
 }
 
+
+function isMaxUnits(sClasslist, newClass){
+    // 1. get total units of student
+    var totalUnits = sClasslist.reduce(function(a, b){
+        // a = accumulator; b = current value
+        return a + b.numUnits;
+    }, 0); //start reduce from 0
+    
+    // 2. get units of class (to be added)
+    // 3. check if addclass + curr units > 21 (max units)
+    return newClass.numUnits + totalUnits > 21.0;
+}
+
 const animoMiddleware = {
 	validateLogin: function (req, res, next) {
 		let {email, password} = req.body;
@@ -143,8 +156,8 @@ const animoMiddleware = {
 			return res.status(401).end('401 Unauthorized error, missing input');
 
 		else{
-			let classNumber = await classModel.findOne({classNum: searchAddC});
-			if (classNumber === null)
+			let classObj = await classModel.findOne({classNum: searchAddC});
+			if (classObj === null)
 				return res.status(401).end('401 Unauthorized error, class number does not exist');
 
 			let studClass = await studentModel.findOne({email: req.session.user.email}).populate('classList');
@@ -161,9 +174,12 @@ const animoMiddleware = {
 			if (classMatch.length > 0) {
 				return res.status(401).end('401 Unauthorized error, class already exists in class list');
 			}
-			else if (checkStudentSched(studClass.classList, classNumber)){
+			else if (checkStudentSched(studClass.classList, classObj)) {
 				return res.status(401).end('401 Unauthorized error, schedules overlap');
 			}
+                        else if (isMaxUnits(studClass.classList, classObj)) {
+                                return res.status(401).end('401 Unauthorized error, student has reached max total units');
+                        }
 			else return next();
 		} 
 	},
@@ -204,12 +220,12 @@ const animoMiddleware = {
 			return res.status(401).end('401 Unauthorized error, missing input');
 
 		else{
-			let aClassNumber = await classModel.findOne({classNum: add});
-			if (aClassNumber === null)
+			let aClassObj = await classModel.findOne({classNum: add});
+			if (aClassObj === null)
 				return res.status(401).end('401 Unauthorized error, class number you want to add does not exist');
 			
-			let dClassNumber = await classModel.findOne({classNum: drop});
-			if (dClassNumber === null)
+			let dClassObj = await classModel.findOne({classNum: drop});
+			if (dClassObj === null)
 				return res.status(401).end('401 Unauthorized error, class number you want to drop does not exist');
 
 			let studClass = await studentModel.findOne({email: req.session.user.email}).populate('classList');
@@ -231,9 +247,12 @@ const animoMiddleware = {
 			if (addMatch.length > 0) {
 				return res.status(401).end('401 Unauthorized error, class to add already exists in class list');
 			}
-			else if (checkStudentSched(studClass.classList, aClassNumber)){
+			else if (checkStudentSched(studClass.classList, aClassObj)){
 				return res.status(401).end('401 Unauthorized error, schedules overlap');
 			}
+                        else if (isMaxUnits(studClass.classList, aClassObj)) {
+                                return res.status(401).end('401 Unauthorized error, student has reached max total units');
+                        }
 			
 			// if dropMatch is empty, that means that the class does not exist in student's class list
 			else if (dropMatch.length === 0) {
