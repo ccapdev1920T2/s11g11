@@ -84,19 +84,37 @@ function isOverlapManyScheds(arrSchedA, arrSchedB) {
 	- the above two will come from MongoDB
 	- if in case it doesn't work, try passing JSON.parse(JSON.stringify(classSched))
 */
-function checkStudentSched(studentClasses, newClass) {
+function checkStudentSched(studentClasses, newClass, oldClass) {
+	var listCopy;
+	if (oldClass !== undefined) {
+		listCopy = studentClasses.filter(function(classElem) {
+			return classElem.classNum !== oldClass.classNum;
+		});
+	} else {
+		listCopy = [...studentClasses];
+	}
+	
 	var newClassOverlap = false;
-	studentClasses.forEach(function(studClass) {
+	listCopy.forEach(function(studClass) {
 		if (isOverlapManyScheds(parseSched(studClass.classSched), parseSched(newClass.classSched)))
 			newClassOverlap = true;
-	}); // console.log('checkStudSched status: ' + newClassOverlap);
+	});
 	return newClassOverlap;
 }
 
 
-function isMaxUnits(sClasslist, newClass){
+function isMaxUnits(sClasslist, newClass, oldClass){
+	var listCopy;
+	if (oldClass !== undefined) {
+		listCopy = sClasslist.filter(function(classElem) {
+			return classElem.classNum !== oldClass.classNum;
+		});
+	} else {
+		listCopy = [...sClasslist];
+	}
+	
 	// 1. get total units of student
-	var totalUnits = sClasslist.reduce(function(a, b){
+	var totalUnits = listCopy.reduce(function(a, b){
 		// a = accumulator; b = current value
 		return a + b.courseId[0].numUnits;
 	}, 0); //start reduce from 0
@@ -249,10 +267,10 @@ const animoMiddleware = {
 			if (addMatch.length > 0) {
 				return res.status(401).end('401 Unauthorized error, class to add already exists in class list');
 			}
-			else if (checkStudentSched(studClass.classList, aClassObj)){
+			else if (checkStudentSched(studClass.classList, aClassObj, dClassObj)){
 				return res.status(401).end('401 Unauthorized error, schedules overlap');
 			}
-			else if (isMaxUnits(studClass.classList, aClassObj)) {
+			else if (isMaxUnits(studClass.classList, aClassObj, dClassObj)) {
 				return res.status(401).end('401 Unauthorized error, student has reached max total units');
 			}
 			
