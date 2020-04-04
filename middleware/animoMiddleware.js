@@ -86,14 +86,14 @@ function isOverlapManyScheds(arrSchedA, arrSchedB) {
 */
 function checkStudentSched(studentClasses, newClass, oldClass) {
 	var listCopy;
-	if (oldClass !== undefined) { console.log('swap detected!');
+	if (oldClass !== undefined) {
 		listCopy = studentClasses.filter(function(classElem) {
 			return classElem.classNum !== oldClass.classNum;
 		});
 	} else {
 		listCopy = [...studentClasses];
 	}
-	console.log(listCopy);
+	
 	var newClassOverlap = false;
 	listCopy.forEach(function(studClass) {
 		if (isOverlapManyScheds(parseSched(studClass.classSched), parseSched(newClass.classSched)))
@@ -105,14 +105,14 @@ function checkStudentSched(studentClasses, newClass, oldClass) {
 
 function isMaxUnits(sClasslist, newClass, oldClass){
 	var listCopy;
-	if (oldClass !== undefined) { console.log('swap detected!');
+	if (oldClass !== undefined) {
 		listCopy = sClasslist.filter(function(classElem) {
 			return classElem.classNum !== oldClass.classNum;
 		});
 	} else {
 		listCopy = [...sClasslist];
 	}
-	console.log(listCopy);
+	
 	// 1. get total units of student
 	var totalUnits = listCopy.reduce(function(a, b){
 		// a = accumulator; b = current value
@@ -240,15 +240,15 @@ const animoMiddleware = {
 			return res.status(401).end('401 Unauthorized error, missing input');
 
 		else{
-			let aClassObj = await classModel.findOne({classNum: add});
+			let aClassObj = await classModel.findOne({classNum: add}).populate('courseId');
 			if (aClassObj === null)
 				return res.status(401).end('401 Unauthorized error, class number you want to add does not exist');
 			
-			let dClassObj = await classModel.findOne({classNum: drop});
+			let dClassObj = await classModel.findOne({classNum: drop}).populate('courseId');
 			if (dClassObj === null)
 				return res.status(401).end('401 Unauthorized error, class number you want to drop does not exist');
 
-			let studClass = await studentModel.findOne({email: req.session.user.email}).populate('classList');
+			let studClass = await studentModel.findOne({email: req.session.user.email}).populate({path: 'classList', populate: { path: 'courseId'}});
 			
 			// get the student match, convert BSON to JSON, then store the classList to a variable
 			let classes = JSON.parse(JSON.stringify(studClass)).classList; // classList and classes are arrays
