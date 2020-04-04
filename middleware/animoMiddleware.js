@@ -86,14 +86,14 @@ function isOverlapManyScheds(arrSchedA, arrSchedB) {
 */
 function checkStudentSched(studentClasses, newClass, oldClass) {
 	var listCopy;
-	if (oldClass !== undefined) {
+	if (oldClass !== undefined) { console.log('swap detected!');
 		listCopy = studentClasses.filter(function(classElem) {
 			return classElem.classNum !== oldClass.classNum;
 		});
 	} else {
 		listCopy = [...studentClasses];
 	}
-	
+	console.log(listCopy);
 	var newClassOverlap = false;
 	listCopy.forEach(function(studClass) {
 		if (isOverlapManyScheds(parseSched(studClass.classSched), parseSched(newClass.classSched)))
@@ -105,14 +105,14 @@ function checkStudentSched(studentClasses, newClass, oldClass) {
 
 function isMaxUnits(sClasslist, newClass, oldClass){
 	var listCopy;
-	if (oldClass !== undefined) {
+	if (oldClass !== undefined) { console.log('swap detected!');
 		listCopy = sClasslist.filter(function(classElem) {
 			return classElem.classNum !== oldClass.classNum;
 		});
 	} else {
 		listCopy = [...sClasslist];
 	}
-	
+	console.log(listCopy);
 	// 1. get total units of student
 	var totalUnits = listCopy.reduce(function(a, b){
 		// a = accumulator; b = current value
