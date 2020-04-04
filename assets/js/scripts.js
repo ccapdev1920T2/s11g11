@@ -15,7 +15,6 @@ $(document).ready(function() {
 function updateTotalUnits(){
 	var totalUnits = 0.0;
 	document.querySelectorAll('span.num-units').forEach(function(num){
-		console.log(num.textContent);
 		totalUnits += Number.parseFloat(num.textContent);
 	});
 

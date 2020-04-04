@@ -6,7 +6,7 @@ mongoose.connect('mongodb://localhost/animosysdb', {useNewUrlParser: true, useUn
 var db = mongoose.connection;
 
 var coursesSchema = new mongoose.Schema({
-        _id: String,
+	_id: String,
 	courseCode: String,
 	courseName: String,
 	numUnits: Number

@@ -89,21 +89,21 @@ function checkStudentSched(studentClasses, newClass) {
 	studentClasses.forEach(function(studClass) {
 		if (isOverlapManyScheds(parseSched(studClass.classSched), parseSched(newClass.classSched)))
 			newClassOverlap = true;
-	}); console.log('checkStudSched status: ' + newClassOverlap);
+	}); // console.log('checkStudSched status: ' + newClassOverlap);
 	return newClassOverlap;
 }
 
 
 function isMaxUnits(sClasslist, newClass){
-    // 1. get total units of student
-    var totalUnits = sClasslist.reduce(function(a, b){
-        // a = accumulator; b = current value
-        return a + b.numUnits;
-    }, 0); //start reduce from 0
-    
-    // 2. get units of class (to be added)
-    // 3. check if addclass + curr units > 21 (max units)
-    return newClass.numUnits + totalUnits > 21.0;
+	// 1. get total units of student
+	var totalUnits = sClasslist.reduce(function(a, b){
+		// a = accumulator; b = current value
+		return a + b.courseId[0].numUnits;
+	}, 0); //start reduce from 0
+
+	// 2. get units of class (to be added)
+	// 3. check if addclass + curr units > 21 (max units)
+	return newClass.courseId[0].numUnits + totalUnits > 21.0;
 }
 
 const animoMiddleware = {
@@ -156,15 +156,16 @@ const animoMiddleware = {
 			return res.status(401).end('401 Unauthorized error, missing input');
 
 		else{
-			let classObj = await classModel.findOne({classNum: searchAddC});
+			let classObj = await classModel.findOne({classNum: searchAddC}).populate('courseId');
 			if (classObj === null)
 				return res.status(401).end('401 Unauthorized error, class number does not exist');
 
-			let studClass = await studentModel.findOne({email: req.session.user.email}).populate('classList');
+			let studClass = await studentModel.findOne({email: req.session.user.email}).populate({path: 'classList', populate: { path: 'courseId'}});
 			
 			// get the student match, convert BSON to JSON, then store the classList to a variable
 			let classes = JSON.parse(JSON.stringify(studClass)).classList; // classList and classes are arrays
-
+			let details = classes.map((item, i) => Object.assign({}, item, classes[i].courseId));
+			
 			// get an array that contains class->classNum that match the searchAddC
 			let classMatch = classes.filter(function(elem) {
 				return elem.classNum === searchAddC;
@@ -177,9 +178,9 @@ const animoMiddleware = {
 			else if (checkStudentSched(studClass.classList, classObj)) {
 				return res.status(401).end('401 Unauthorized error, schedules overlap');
 			}
-                        else if (isMaxUnits(studClass.classList, classObj)) {
-                                return res.status(401).end('401 Unauthorized error, student has reached max total units');
-                        }
+			else if (isMaxUnits(studClass.classList, classObj)) {
+				return res.status(401).end('401 Unauthorized error, student has reached max total units');
+			}
 			else return next();
 		} 
 	},
@@ -199,7 +200,8 @@ const animoMiddleware = {
 			
 			// get the student match, convert BSON to JSON, then store the classList to a variable
 			let classes = JSON.parse(JSON.stringify(studClass)).classList; // classList and classes are arrays
-
+			
+			
 			// get an array that contains class->classNum that match the searchDropC
 			let classMatch = classes.filter(function(elem) {
 				return elem.classNum === searchDropC;
@@ -250,9 +252,9 @@ const animoMiddleware = {
 			else if (checkStudentSched(studClass.classList, aClassObj)){
 				return res.status(401).end('401 Unauthorized error, schedules overlap');
 			}
-                        else if (isMaxUnits(studClass.classList, aClassObj)) {
-                                return res.status(401).end('401 Unauthorized error, student has reached max total units');
-                        }
+			else if (isMaxUnits(studClass.classList, aClassObj)) {
+				return res.status(401).end('401 Unauthorized error, student has reached max total units');
+			}
 			
 			// if dropMatch is empty, that means that the class does not exist in student's class list
 			else if (dropMatch.length === 0) {
