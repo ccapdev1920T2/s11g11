@@ -13,7 +13,7 @@ var studentsSchema = new mongoose.Schema({
 	password: String,
 	degprog: String,
 	college: String,
-        compCourses: [ String ],
+	compCourses: [ String ],
 	classList: [{type: mongoose.Schema.Types.ObjectId, ref: 'classes'}]
 }, {collection: "students"});
 

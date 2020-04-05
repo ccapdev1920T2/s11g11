@@ -23,16 +23,16 @@ app.use(express.static(__dirname + '/'));
 app.set('views', __dirname + 'views/');
 app.engine('hbs', hbs.create({
 	extname: 'hbs',
-        defaultLayout: 'main',
+	defaultLayout: 'main',
 	partialsDir: 'views/partials',
         layoutsDir: 'views/layouts',
         helpers: {
-            convertDouble: function(number){ console.log(number); // converts a Double type in mongo with a .0
-                return Number.parseFloat(number).toFixed(1);
-            },
-            getFacultyName: function(lname, fname){
-                return lname + ", " + fname;
-            }
+			convertDouble: function(number){ // converts a Double type in mongo with a .0
+				return Number.parseFloat(number).toFixed(1);
+			},
+			getFacultyName: function(lname, fname){
+				return lname + ", " + fname;
+			}
         }}).engine);
 app.set('view engine', 'hbs');
 

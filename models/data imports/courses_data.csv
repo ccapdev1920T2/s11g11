@@ -26,12 +26,9 @@ _id,courseCode,courseName,numUnits
 5e785f4e69ca261bb4578e99,ISOPRES,Introduction to Operations Research,3
 5e785f4e69ca261bb4578e9a,ITISHCI,Human-Computer Interaction,3
 5e785f4e69ca261bb4578e9b,ITISORG,Organization and Management Concepts,3
-5e785f4e69ca261bb4578e9c,LASARE1,Lasallian Retreat 1,0
-5e785f4e69ca261bb4578e9d,LASARE2,Lasallian Retreat 2,0
 5e785f4e69ca261bb4578e9e,LCFAITH,Faith Worth Living,3
 5e785f4e69ca261bb4578e9f,LCLSONE,Lasallian Studies 1,1
 5e785f4e69ca261bb4578ea0,LCLSTWO,Lasallian Studies 2,1
-5e785f4e69ca261bb4578ea1,NSTP101,National Service Training Program - General Orientation,0
 5e785f4e69ca261bb4578ea2,NSTPLT1,Literacy Training Service 1,3
 5e785f4e69ca261bb4578ea3,NSTPLT2,Literacy Training Service 2,3
 5e785f4e69ca261bb4578ea4,NSTPCW1,Civic Welfare Training Service 1,3
@@ -48,7 +45,6 @@ _id,courseCode,courseName,numUnits
 5e785f4e69ca261bb4578eaf,LCENWRD,Encountering the Word in the World,3
 5e785f4e69ca261bb4578eb0,LCASEAN,The Filipino and ASEAN,3
 5e785f4e69ca261bb4578eb1,LCLSTRI,Lasallian Studies 3,1
-5e785f4e69ca261bb4578eb2,LASARE3,Lasallian Retreat 3,0
 5e785f4e69ca261bb4578eb3,CCINOV8,Innovation and Technology Management,3
 5e785f4e69ca261bb4578eb4,ITISDEV,Business Applications Development,3
 5e785f4e69ca261bb4578eb5,ISANDE1,Systems Analysis,3

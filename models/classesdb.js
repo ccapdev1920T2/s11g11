@@ -12,7 +12,7 @@ var classesSchema = new mongoose.Schema({
 	classSched: String,
 	room: String,
 	faculty_lname: String,
-        faculty_fname: String
+	faculty_fname: String
 }, {collection: "classes"});
 
 classesSchema.virtual('courseId', {
