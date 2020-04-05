@@ -267,6 +267,10 @@ const animoMiddleware = {
 			if (addMatch.length > 0) {
 				return res.status(401).end('401 Unauthorized error, class to add already exists in class list');
 			}
+			// if dropMatch is empty, that means that the class does not exist in student's class list
+			else if (dropMatch.length === 0) {
+				return res.status(401).end('401 Unauthorized error, class to drop does not exist in class list');
+			}
 			else if (checkStudentSched(studClass.classList, aClassObj, dClassObj)){
 				return res.status(401).end('401 Unauthorized error, schedules overlap');
 			}
@@ -274,10 +278,7 @@ const animoMiddleware = {
 				return res.status(401).end('401 Unauthorized error, student has reached max total units');
 			}
 			
-			// if dropMatch is empty, that means that the class does not exist in student's class list
-			else if (dropMatch.length === 0) {
-				return res.status(401).end('401 Unauthorized error, class to drop does not exist in class list');
-			}
+
 			
 			else return next();
 		}
