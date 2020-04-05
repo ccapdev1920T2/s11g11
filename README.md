@@ -10,8 +10,8 @@ An enrollment website with features similar to the existing animo.sys of DLSU sp
 
 ### Prerequisites
 
-- MongoDB (https://www.mongodb.com/download-center#community)
-- MongoDB Compass (https://www.mongodb.com/download-center/compass)
+- [MongoDB](https://www.mongodb.com/download-center#community)
+- [MongoDB Compass](https://www.mongodb.com/download-center/compass)
 
 ### Setting up the Project
 0. Run **mongod.exe** in the background
@@ -25,8 +25,12 @@ An enrollment website with features similar to the existing animo.sys of DLSU sp
 Click on `Don't have an account? Register here` and fill in the necessary information.
 
 #### Log In 
-Log In using the email and password you used to register (or you can check the database through MongoDB Compass and choose one of 
-the students for your Log In).
+Log In using the email and password you used to register or choose one of the following:
+|            E-mail          |     Password      |
+|:--------------------------:|:-----------------:|
+| ninna_manzano@dlsu.edu.ph  |      11111        |
+| kayla_latorre@dlsu.edu.ph  |    kapeuwu        |
+| krissha_calaranan@dlsu.edu.ph  |      rockets123        |
 
 #### View own user profile
 On the rightmost of the navigation bar, you will see the name of the user and a dropdown arrow. Click it and choose `Profile`
@@ -72,7 +76,7 @@ On the rightmost of the navigation bar, you will see the name of the user and a 
 
 ## Authors
 
-**Krissha Calaranan**
-**Kayla Latorre**
+**Krissha Calaranan**  
+**Kayla Latorre**  
 **Ninna Manzano**
 
