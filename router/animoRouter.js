@@ -18,9 +18,8 @@ router.get('/addclass', controller.getAddClass);
 router.get('/dropclass', controller.getDropClass);
 router.get('/swapclass', controller.getSwapClass);
 
-// @kresshamae patapos na nitong middlewares pls
 router.post('/logout', controller.postLogout);
-router.post('/login', middleware.validateLogin, controller.postLogin);
+router.post('/login', controller.postLogin);
 router.post('/register', middleware.validateRegister, controller.postRegister);
 router.post('/addclass', middleware.validateAddClass, controller.postAddClass);
 router.post('/dropclass', middleware.validateDropClass, controller.postDropClass);

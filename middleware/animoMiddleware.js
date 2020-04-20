@@ -125,17 +125,18 @@ function isMaxUnits(sClasslist, newClass, oldClass){
 }
 
 const animoMiddleware = {
+	
 	validateLogin: function (req, res, next) {
 		let {email, password} = req.body;
 
-		if(!email) {
-			return res.status(401).end('401 Unauthorized error, no email');
+		if(!email) { 
+			return res.send(401, 'Unauthorized error, no email');
 		}
 		else if(!validateEmail(email)) {
-			return res.status(401).end('401 Unauthorized error, invalid email');
+			return res.send(401, 'Unauthorized error, invalid email');
 		}
 		if(!password) {
-			return res.status(401).end('401 Unauthorized error, no password');
+			return res.send(401, 'Unauthorized error, no password');
 		}
 		next();
 	},

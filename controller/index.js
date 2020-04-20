@@ -1,3 +1,4 @@
+const validator = require('express-validator');
 
 const studentModel = require('../models/studentsdb');
 const courseModel = require('../models/coursesdb');
@@ -348,19 +349,24 @@ const rendFunctions = {
 
 		//searches for user in db
 		studentModel.findOne({email: email, password: password}, function(error, match){
-			if (error){
-				return res.status(500).end("ERROR: cannot connect to the db.");
-				res.redirect("/login");
-			}
 
-			if (match){
-				req.session.user = match;
-				res.render('home', { 
-					userName: req.session.user.lname + ", " + req.session.user.fname
-				});
+			if (error){ // 1. Server error
+				console.log('server error');
+				return res.send(500);
+				
 			}
-			else
-				return res.status(401).end("ERROR: No users found.");
+			else if (!match){ // 2. No users match with email-pass input
+				console.log('no match');
+				return res.send(401);
+				
+			}
+			else { // log-in success
+				req.session.user = match;
+				console.log('success');
+//				res.redirect('/');
+				
+				return res.send(200);
+			}
 		});
 	},
 
