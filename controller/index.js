@@ -347,25 +347,16 @@ const rendFunctions = {
 	postLogin: function(req, res, next) {
 		let { email, password } = req.body;
 
-		//searches for user in db
+		// searches for user in db
 		studentModel.findOne({email: email, password: password}, function(error, match){
 
-			if (error){ // 1. Server error
-				console.log('server error');
-				return res.send(500);
-				
-			}
-			else if (!match){ // 2. No users match with email-pass input
-				console.log('no match');
-				return res.send(401);
-				
-			}
+			if (error) // 1. Server error
+				res.send({status: 500});
+			else if (!match) // 2. No users match with email-pass input
+				res.send({status: 401});
 			else { // log-in success
-				req.session.user = match;
-				console.log('success');
-//				res.redirect('/');
-				
-				return res.send(200);
+				req.session.user = match;				
+				res.send({status: 200});
 			}
 		});
 	},

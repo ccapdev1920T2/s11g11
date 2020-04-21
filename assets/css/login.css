@@ -9,6 +9,10 @@
 	top: -30px;
 	margin: 0px;
 }
+.error {
+	color: red;
+	padding-top: 10px;
+}
 
 .main-section {
 	margin: 0 auto;

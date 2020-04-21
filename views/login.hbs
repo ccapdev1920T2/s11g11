@@ -14,13 +14,15 @@
             <div class="col-12 form-input">
                 <div class="login-form-group">
                   <input type="text" class="form-control" placeholder="Email" id="email" name="email">
+                  <p id="emailError" class="error"> {{emailError}} </p>
                 </div>
-                <p id="emailError" class="error"> {{emailError}} </p>
+                
 
                 <div class="login-form-group">
                   <input type="password" class="form-control" placeholder="Password" id="password" name="password">
+                  <p id="pwError" class="error"> {{pwError}} </p>
                 </div>
-                <p id="pwError" class="error"> {{pwError}} </p>
+                
 
                 <button type="button" class="btn btn-success" id="login-btn">Login</button>
             </div>

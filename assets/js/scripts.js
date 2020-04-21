@@ -22,6 +22,10 @@ $(document).ready(function(){
 		var passEmpty = validator.isEmpty(pass);
 		var emailFormat = validator.isEmail(email);
 		
+		// resets input form when log-in button is clicked
+		$('p#emailError').text('');
+		$('p#pwError').text('');
+		
 		if (emailEmpty){
 			$('p#emailError').text('Email field must not be empty.');
 		}
@@ -36,26 +40,23 @@ $(document).ready(function(){
 		// successful client-side validation: no empty fields and valid email
 		if (!emailEmpty && emailFormat && !passEmpty){
 			// passes data to the server
-			$.post('/login', {email: email, password: pass}, function(result) {
-				switch (result){
-					case 500: {
-						$('p#emailError').text('Server error.');
+			$.post('/login', {email: email, password: pass}, function(res) {
+				switch (res.status){
+					case 200: {
+						window.location.href = '/';
 						break;
 					}
 					case 401: {
-						$('p#emailError').text('No users found with that email/password.');
+						$('p#pwError').text('No users found with that email/password.');
 						break;								
 					}
-					case 200: {
-						$('p#emailError').text('pass');
-						$('p#pwError').text('pass');
-						window.location.href = '/';
+					case 500: {
+						$('p#pwError').text('Server error.');
+						break;
 					}
 				}	
-
 			});				
 		}
-
 	});
 });
 
