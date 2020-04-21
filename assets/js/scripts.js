@@ -1,8 +1,9 @@
 
-//for popover in view-flowchart button
 $(document).ready(function() {
-	updateTotalUnits(); // to get total units of completed courses
-
+	// get total units of completed courses
+	updateTotalUnits(); 
+	
+	// for popover in view-flowchart button
 	$('[data-toggle="popover"]').popover({
 		  trigger: 'hover',
           html: true,
@@ -10,10 +11,8 @@ $(document).ready(function() {
 				return '<img class="img-fluid" src="'+$(this).data('img') + '" />';},
           title: 'Course Flowchart'
     });
-});
-
-// for log-in validation
-$(document).ready(function(){
+	
+	// for log-in validation
 	$('button#login-btn').click(function() {
 		var email = validator.trim($('#email').val());
 		var pass = validator.trim($('#password').val());
@@ -57,6 +56,31 @@ $(document).ready(function(){
 				}	
 			});				
 		}
+	});
+	
+	$('button#addclass-btn').click(function() {
+		var addClass = $('#searchAddC').val();
+		
+		var classEmpty = validator.isEmpty(addClass);
+		var classInt = validator.isInt(addClass);
+		var classLength = validator.isLength(addClass, {min: 4, max: 4});
+
+		if (classEmpty)
+			alert('No class input.');
+		else if (!classInt || !classLength)
+			alert('Invalid class number. Enter only 4-digit integers.');
+		else {
+			$.post('/addclass', {searchAddC: addClass}, function(result) {
+				switch(result.status){
+					case 401: {
+						alert(result.mssg);
+						break;
+					}
+				}
+			});
+		}
+		
+		
 	});
 });
 
