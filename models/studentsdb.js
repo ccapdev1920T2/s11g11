@@ -26,8 +26,6 @@ studentsSchema.virtual('courseId', {
 studentsSchema.set('toObject', { virtuals: true });
 studentsSchema.set('toJSON', { virtuals: true });
 
-
 const studentModel = db.model("students", studentsSchema);
 
 module.exports = studentModel;
-

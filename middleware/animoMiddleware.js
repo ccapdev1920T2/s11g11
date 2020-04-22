@@ -274,11 +274,9 @@ const animoMiddleware = {
 				return res.status(401).end('401 Unauthorized error, student has reached max total units');
 			}
 			
-
-			
 			else return next();
 		}
-	}
+	}	
 
 };
 

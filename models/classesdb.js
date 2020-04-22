@@ -27,4 +27,3 @@ classesSchema.set('toJSON', { virtuals: true });
 const classModel = db.model("classes", classesSchema);
 
 module.exports = classModel;
-

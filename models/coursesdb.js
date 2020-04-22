@@ -15,4 +15,3 @@ var coursesSchema = new mongoose.Schema({
 const courseModel = db.model("courses", coursesSchema);
 
 module.exports = courseModel;
-

@@ -80,7 +80,7 @@ const rendFunctions = {
 			res.render('home', {
 					userName: "NOT FOUND"
 			});
-		}        
+		}
 	},
 
 	getProfile: function(req, res, next) {
@@ -89,7 +89,7 @@ const rendFunctions = {
 				.populate("courseId") // matches the ObjectId in each element of courses collection
 				.then(function(student){ // passes the populated array "compCourses"
 					res.render('userprofile', {
-						// insert needed contents for userprofile.hbs 
+						// insert needed contents for userprofile.hbs
 						userName: req.session.user.lname + ", " + req.session.user.fname,
 						idNum: req.session.user.idNum,
 						lname: req.session.user.lname,
@@ -97,7 +97,7 @@ const rendFunctions = {
 						email: req.session.user.email,
 						degprog: req.session.user.degprog,
 						college: req.session.user.college,
-						compCourses: JSON.parse(JSON.stringify(student.courseId)) // parses BSON into JSON (virtual attribute) 
+						compCourses: JSON.parse(JSON.stringify(student.courseId)) // parses BSON into JSON (virtual attribute)
 					});
 				});
 	},
@@ -146,11 +146,9 @@ const rendFunctions = {
 					populate: { path: 'courseId'}
 					}) // matches the ObjectId in each element of classes collection
 				.then(function(student){ // passes the populated array "classList"
-
+					
 					var classes = JSON.parse(JSON.stringify(student)).classList;
 					let details = classes.map((item, i) => Object.assign({}, item, classes[i].courseId));
-
-					// console.log(details);
 
 					res.render('vieweaf', {
 						// insert needed contents for vieweaf.hbs
@@ -158,7 +156,7 @@ const rendFunctions = {
 						idNum: req.session.user.idNum,
 						lname: req.session.user.lname,
 						fname: req.session.user.fname,
-						degprog: req.session.user.degprog,   
+						degprog: req.session.user.degprog,
 						classList: details
 					});
 				});
@@ -171,14 +169,13 @@ const rendFunctions = {
 			// for 'My Classes' table
 			studentModel.findOne({email: req.session.user.email}) 
 					.populate({path: 'classList', populate: { path: 'courseId'}})
-
 					.then(function(student){
 						let classes = JSON.parse(JSON.stringify(student.classList));
 						let classDetails = classes.map((item, i) => Object.assign({}, item, classes[i].courseId));
-
+						
 						let course = JSON.parse(JSON.stringify(match));
 						let courseDetails = course.map((item, i) => Object.assign({}, item, course[i].courseId));
-
+						
 						res.render('addclass', {
 							// insert needed contents for addclass.hbs 
 							userName: req.session.user.lname + ", " + req.session.user.fname,
@@ -187,8 +184,6 @@ const rendFunctions = {
 						});
 					});
 		});
-
-
 	},
 
 	postAddClass: async function(req, res) {
@@ -197,7 +192,7 @@ const rendFunctions = {
 		try {
 			// SEARCH
 			let classObj = await classModel.findOne({classNum: searchAddC}).populate('courseId');
-
+			
 			// UPDATE
 			if (classObj !== null){
 				studentModel.findOneAndUpdate({email: req.session.user.email},
@@ -207,7 +202,7 @@ const rendFunctions = {
 							res.send({status: 500, mssg: 'SERVER ERROR: Cannot update class list in db.'});
 					});
 				res.send({status: 200, mssg: JSON.stringify(classObj)});
-			}					
+			}
 		} catch(e){
 			res.send({status: 500, mssg: 'SERVER ERROR: Cannot connect to db.'});
 		}
@@ -216,7 +211,6 @@ const rendFunctions = {
 	getDropClass: function(req, res, next) {
 		studentModel.findOne({email: req.session.user.email}) 
 					.populate({path: 'classList', populate: { path: 'courseId'}})
-
 					.then(function(student){
 						let classes = JSON.parse(JSON.stringify(student.classList));
 						let classDetails = classes.map((item, i) => Object.assign({}, item, classes[i].courseId));
@@ -231,12 +225,12 @@ const rendFunctions = {
 
 	postDropClass: function(req, res) {
 		let {searchDropC} = req.body;
-
+		
 		classModel.findOne({classNum: searchDropC}, function(err, match) {
 					if (err) {
 						return res.status(500).end('500 Internal Server error, query not found');
 					}
-
+					
 					// UPDATE
 					studentModel.findOneAndUpdate({email: req.session.user.email},
 									{$pull: {classList: match._id}}, 
@@ -249,59 +243,54 @@ const rendFunctions = {
 		res.redirect("/dropclass");
 	},
 
-	getSwapClass: function(req, res, next) {     
+	getSwapClass: function(req, res, next) {
 		// for searched 'Course Offerings' table
 		classModel.find({}).populate('courseId').exec(function(err, match){
 			// for 'My Classes' table
-			studentModel.findOne({email: req.session.user.email}) 
+			studentModel.findOne({email: req.session.user.email})
 					.populate({path: 'classList', populate: { path: 'courseId'}})
-
 					.then(function(student){
 						let classes = JSON.parse(JSON.stringify(student.classList));
 						let classDetails = classes.map((item, i) => Object.assign({}, item, classes[i].courseId));
-
+						
 						let course = JSON.parse(JSON.stringify(match));
 						let courseDetails = course.map((item, i) => Object.assign({}, item, course[i].courseId));
-
+						
 						res.render('swapclass', {
-							// insert needed contents for swapclass.hbs 
+							// insert needed contents for swapclass.hbs
 							userName: req.session.user.lname + ", " + req.session.user.fname,
 							courseOffer: courseDetails,
-							myClasses: classDetails            
+							myClasses: classDetails
 						});
 					});
 		});
-
-
 	},
 
 	postSwapClass: function(req, res) {
-
 		let {drop, add} = req.body; // accessing input for POST
-
+		
 		// SEARCH
 		// populates the collection with found matches with the query using 'lookup' flag in mongo
 		classModel.findOne({classNum: drop}, function(err, match) {
 					if (err) { 
 						return res.status(500).end('500 Internal Server error, query not found');
 					}
-
+					
 					// UPDATE
 					studentModel.findOneAndUpdate({email: req.session.user.email},
-							{$pull: {classList: match._id}}, 
+							{$pull: {classList: match._id}},
 							{useFindAndModify: false, 'new': true}, function(err) {
 						if (err) res.status(500).end('500, cannot update classList in db');
 					});
-
 		});
-
+		
 		// SEARCH
 		// populates the collection with found matches with the query using 'lookup' flag in mongo
 		classModel.findOne({classNum: add}, function(err, match) {
 					if (err) {
 						return res.status(500).end('500 Internal Server error, query not found');
 					}
-
+					
 					// UPDATE
 					studentModel.findOneAndUpdate({email: req.session.user.email},
 							{$push: {classList: match}},
@@ -318,7 +307,7 @@ const rendFunctions = {
 	postRegister: function(req, res, next) {
 	// retrieves user input from the register form
 		const { idNum, email, fname, lname, college, degprog, password, cpass} = req.body;
-
+		
 		// looks for ERRORS
 		studentModel.findOne({email: email}, function(error, match){ //searches for existing user in db
 			if (error){
@@ -326,10 +315,9 @@ const rendFunctions = {
 			}
 			else if (match){
 				return res.status(500).end("ERROR: Existing user with this email.");
-			}            
-
+			}
+			
 			var student = createUser(idNum, lname, fname, email, password, degprog, college);
-
 			studentModel.create(student, function(error){
 				if (error){
 					return res.status(500).end("ERROR: Cannot create user.");
@@ -339,21 +327,19 @@ const rendFunctions = {
 				}
 			});
 		});
-
 	},
-
+	
 	postLogin: function(req, res, next) {
 		let { email, password } = req.body;
-
+		
 		// searches for user in db
 		studentModel.findOne({email: email, password: password}, function(error, match){
-
 			if (error) // 1. Server error
 				res.send({status: 500});
 			else if (!match) // 2. No users match with email-pass input
 				res.send({status: 401});
 			else { // log-in success
-				req.session.user = match;				
+				req.session.user = match;
 				res.send({status: 200});
 			}
 		});
