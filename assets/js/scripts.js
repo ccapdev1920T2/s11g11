@@ -46,11 +46,11 @@ $(document).ready(function() {
 						break;
 					}
 					case 401: {
-						$('p#pwError').text('No users found with that email/password.');
+						$('p#pwError').text('Incorrect Email and/or Password.');
 						break;								
 					}
 					case 500: {
-						$('p#pwError').text('Server error.');
+						$('p#pwError').text('Server Error.');
 						break;
 					}
 				}	

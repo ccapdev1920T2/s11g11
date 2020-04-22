@@ -1,4 +1,6 @@
 const validator = require('express-validator');
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
 
 const studentModel = require('../models/studentsdb');
 const courseModel = require('../models/coursesdb');
@@ -306,7 +308,7 @@ const rendFunctions = {
 	//POST methods (for any changes/manipulation on data)
 	postRegister: function(req, res, next) {
 	// retrieves user input from the register form
-		const { idNum, email, fname, lname, college, degprog, password, cpass} = req.body;
+		var { idNum, email, fname, lname, college, degprog, password, cpass} = req.body;
 		
 		// looks for ERRORS
 		studentModel.findOne({email: email}, function(error, match){ //searches for existing user in db
@@ -317,14 +319,16 @@ const rendFunctions = {
 				return res.status(500).end("ERROR: Existing user with this email.");
 			}
 			
-			var student = createUser(idNum, lname, fname, email, password, degprog, college);
-			studentModel.create(student, function(error){
-				if (error){
-					return res.status(500).end("ERROR: Cannot create user.");
-				}
-				else {
-					res.redirect("/login");
-				}
+			bcrypt.hash(password, saltRounds, function(err, hash) {
+				var student = createUser(idNum, lname, fname, email, hash, degprog, college);
+				studentModel.create(student, function(error){
+					if (error){
+						return res.status(500).end("ERROR: Cannot create user.");
+					}
+					else {
+						res.redirect("/login");
+					}
+				});
 			});
 		});
 	},
@@ -333,14 +337,19 @@ const rendFunctions = {
 		let { email, password } = req.body;
 		
 		// searches for user in db
-		studentModel.findOne({email: email, password: password}, function(error, match){
+		studentModel.findOne({email: email}, function(error, matchUser){
 			if (error) // 1. Server error
 				res.send({status: 500});
-			else if (!match) // 2. No users match with email-pass input
+			else if (!matchUser) // 2. No users match with email-pass input
 				res.send({status: 401});
 			else { // log-in success
-				req.session.user = match;
-				res.send({status: 200});
+				bcrypt.compare(password, matchUser.password, function(err, match) {
+					if (match){
+						req.session.user = matchUser;
+						res.send({status: 200});						
+					} else
+						res.send({status: 401});
+				});
 			}
 		});
 	},
