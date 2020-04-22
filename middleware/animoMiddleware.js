@@ -170,17 +170,16 @@ const animoMiddleware = {
 
 	validateAddClass: async function (req, res, next) {
 		let {searchAddC} = req.body;
-
+		
 		let classObj = await classModel.findOne({classNum: searchAddC}).populate('courseId');
 		if (classObj === null)
 			res.send({status: 401, mssg:'Class number does not exist.'});
 		else {
 			let studClass = await studentModel.findOne({email: req.session.user.email}).populate({path: 'classList', populate: { path: 'courseId'}});
-
+			
 			// get the student match, convert BSON to JSON, then store the classList to a variable
 			let classes = JSON.parse(JSON.stringify(studClass)).classList; // classList and classes are arrays
-			let details = classes.map((item, i) => Object.assign({}, item, classes[i].courseId));
-
+			
 			// get an array that contains class->classNum that match the searchAddC
 			let classMatch = classes.filter(function(elem) {
 				return elem.classNum === searchAddC;

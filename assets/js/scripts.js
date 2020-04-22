@@ -72,7 +72,22 @@ $(document).ready(function() {
 		else {
 			$.post('/addclass', {searchAddC: addClass}, function(result) {
 				switch(result.status){
+					case 200: {
+						var newClass = JSON.parse(result.mssg);
+						var classHTML = '<li class="list-group-item text-wrap text-left d-inline-block flex-row flex-nowrap">'
+								+ '<span class="float-left" style="width: 20%;">' + newClass.classNum + '</span>'
+								+ '<span class="float-left" style="width: 20%;">' + newClass.courseId[0].courseCode + '</span>'
+								+ '<span class="float-left" style="width: 15%;">' + newClass.section + '</span>'
+								+ '<span class="float-left" style="width: 30%;">' + newClass.classSched + '</span>'
+								+ '<span class="float-left" style="width: 10%;">' + newClass.room + '</span></li>';
+						$('#addedclasses').append(classHTML);
+						break;
+					}
 					case 401: {
+						alert(result.mssg);
+						break;
+					}
+					case 500: {
 						alert(result.mssg);
 						break;
 					}

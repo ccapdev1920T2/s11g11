@@ -191,28 +191,26 @@ const rendFunctions = {
 
 	},
 
-	postAddClass: function(req, res) {
-		// console.log("postAddClass");
-		let {searchAddC} = req.body; // accessing input for POST
-
-		// SEARCH
-		// populates the collection with found matches with the query using 'lookup' flag in mongo
-		classModel.findOne({classNum: searchAddC}, function(err, match) {
-			if (err) {
-				return res.status(500).end('500 Internal Server error, query not found');
-			}
+	postAddClass: async function(req, res) {
+		let {searchAddC} = req.body; // accessing input from POST
+		
+		try {
+			// SEARCH
+			let classObj = await classModel.findOne({classNum: searchAddC}).populate('courseId');
 
 			// UPDATE
-			if (match !== null){
+			if (classObj !== null){
 				studentModel.findOneAndUpdate({email: req.session.user.email},
-					{$push: {classList: match}}, 
+					{$push: {classList: classObj}}, 
 					{useFindAndModify: false}, function(err) {
-						if (err) res.status(500).end('500, cannot update classList in db');
+						if (err) 
+							res.send({status: 500, mssg: 'SERVER ERROR: Cannot update class list in db.'});
 					});
-			}
-		});
-		res.redirect("/addclass");
-
+				res.send({status: 200, mssg: JSON.stringify(classObj)});
+			}					
+		} catch(e){
+			res.send({status: 500, mssg: 'SERVER ERROR: Cannot connect to db.'});
+		}
 	},
 
 	getDropClass: function(req, res, next) {
