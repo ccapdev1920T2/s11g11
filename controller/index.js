@@ -229,20 +229,20 @@ const rendFunctions = {
 		let {searchDropC} = req.body;
 		
 		classModel.findOne({classNum: searchDropC}, function(err, match) {
-					if (err) {
-						return res.status(500).end('500 Internal Server error, query not found');
-					}
-					
-					// UPDATE
-					studentModel.findOneAndUpdate({email: req.session.user.email},
-									{$pull: {classList: match._id}}, 
-									{useFindAndModify: false, 'new': true}, function(err) {
-							if (err) res.status(500).end('500, cannot update classList in db');
-					});
-
+			if (err) {
+				res.send({status: 500, mssg:'Query not found.'});
+			}
+			
+			// UPDATE
+			else {
+				studentModel.findOneAndUpdate({email: req.session.user.email},
+							{$pull: {classList: match._id}}, 
+							{useFindAndModify: false, 'new': true}, function(err) {
+					if (err) res.send({status: 500, mssg:'Cannot update classlist in DB.'});
+					else res.send({status: 200, mssg: 'Dropped Class Successfully!'});
+				});
+			}
 		});
-
-		res.redirect("/dropclass");
 	},
 
 	getSwapClass: function(req, res, next) {

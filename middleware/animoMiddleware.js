@@ -203,12 +203,12 @@ const animoMiddleware = {
 		let {searchDropC} = req.body;
 
 		if(!searchDropC)
-			return res.status(401).end('401 Unauthorized error, missing input');
+			res.send({status: 401, mssg: 'Missing input.'});
 
 		else{
 			let classNumber = await classModel.findOne({classNum: searchDropC});
 			if (classNumber === null)
-				return res.status(401).end('401 Unauthorized error, class number does not exist');
+				res.send({status: 401, mssg:'Class number does not exist.'});
 
 			let studClass = await studentModel.findOne({email: req.session.user.email}).populate('classList');
 			
@@ -223,7 +223,7 @@ const animoMiddleware = {
 
 			// if classMatch is empty, that means that the class does not exist in student's class list
 			if (classMatch.length === 0) {
-				return res.status(401).end('401 Unauthorized error, class does not exist in class list');
+				res.send({status: 401, mssg: 'Class does not exist in class list.'});
 			}
 			else return next();
 		}

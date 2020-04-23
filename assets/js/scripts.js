@@ -97,6 +97,31 @@ $(document).ready(function() {
 		
 		
 	});
+
+	$('button.delete-class').click(function() {
+		var row = $(this).parent();
+		var delClassNum = row.attr("id");
+
+		console.log(delClassNum);
+
+		$.post('/dropclass', {searchDropC: delClassNum}, function(result) {
+			switch(result.status){
+				case 200: {
+					alert(result.mssg);
+					row.remove();
+					break;
+				}
+				case 401: {
+					alert(result.mssg);
+					break;
+				}
+				case 500: {
+					alert(result.mssg);
+					break;
+				}
+			}
+		});
+	});
 });
 
 function updateTotalUnits(){
