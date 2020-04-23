@@ -1,4 +1,4 @@
-﻿idNum,lname,fname,email,password,degprog,college,compCourses,classList
-11836814,MANZANO,NINNA ROBYN,ninna_manzano@dlsu.edu.ph,11111,BS Information Systems,College of Computer Studies,,
-11818700,LATORRE,KAYLA DWYNETT,kayla_latorre@dlsu.edu.ph,kapeuwu,BS Information Systems,College of Computer Studies,,
-11834567,CALARANAN,KRESSHA MAE,krissha_calaranan@dlsu.edu.ph,rockets123,BS Information Technology,College of Computer Studies,,
+compCourses,classList,idNum,lname,fname,email,password,degprog,college
+,,11836814,MANZANO,NINNA ROBYN,ninna_manzano@dlsu.edu.ph,$2b$10$EhNsA4ciicgZvk.2tf0c4udp6QzY4S3XdRagfZMO.NrmmGiwF9dji,BS Information Systems,College of Computer Studies
+,,11818700,LATORRE,KAYLA DWYNETT,kayla_latorre@dlsu.edu.ph,$2b$10$TKmJvqB6jUx39N/iS47n7OAvYiwfic2dHGYqsFQ4tU9SmBlkgHTNO,BS Information Systems,College of Computer Studies
+,,11834567,CALARANAN,KRISSHA MAE,krissha_calaranan@dlsu.edu.ph,$2b$10$YMAIcqomn6P0u0xXOeL7NO5UBHB/rVU5TTlKjTUgIJKMWeb.Lm616,BS Information Systems,College of Computer Studies
