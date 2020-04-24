@@ -1,0 +1,69 @@
+{"_id":"5e785f4e69ca261bb4578e81","courseCode":"BASMATH","courseName":"Algebra Trigonometry and Analytical Geometry","numUnits":"5"}
+{"_id":"5e785f4e69ca261bb4578e82","courseCode":"BASSTAT","courseName":"Statistics","numUnits":"3"}
+{"_id":"5e785f4e69ca261bb4578e83","courseCode":"CCAPDEV","courseName":"Web Application Development","numUnits":"3"}
+{"_id":"5e785f4e69ca261bb4578e84","courseCode":"CCDSALG","courseName":"Data Structures and Algorithms","numUnits":"3"}
+{"_id":"5e785f4e69ca261bb4578e85","courseCode":"CCDSTRU","courseName":"Discrete Structures","numUnits":"3"}
+{"_id":"5e785f4e69ca261bb4578e86","courseCode":"CCICOMP","courseName":"Introduction to Computing","numUnits":"3"}
+{"_id":"5e785f4e69ca261bb4578e87","courseCode":"CCINFOM","courseName":"Information Management","numUnits":"3"}
+{"_id":"5e785f4e69ca261bb4578e88","courseCode":"CCPROG1","courseName":"Logic Formulation and Introductory Programming","numUnits":"3"}
+{"_id":"5e785f4e69ca261bb4578e89","courseCode":"CCPROG2","courseName":"Programming with Structured Data Types","numUnits":"3"}
+{"_id":"5e785f4e69ca261bb4578e8a","courseCode":"CCPROG3","courseName":"Object-Oriented Programming","numUnits":"3"}
+{"_id":"5e785f4e69ca261bb4578e8b","courseCode":"GEDANCE","courseName":"Physical Fitness and Wellness in Dance","numUnits":"2"}
+{"_id":"5e785f4e69ca261bb4578e8c","courseCode":"GEFILI1","courseName":"Introduksyon sa Filipinohiya","numUnits":"3"}
+{"_id":"5e785f4e69ca261bb4578e8d","courseCode":"GEFILI2","courseName":"Mga Usaping Pangwika sa Iba't Ibang Larangan","numUnits":"3"}
+{"_id":"5e785f4e69ca261bb4578e8e","courseCode":"GEFTWEL","courseName":"Physical Fitness and Wellness","numUnits":"2"}
+{"_id":"5e785f4e69ca261bb4578e8f","courseCode":"GEMATMW","courseName":"Mathematics in the Modern World","numUnits":"3"}
+{"_id":"5e785f4e69ca261bb4578e90","courseCode":"GEPCOMM","courseName":"Purposive Communication","numUnits":"3"}
+{"_id":"5e785f4e69ca261bb4578e91","courseCode":"GERPHIS","courseName":"Readings in Philippine History","numUnits":"3"}
+{"_id":"5e785f4e69ca261bb4578e92","courseCode":"GESPORT","courseName":"Physical Fitness and Wellness in Individual Sports","numUnits":"2"}
+{"_id":"5e785f4e69ca261bb4578e93","courseCode":"GEUSELF","courseName":"Understanding the Self","numUnits":"3"}
+{"_id":"5e785f4e69ca261bb4578e94","courseCode":"ISBISPR","courseName":"Organizations and Business Processes","numUnits":"3"}
+{"_id":"5e785f4e69ca261bb4578e95","courseCode":"ISBUSPE","courseName":"Business Performance","numUnits":"3"}
+{"_id":"5e785f4e69ca261bb4578e96","courseCode":"ISFINMA","courseName":"Financial and Managerial Accounting","numUnits":"3"}
+{"_id":"5e785f4e69ca261bb4578e97","courseCode":"ISFOUND","courseName":"Information Systems Foundation","numUnits":"3"}
+{"_id":"5e785f4e69ca261bb4578e98","courseCode":"ISINFOM","courseName":"Transaction Management & Descriptive Analytics","numUnits":"3"}
+{"_id":"5e785f4e69ca261bb4578e99","courseCode":"ISOPRES","courseName":"Introduction to Operations Research","numUnits":"3"}
+{"_id":"5e785f4e69ca261bb4578e9a","courseCode":"ITISHCI","courseName":"Human-Computer Interaction","numUnits":"3"}
+{"_id":"5e785f4e69ca261bb4578e9b","courseCode":"ITISORG","courseName":"Organization and Management Concepts","numUnits":"3"}
+{"_id":"5e785f4e69ca261bb4578e9e","courseCode":"LCFAITH","courseName":"Faith Worth Living","numUnits":"3"}
+{"_id":"5e785f4e69ca261bb4578e9f","courseCode":"LCLSONE","courseName":"Lasallian Studies 1","numUnits":"1"}
+{"_id":"5e785f4e69ca261bb4578ea0","courseCode":"LCLSTWO","courseName":"Lasallian Studies 2","numUnits":"1"}
+{"_id":"5e785f4e69ca261bb4578ea2","courseCode":"NSTPLT1","courseName":"Literacy Training Service 1","numUnits":"3"}
+{"_id":"5e785f4e69ca261bb4578ea3","courseCode":"NSTPLT2","courseName":"Literacy Training Service 2","numUnits":"3"}
+{"_id":"5e785f4e69ca261bb4578ea4","courseCode":"NSTPCW1","courseName":"Civic Welfare Training Service 1","numUnits":"3"}
+{"_id":"5e785f4e69ca261bb4578ea5","courseCode":"NSTPCW2","courseName":"Civic Welfare Training Service 2","numUnits":"3"}
+{"_id":"5e785f4e69ca261bb4578ea6","courseCode":"NSTPRO1","courseName":"Reserve Officers' Training Corps 1","numUnits":"3"}
+{"_id":"5e785f4e69ca261bb4578ea7","courseCode":"NSTPRO2","courseName":"Reserve Officers' Training Corps 2","numUnits":"3"}
+{"_id":"5e785f4e69ca261bb4578ea8","courseCode":"GEWORLD","courseName":"The Contemporary World","numUnits":"3"}
+{"_id":"5e785f4e69ca261bb4578ea9","courseCode":"GEARTAP","courseName":"Art Appreciation","numUnits":"3"}
+{"_id":"5e785f4e69ca261bb4578eaa","courseCode":"GESTSOC","courseName":"Science Technology and the Society","numUnits":"3"}
+{"_id":"5e785f4e69ca261bb4578eab","courseCode":"GEETHIC","courseName":"Ethics","numUnits":"3"}
+{"_id":"5e785f4e69ca261bb4578eac","courseCode":"GERIZAL","courseName":"Life and Works of Rizal","numUnits":"3"}
+{"_id":"5e785f4e69ca261bb4578ead","courseCode":"GELITPH","courseName":"Literatures of the Philippines","numUnits":"3"}
+{"_id":"5e785f4e69ca261bb4578eae","courseCode":"GETEAMS","courseName":"Physical Fitness and Wellness in Team Sports","numUnits":"2"}
+{"_id":"5e785f4e69ca261bb4578eaf","courseCode":"LCENWRD","courseName":"Encountering the Word in the World","numUnits":"3"}
+{"_id":"5e785f4e69ca261bb4578eb0","courseCode":"LCASEAN","courseName":"The Filipino and ASEAN","numUnits":"3"}
+{"_id":"5e785f4e69ca261bb4578eb1","courseCode":"LCLSTRI","courseName":"Lasallian Studies 3","numUnits":"1"}
+{"_id":"5e785f4e69ca261bb4578eb3","courseCode":"CCINOV8","courseName":"Innovation and Technology Management","numUnits":"3"}
+{"_id":"5e785f4e69ca261bb4578eb4","courseCode":"ITISDEV","courseName":"Business Applications Development","numUnits":"3"}
+{"_id":"5e785f4e69ca261bb4578eb5","courseCode":"ISANDE1","courseName":"Systems Analysis","numUnits":"3"}
+{"_id":"5e785f4e69ca261bb4578eb6","courseCode":"ISINFRA","courseName":"Introduction to IT Infrastructures","numUnits":"3"}
+{"_id":"5e785f4e69ca261bb4578eb7","courseCode":"MOBDEVE","courseName":"Mobile Applications Development","numUnits":"3"}
+{"_id":"5e785f4e69ca261bb4578eb8","courseCode":"ISANDE2","courseName":"Systems Design & Development","numUnits":"3"}
+{"_id":"5e785f4e69ca261bb4578eb9","courseCode":"ISSYSAD","courseName":"Systems Administration","numUnits":"3"}
+{"_id":"5e785f4e69ca261bb4578eba","courseCode":"ISRESME","courseName":"IS Research Methods","numUnits":"3"}
+{"_id":"5e785f4e69ca261bb4578ebb","courseCode":"ITISSES","courseName":"Special Enterprise Systems","numUnits":"3"}
+{"_id":"5e785f4e69ca261bb4578ebc","courseCode":"ISSYSQA","courseName":"Systems Quality Assurance","numUnits":"3"}
+{"_id":"5e785f4e69ca261bb4578ebd","courseCode":"ISPRENL","courseName":"Predictive Analytics","numUnits":"3"}
+{"_id":"5e785f4e69ca261bb4578ebe","courseCode":"ISENTAR","courseName":"Enterprise Architecture","numUnits":"3"}
+{"_id":"5e785f4e69ca261bb4578ebf","courseCode":"ISSECUR","courseName":"Information Security","numUnits":"3"}
+{"_id":"5e785f4e69ca261bb4578ec0","courseCode":"ISSTRMA","courseName":"IT Strategic Management","numUnits":"3"}
+{"_id":"5e785f4e69ca261bb4578ec1","courseCode":"ITISPRJ","courseName":"IT Project Management","numUnits":"3"}
+{"_id":"5e785f4e69ca261bb4578ec2","courseCode":"ISTREND","courseName":"Trends in Information Systems","numUnits":"3"}
+{"_id":"5e785f4e69ca261bb4578ec3","courseCode":"ISELEC1","courseName":"IS Elective 1","numUnits":"3"}
+{"_id":"5e785f4e69ca261bb4578ec4","courseCode":"ISELEC2","courseName":"IS Elective 2","numUnits":"3"}
+{"_id":"5e785f4e69ca261bb4578ec5","courseCode":"ISELEC3","courseName":"IS Elective 3","numUnits":"3"}
+{"_id":"5e785f4e69ca261bb4578ec6","courseCode":"ISELEC4","courseName":"IS Elective 4","numUnits":"3"}
+{"_id":"5e785f4e69ca261bb4578ec7","courseCode":"ISCAPR1","courseName":"IS Capstone Project 1","numUnits":"2"}
+{"_id":"5e785f4e69ca261bb4578ec8","courseCode":"ISCAPR2","courseName":"IS Capstone Project 2","numUnits":"2"}
+{"_id":"5e785f4e69ca261bb4578ec9","courseCode":"ISPRACT","courseName":"IS Practicum","numUnits":"3"}
