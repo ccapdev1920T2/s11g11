@@ -94,8 +94,6 @@ $(document).ready(function() {
 				}
 			});
 		}
-		
-		
 	});
 
 	$('button.delete-class').click(function() {
@@ -105,7 +103,7 @@ $(document).ready(function() {
 		console.log(delClassNum);
 
 		$.post('/dropclass', {searchDropC: delClassNum}, function(result) {
-			switch(result.status){
+			switch(result.status) {
 				case 200: {
 					alert(result.mssg);
 					row.remove();
@@ -121,6 +119,53 @@ $(document).ready(function() {
 				}
 			}
 		});
+	});
+
+	$('button#swapclass-btn').click(function() {
+		var addC =  $('#add').val();
+		var dropC =  $('#drop').val();
+
+		var addCEmpty = validator.isEmpty(addC);
+		var addCInt = validator.isInt(addC);
+		var addCLength = validator.isLength(addC, {min: 4, max: 4});
+
+		var dropCEmpty = validator.isEmpty(dropC);
+		var dropCInt = validator.isInt(dropC);
+		var dropCLength = validator.isLength(dropC, {min: 4, max: 4});
+
+		if (addCEmpty && dropCEmpty)
+			alert('No input.');
+		else if (addCEmpty)
+			alert('No input for class to add.');
+		else if (dropCEmpty)
+			alert('No input for class to drop.');
+		else if (!addCInt || !addCLength || !dropCInt || !dropCLength)
+			alert('Invalid class number/s. Enter only 4-digit integers.');
+		else {
+			$.post('/swapclass', {add: addC, drop: dropC}, function(result) {
+				switch(result.status){
+					case 200: {
+						var newClass = JSON.parse(result.mssg);
+						var classHTML = '<li class="list-group-item text-wrap text-left d-inline-block flex-row flex-nowrap">'
+								+ '<span class="float-left" style="width: 20%;">' + newClass.classNum + '</span>'
+								+ '<span class="float-left" style="width: 20%;">' + newClass.courseId[0].courseCode + '</span>'
+								+ '<span class="float-left" style="width: 15%;">' + newClass.section + '</span>'
+								+ '<span class="float-left" style="width: 30%;">' + newClass.classSched + '</span>'
+								+ '<span class="float-left" style="width: 10%;">' + newClass.room + '</span></li>';
+						$('#myclasses_swap').append(classHTML);
+						break;
+					}
+					case 401: {
+						alert(result.mssg);
+						break;
+					}
+					case 500: {
+						alert(result.mssg);
+						break;
+					}
+				}
+			});
+		}
 	});
 });
 

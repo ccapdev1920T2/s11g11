@@ -242,16 +242,16 @@ const animoMiddleware = {
 		let {add, drop} = req.body;
 
 		if(!drop || !add)
-			return res.status(401).end('401 Unauthorized error, missing input');
+			res.send({status: 401, mssg: 'Missing input.'});
 
 		else{
 			let aClassObj = await classModel.findOne({classNum: add}).populate('courseId');
 			if (aClassObj === null)
-				return res.status(401).end('401 Unauthorized error, class number you want to add does not exist');
-			
+				res.send({status: 401, mssg: 'Class number you want to add does not exist.'});
+
 			let dClassObj = await classModel.findOne({classNum: drop}).populate('courseId');
 			if (dClassObj === null)
-				return res.status(401).end('401 Unauthorized error, class number you want to drop does not exist');
+				res.send({status: 401, mssg: 'Class number you want to drop does not exist.'});
 
 			let studClass = await studentModel.findOne({email: req.session.user.email}).populate({path: 'classList', populate: { path: 'courseId'}});
 			
@@ -270,23 +270,21 @@ const animoMiddleware = {
 
 			// if addMatch is NOT empty, that means that the class already exists in student's class list
 			if (addMatch.length > 0) {
-				return res.status(401).end('401 Unauthorized error, class to add already exists in class list');
+				res.send({status: 401, mssg: 'Class to add already exists in class list.'});
 			}
 			// if dropMatch is empty, that means that the class does not exist in student's class list
 			else if (dropMatch.length === 0) {
-				return res.status(401).end('401 Unauthorized error, class to drop does not exist in class list');
+				res.send({status: 401, mssg: 'Class to drop already exists in class list.'});
 			}
 			else if (checkStudentSched(studClass.classList, aClassObj, dClassObj)){
-				return res.status(401).end('401 Unauthorized error, schedules overlap');
+				res.send({status: 401, mssg: 'Schedules overlap.'});
 			}
 			else if (isMaxUnits(studClass.classList, aClassObj, dClassObj)) {
-				return res.status(401).end('401 Unauthorized error, student has reached max total units');
+				res.send({status: 401, mssg: 'Student has reached maximum total units.'});
 			}
-			
 			else return next();
 		}
 	}	
-
 };
 
 module.exports = animoMiddleware;

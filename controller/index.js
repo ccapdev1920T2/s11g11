@@ -230,7 +230,7 @@ const rendFunctions = {
 		
 		classModel.findOne({classNum: searchDropC}, function(err, match) {
 			if (err) {
-				res.send({status: 500, mssg:'Query not found.'});
+				res.send({status: 500, mssg:'SERVER ERROR: Query not found.'});
 			}
 			
 			// UPDATE
@@ -238,7 +238,7 @@ const rendFunctions = {
 				studentModel.findOneAndUpdate({email: req.session.user.email},
 							{$pull: {classList: match._id}}, 
 							{useFindAndModify: false, 'new': true}, function(err) {
-					if (err) res.send({status: 500, mssg:'Cannot update classlist in DB.'});
+					if (err) res.send({status: 500, mssg:'SERVER ERROR: Cannot update classlist in DB.'});
 					else res.send({status: 200, mssg: 'Dropped Class Successfully!'});
 				});
 			}
@@ -274,33 +274,34 @@ const rendFunctions = {
 		// SEARCH
 		// populates the collection with found matches with the query using 'lookup' flag in mongo
 		classModel.findOne({classNum: drop}, function(err, match) {
-					if (err) { 
-						return res.status(500).end('500 Internal Server error, query not found');
-					}
-					
-					// UPDATE
-					studentModel.findOneAndUpdate({email: req.session.user.email},
-							{$pull: {classList: match._id}},
-							{useFindAndModify: false, 'new': true}, function(err) {
-						if (err) res.status(500).end('500, cannot update classList in db');
-					});
+			if (err) { 
+				res.send({status: 500, mssg:'SERVER ERROR: Query not found.'});
+			}
+			else {
+				// UPDATE
+				studentModel.findOneAndUpdate({email: req.session.user.email},
+						{$pull: {classList: match._id}},
+						{useFindAndModify: false, 'new': true}, function(err) {
+					if (err) res.send({status: 500, mssg:'SERVER ERROR: Cannot update classlist in DB.'});
+				});
+			}
 		});
 		
 		// SEARCH
 		// populates the collection with found matches with the query using 'lookup' flag in mongo
 		classModel.findOne({classNum: add}, function(err, match) {
-					if (err) {
-						return res.status(500).end('500 Internal Server error, query not found');
-					}
-					
-					// UPDATE
-					studentModel.findOneAndUpdate({email: req.session.user.email},
-							{$push: {classList: match}},
-							{useFindAndModify: false}, function(err) {
-						if (err) res.status(500).end('500, cannot update classList in db');
-					});
+			if (err) {
+				res.send({status: 500, mssg:'SERVER ERROR: Query not found.'});
+			}
+			else {
+				// UPDATE
+				studentModel.findOneAndUpdate({email: req.session.user.email},
+						{$push: {classList: match}},
+						{useFindAndModify: false}, function(err) {
+					if (err) res.send({status: 500, mssg:'SERVER ERROR: Cannot update classlist in DB.'});
+				});
+			}
 		});
-		res.redirect("/swapclass");
 	},
 
 
