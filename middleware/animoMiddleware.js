@@ -274,7 +274,7 @@ const animoMiddleware = {
 			}
 			// if dropMatch is empty, that means that the class does not exist in student's class list
 			else if (dropMatch.length === 0) {
-				res.send({status: 401, mssg: 'Class to drop already exists in class list.'});
+				res.send({status: 401, mssg: 'Class to drop does not exist in class list.'});
 			}
 			else if (checkStudentSched(studClass.classList, aClassObj, dClassObj)){
 				res.send({status: 401, mssg: 'Schedules overlap.'});

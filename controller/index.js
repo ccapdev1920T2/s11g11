@@ -268,40 +268,30 @@ const rendFunctions = {
 		});
 	},
 
-	postSwapClass: function(req, res) {
+	postSwapClass: async function(req, res) {
 		let {drop, add} = req.body; // accessing input for POST
 		
-		// SEARCH
-		// populates the collection with found matches with the query using 'lookup' flag in mongo
-		classModel.findOne({classNum: drop}, function(err, match) {
-			if (err) { 
-				res.send({status: 500, mssg:'SERVER ERROR: Query not found.'});
-			}
-			else {
-				// UPDATE
-				studentModel.findOneAndUpdate({email: req.session.user.email},
-						{$pull: {classList: match._id}},
-						{useFindAndModify: false, 'new': true}, function(err) {
-					if (err) res.send({status: 500, mssg:'SERVER ERROR: Cannot update classlist in DB.'});
-				});
-			}
-		});
-		
-		// SEARCH
-		// populates the collection with found matches with the query using 'lookup' flag in mongo
-		classModel.findOne({classNum: add}, function(err, match) {
-			if (err) {
-				res.send({status: 500, mssg:'SERVER ERROR: Query not found.'});
-			}
-			else {
-				// UPDATE
-				studentModel.findOneAndUpdate({email: req.session.user.email},
-						{$push: {classList: match}},
-						{useFindAndModify: false}, function(err) {
-					if (err) res.send({status: 500, mssg:'SERVER ERROR: Cannot update classlist in DB.'});
-				});
-			}
-		});
+		try {
+			let classObjDrop = await classModel.findOne({classNum: drop}).populate('courseId');
+			let classObjAdd = await classModel.findOne({classNum: add}).populate('courseId');
+
+			// dropping
+			studentModel.findOneAndUpdate({email: req.session.user.email},
+					{$pull: {classList: classObjDrop._id}},
+					{useFindAndModify: false, 'new': true}, function(err) {
+				if (err) res.send({status: 500, mssg:'SERVER ERROR: Cannot update classlist in DB.'});
+			});
+
+			// adding
+			studentModel.findOneAndUpdate({email: req.session.user.email},
+					{$push: {classList: classObjAdd}},
+					{useFindAndModify: false}, function(err) {
+				if (err) res.send({status: 500, mssg:'SERVER ERROR: Cannot update classlist in DB.'});
+				else res.send({status: 200, mssg: JSON.stringify(classObjAdd)});
+			});
+		} catch (e) {
+			res.send({status: 500, mssg: e});
+		}
 	},
 
 
