@@ -197,8 +197,6 @@ $(document).ready(function() {
 		var row = $(this).parent();
 		var delClassNum = row.attr("id");
 
-		console.log(delClassNum);
-
 		$.post('/dropclass', {searchDropC: delClassNum}, function(result) {
 			switch(result.status){
 				case 200: {

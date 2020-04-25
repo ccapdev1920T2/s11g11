@@ -130,7 +130,7 @@ const rendFunctions = {
 		classModel.aggregate([{'$lookup': {"from": "courses", "localField": "course", "foreignField": "_id", "as": "courseId"}},
 					{ '$match': {$or:[{'courseId.0.courseName': query}, {'courseId.0.courseCode' : query}, {classNum : query}]} }], function(err, match) {
 
-			if (err) { console.log(err);
+			if (err) {
 				return res.status(500).end('500 Internal Server error, query not found');
 			}
 

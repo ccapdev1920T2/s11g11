@@ -161,7 +161,6 @@ const animoMiddleware = {
 		if (classObj === null)
 			res.send({status: 401, mssg:'Class number does not exist.'});
 		else {
-			console.log(classObj);
 			let studClass = await studentModel.findOne({email: req.session.user.email}).populate({path: 'classList', populate: { path: 'courseId'}});
 			
 			// get the student match, convert BSON to JSON, then store the classList to a variable
