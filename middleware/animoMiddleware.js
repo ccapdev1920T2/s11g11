@@ -2,11 +2,6 @@ const studentModel = require('../models/studentsdb');
 const courseModel = require('../models/coursesdb');
 const classModel = require('../models/classesdb');
 
-function validateEmail(email) {
-    let regex = /^\w+([\.-]?\w+)*@dlsu\.edu\.ph/;
-    return regex.test(email);
-}
-
 /* Three Steps
 	1. parsing string, return an array of Date objects
 	2. check if input Date will overlap with a class's Date
@@ -28,7 +23,7 @@ function parseSched(sched) {
 	return classSched;
 }
 
-/* toString() method for printing the Sched object, for debugging only! */
+/* method for casting the Sched object to string, for debugging only! */
 function str(e) {
 	return e.days + " "
 			+ e.startTime.getHours().toString().padStart(2, '0') + ':'
@@ -141,31 +136,22 @@ const animoMiddleware = {
 		next();
 	},
 
-	validateRegister: function (req, res, next) {
-		let {idNum, email, fname, lname, college, degprog, password, cpass} = req.body;
-
-		if(!idNum || !email || !fname || !lname || !college || !degprog || !password || !cpass) {
-			return res.status(401).end('401 Unauthorized error, missing input');
+	validateRegister: async function (req, res, next) {
+		try {
+			// check if id and email are already in db
+			let idMatch = await studentModel.findOne({idNum: req.body.arr[0].value});
+			let emailMatch = await studentModel.findOne({email: req.body.arr[1].value});
+			
+			if (idMatch) {
+				res.send({status: 401, mssg: 'User already exists with that ID number.'});
+			}
+			else if (emailMatch) {
+				res.send({status: 401, mssg: 'User already exists with that email address.'});
+			}
+			else return next();
+		} catch (e) {
+			res.send({status: 500, mssg: 'Server error. Cannot connect to database.'});
 		}
-		else if(!validateEmail(email)) {
-			return res.status(401).end('401 Unauthorized error, invalid email');
-		}
-		else if(password !== cpass) {
-			return res.status(401).end('401 Unauthorized error, passwords do not match');
-		}
-		else {
-			//searches if user is already in db
-			studentModel.findOne({email: email}, function(error, match){
-				if (error){
-					return res.status(500).end("401 Unauthorized error, cannot connect to the db");     
-				}
-
-				if (match){
-					return res.status(401).end("401 Unauthorized error, email already in database");
-				}
-			});      
-		}  
-		next();        
 	},
 
 	validateAddClass: async function (req, res, next) {

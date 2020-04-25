@@ -39,7 +39,7 @@ $(document).ready(function() {
 	 * 2. invalid id number
 	 * 3. invalid dlsu email
 	 * 4. passwords don't match
-	 * 5. (tentative) check password length >= 8
+	 * 5. check password length >= 8
 	 * 
 	 * Server-Side Validations
 	 * 1. email already exists
@@ -84,13 +84,27 @@ $(document).ready(function() {
 				passMatch = false;
 			}
 			if (!validator.isLength(formdata[6].value, {min: 8})) {
-				$('#passwordError').text('Passwords must be 8 characters long.');
+				$('#passwordError').text('Passwords must be at least 8 characters long.');
 				passLength = false;
 			}
 		}
 		
-		// submit form to server/backend, DO IF() ON THE 5 BOOLEANS
-		// $.post();
+		// submit form to server/backend
+		if (noEmptyFields && validId && validEmail && passMatch && passLength) {
+			$.post('/register', {arr: formdata}, function(result) {
+				switch(result.status) {
+					case 200: {
+						alert(result.mssg);
+						window.location.href = '/login';
+						break;
+					}
+					case 401:
+					case 500: {
+						alert(result.mssg); break;
+					}
+				}
+			});
+		}
 	});
 	
 	// for log-in validation
