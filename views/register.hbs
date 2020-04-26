@@ -2,7 +2,7 @@
 
 <title> Registration </title>
 
-<form method="POST" id="register" name="register">
+<form method="POST" id="registerform" name="register">
     <div class="container">
         <div class="form-container" style="margin-top: 40px;">
             <div class="register-image" style="display: table-cell; width: 30%;"></div>
@@ -11,41 +11,51 @@
             <div class="row">
                 <div class="col-md-6" style="margin-bottom: 10px;">
                     <label for="idNum" style="font-weight: bold;">ID Number</label>
-                    <input type="number" class="form-control" placeholder="ID Number" name="idNum" required>
+                    <input type="number" class="form-control" placeholder="ID Number" name="idNum">
+					<p id="idNumError" class="error"></p>
                 </div>
                 <div class="col-md-6" style="margin-bottom: 10px;">
                     <label for="email" style="font-weight: bold;">Email</label>
-                    <input type="email" class="form-control" placeholder="Email Address" name="email" required>
+                    <input type="email" class="form-control" placeholder="Email Address" name="email">
+					<p id="emailError" class="error"></p>
                 </div>
                 <div class="col-md-6" style="margin-bottom: 10px;">
                     <label for="fName" style="font-weight: bold;">First Name</label>
-                    <input type="text" class="form-control" placeholder="First Name" name="fname" required>
+                    <input type="text" class="form-control" placeholder="First Name" name="fname">
+					<p id="fnameError" class="error"></p>
                 </div>
                 <div class="col-md-6" style="margin-bottom: 10px;">
                     <label for="lName" style="font-weight: bold;">Last Name</label>
-                    <input type="text" class="form-control" placeholder="Last Name" name="lname" required>
+                    <input type="text" class="form-control" placeholder="Last Name" name="lname">
+					<p id="lnameError" class="error"></p>
                 </div>
                 <div class="col-md-6" style="margin-bottom: 10px;">
                     <label for="college" style="font-weight: bold;">College</label>
-                    <input type="text" class="form-control" placeholder="College" name="college" required>
+					<select class="form-control" name="college">
+						<option value="CCS">College of Computer Studies</option>
+					</select>
+					<p id="collegeError" class="error"></p>
                 </div>
                 <div class="col-md-6" style="margin-bottom: 10px;">
                     <label for="degree" style="font-weight: bold;">Degree Program</label>
-                    <input type="text" class="form-control" placeholder="Degree Program" name="degprog" required>
+                    <input type="text" class="form-control" placeholder="Degree Program" name="degprog">
+					<p id="degprogError" class="error"></p>
                 </div>
                 <div class="col-md-6" style="margin-bottom: 10px;">
                     <label for="password" style="font-weight: bold;">Password</label>
-                    <input type="password" class="form-control" placeholder="Password" name="password" required>
+                    <input type="password" class="form-control" placeholder="Password" name="password">
+					<p id="passwordError" class="error"></p>
                 </div>
                 <div class="col-md-6" style="margin-bottom: 10px;">
                     <label for="conPass" style="font-weight: bold;">Confirm Password</label>
-                    <input type="password" class="form-control" placeholder="Confirm Password" name="cpass" required>
+                    <input type="password" class="form-control" placeholder="Confirm Password" name="cpass">
+					<p id="cpassError" class="error"></p>
                 </div>
                 <div class="col-md-6" style="text-align: center; margin-top: 20px;">
                     <button type="reset" class="btn btn-primary btn-block" id="cancel" style="background-color: #184725; border-color: #184725" onclick="window.location.href='/login'">Cancel</button>
                 </div>
                 <div class="col-md-6" style="text-align: center; margin-top: 20px;">
-                    <button type="submit" class="btn btn-primary btn-block" id="submit" style="background-color: #184725; border-color: #184725">Submit</button>
+                    <button type="button" class="btn btn-primary btn-block" id="regsubmit" style="background-color: #184725; border-color: #184725">Submit</button>
                 </div>
             </div>
         </div>

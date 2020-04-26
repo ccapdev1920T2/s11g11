@@ -1,3 +1,24 @@
+function updateTotalUnits() {
+	var totalUnits = 0.0;
+	document.querySelectorAll('span.num-units').forEach(function(num){
+		totalUnits += Number.parseFloat(num.textContent);
+	});
+	$('#total-units').text(totalUnits.toFixed(1));
+}
+
+function validDLSUid(id) {
+	var acc = 0, i = 1, temp = Number.parseInt(id);
+	while (Math.floor(temp) > 0) {
+		acc += i*(Math.floor(temp)%10);
+		temp /= 10;
+		i++;
+	} return acc%11 === 0 && id.length === 8;
+}
+
+function validateEmail(email) {
+    let regex = /^\w+([\.-]?\w+)*@dlsu\.edu\.ph/;
+    return regex.test(email);
+}
 
 $(document).ready(function() {
 	// get total units of completed courses
@@ -11,6 +32,80 @@ $(document).ready(function() {
 				return '<img class="img-fluid" src="'+$(this).data('img') + '" />';},
           title: 'Course Flowchart'
     });
+	
+	/* for registration validation
+	 * Client-Side Validations
+	 * 1. empty field
+	 * 2. invalid id number
+	 * 3. invalid dlsu email
+	 * 4. passwords don't match
+	 * 5. check password length >= 8
+	 * 
+	 * Server-Side Validations
+	 * 1. email already exists
+	 * 2. id already exists
+	 */
+	$('button#regsubmit').click(function() {
+		var formdata = $('form#registerform').serializeArray();
+		
+		// sanitize form data and clear out error messages
+		formdata.forEach(function(e) {
+			e.value = validator.trim(e.value);
+			$('#' + e.name + 'Error').text('');
+		});
+		
+		// booleans for validation
+		var noEmptyFields = true,
+				validId = true,
+				validEmail = true,
+				passMatch = true,
+				passLength = true;
+		
+		// #1
+		formdata.forEach(function(field) {
+			if (validator.isEmpty(field.value)) {
+				$('#' + field.name + 'Error').text('This field is required.');
+				noEmptyFields = false;
+			}
+		});
+		
+		// #2, #3, #4, #5
+		if (noEmptyFields) {
+			if (!validDLSUid(formdata[0].value)) {
+				$('#idNumError').text('Invalid ID Number.');
+				validId = false;
+			}
+			if (!validateEmail(formdata[1].value)) { 
+				$('#emailError').text('Invalid Email. Please use a DLSU-prescribed Email.');
+				validEmail = false;
+			}
+			if (!validator.equals(formdata[6].value, formdata[7].value)){
+				$('#cpassError').text('Passwords do not match.');
+				passMatch = false;
+			}
+			if (!validator.isLength(formdata[6].value, {min: 8})) {
+				$('#passwordError').text('Passwords must be at least 8 characters long.');
+				passLength = false;
+			}
+		}
+		
+		// submit form to server/backend
+		if (noEmptyFields && validId && validEmail && passMatch && passLength) {
+			$.post('/register', {arr: formdata}, function(result) {
+				switch(result.status) {
+					case 200: {
+						alert(result.mssg);
+						window.location.href = '/login';
+						break;
+					}
+					case 401:
+					case 500: {
+						alert(result.mssg); break;
+					}
+				}
+			});
+		}
+	});
 	
 	// for log-in validation
 	$('button#login-btn').click(function() {
@@ -100,8 +195,6 @@ $(document).ready(function() {
 		var row = $(this).parent();
 		var delClassNum = row.attr("id");
 
-		console.log(delClassNum);
-
 		$.post('/dropclass', {searchDropC: delClassNum}, function(result) {
 			switch(result.status) {
 				case 200: {
@@ -171,12 +264,3 @@ $(document).ready(function() {
 		}
 	});
 });
-
-function updateTotalUnits(){
-	var totalUnits = 0.0;
-	document.querySelectorAll('span.num-units').forEach(function(num){
-		totalUnits += Number.parseFloat(num.textContent);
-	});
-
-	$('#total-units').text(totalUnits.toFixed(1));
-}

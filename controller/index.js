@@ -16,7 +16,8 @@ function createUser(idno, ln, fn, email, pass, degprog, college) {
 		password: pass,
 		degprog: degprog,
 		college: college,
-		compCourses: []
+		compCourses: [],
+		classList: []
 	};
 	return tempUser;
 }
@@ -129,7 +130,7 @@ const rendFunctions = {
 		classModel.aggregate([{'$lookup': {"from": "courses", "localField": "course", "foreignField": "_id", "as": "courseId"}},
 					{ '$match': {$or:[{'courseId.0.courseName': query}, {'courseId.0.courseCode' : query}, {classNum : query}]} }], function(err, match) {
 
-			if (err) { console.log(err);
+			if (err) {
 				return res.status(500).end('500 Internal Server error, query not found');
 			}
 
@@ -299,27 +300,12 @@ const rendFunctions = {
 	//POST methods (for any changes/manipulation on data)
 	postRegister: function(req, res, next) {
 	// retrieves user input from the register form
-		var { idNum, email, fname, lname, college, degprog, password, cpass} = req.body;
-		
-		// looks for ERRORS
-		studentModel.findOne({email: email}, function(error, match){ //searches for existing user in db
-			if (error){
-				return res.status(500).end("ERROR: Cannot connect to db.");
-			}
-			else if (match){
-				return res.status(500).end("ERROR: Existing user with this email.");
-			}
-			
-			bcrypt.hash(password, saltRounds, function(err, hash) {
-				var student = createUser(idNum, lname, fname, email, hash, degprog, college);
-				studentModel.create(student, function(error){
-					if (error){
-						return res.status(500).end("ERROR: Cannot create user.");
-					}
-					else {
-						res.redirect("/login");
-					}
-				});
+		bcrypt.hash(req.body.arr[6].value, saltRounds, function(err, hash) {
+			var student = createUser(req.body.arr[0].value, req.body.arr[3].value, req.body.arr[2].value, req.body.arr[1].value, hash, req.body.arr[5].value, req.body.arr[4].value);
+			studentModel.create(student, function(error){
+				if (error){
+					return res.send({status: 500, mssg: "ERROR: Cannot create user."});
+				} else res.send({status: 200, mssg: 'New student registered. Welcome to DLSU!'});
 			});
 		});
 	},
