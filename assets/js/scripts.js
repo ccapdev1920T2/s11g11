@@ -120,16 +120,13 @@ $(document).ready(function() {
 		}
 		else{
 			// passes data to the server
-			$.post('/verify', {otpVerify: otp}, function(res) {
+			$.post('/verification', {otpVerify: otp}, function(res) {
 				switch (res.status){
 					case 200: {
 						window.location.href = '/';
 						break;
 					}
-					case 401: {
-						$('p#otpError').text(res.mssg);
-						break;
-					}
+					case 401:
 					case 500: {
 						$('p#otpError').text(res.mssg);
 						break;
