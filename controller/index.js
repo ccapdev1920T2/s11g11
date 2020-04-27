@@ -76,7 +76,13 @@ const rendFunctions = {
 			// insert needed contents for register.hbs 
 		});
 	},
-
+	
+	getVerify: function(req, res, next) {
+		if (req.session.user) {
+			res.render('verification');
+		} else res.redirect('/');
+	},
+	
 	getHome: function(req, res, next) {		
 		if (req.session.user) {
 			res.render('home', { 

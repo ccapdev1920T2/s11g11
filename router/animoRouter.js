@@ -10,6 +10,7 @@ router.get('/', controller.getHome);
 router.get('/home', controller.getHome);
 router.get('/login', controller.getLogin);
 router.get('/register', controller.getRegister);
+router.get('/verification', controller.getVerify);
 router.get('/userprofile', controller.getProfile);
 router.get('/viewcourses', controller.getCourseOffer);
 router.get('/searchclasses', controller.getSearchCOffer);
