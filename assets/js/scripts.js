@@ -107,6 +107,39 @@ $(document).ready(function() {
 		}
 	});
 	
+	// email verification validation
+	$('button#verifySubmit').click(function() {
+		var otp = validator.trim($('#otp').val());
+		var otpEmpty = validator.isEmpty(otp);
+		
+		// resets input form when verify button is clicked
+		$('p#otpError').text('');
+		
+		if(otpEmpty){
+			$('p#otpError').text('OTP field must not be empty.');
+		}
+		else{
+			// passes data to the server
+			$.post('/verify', {otpVerify: otp}, function(res) {
+				switch (res.status){
+					case 200: {
+						window.location.href = '/';
+						break;
+					}
+					case 401: {
+						$('p#otpError').text(res.mssg);
+						break;
+					}
+					case 500: {
+						$('p#otpError').text(res.mssg);
+						break;
+					}
+				}	
+			});				
+		}
+		
+	});
+	
 	// for log-in validation
 	$('button#login-btn').click(function() {
 		var email = validator.trim($('#email').val());

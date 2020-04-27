@@ -1,4 +1,6 @@
-const validator = require('express-validator');
+const nodemailer = require('nodemailer');
+const otpGenerator = require('otp-generator');
+
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 
@@ -7,7 +9,7 @@ const courseModel = require('../models/coursesdb');
 const classModel = require('../models/classesdb');
 
 //constructor for a Student object
-function createUser(idno, ln, fn, email, pass, degprog, college) {
+function createUser(idno, ln, fn, email, pass, degprog, college, otp) {
 	var tempUser = {
 		idNum: idno,
 		lname: ln,
@@ -17,7 +19,9 @@ function createUser(idno, ln, fn, email, pass, degprog, college) {
 		degprog: degprog,
 		college: college,
 		compCourses: [],
-		classList: []
+		classList: [],
+		otp: otp,
+		isVerified: false
 	};
 	return tempUser;
 }
@@ -73,7 +77,7 @@ const rendFunctions = {
 		});
 	},
 
-	getHome: function(req, res, next) {
+	getHome: function(req, res, next) {		
 		if (req.session.user) {
 			res.render('home', { 
 				// insert needed contents for home.hbs 
@@ -299,14 +303,47 @@ const rendFunctions = {
 
 	//POST methods (for any changes/manipulation on data)
 	postRegister: function(req, res, next) {
-	// retrieves user input from the register form
+		// retrieves user input from the register form
 		bcrypt.hash(req.body.arr[6].value, saltRounds, function(err, hash) {
-			var student = createUser(req.body.arr[0].value, req.body.arr[3].value, req.body.arr[2].value, req.body.arr[1].value, hash, req.body.arr[5].value, req.body.arr[4].value);
+			var userotp = otpGenerator.generate(6, { alphabets: false, upperCase: false, specialChars: false });
+			var student = createUser(req.body.arr[0].value, req.body.arr[3].value,
+					req.body.arr[2].value, req.body.arr[1].value, hash,
+					req.body.arr[5].value, req.body.arr[4].value, userotp);
+			
+			// send email
+			var smtpTransport = nodemailer.createTransport({
+				service: 'Gmail',
+				auth: {
+					user: process.env.EMAIL,
+					pass: process.env.PASSWORD
+				}
+			});
+			var mailOptions = {
+				from: process.env.EMAIL,
+				to: student.email,
+				subject: 'Welcome to Lozol 2.0!',
+				text: 'Welcome to Lozol, ' + student.fname + '! I am AnimoSys 2.0, your assistant. Your One-Time Password is ' + student.otp + '. Animo!'
+			};
+			smtpTransport.sendMail(mailOptions, function(error) {
+				if (error) console.log(error);
+				smtpTransport.close();
+			});
+			
 			studentModel.create(student, function(error){
 				if (error){
-					return res.send({status: 500, mssg: "ERROR: Cannot create user."});
+					res.send({status: 500, mssg: "ERROR: Cannot create user."});
 				} else res.send({status: 200, mssg: 'New student registered. Welcome to DLSU!'});
 			});
+		});
+	},
+	
+	postVerify: function(req, res, next) {
+		studentModel.findOneAndUpdate({email: req.session.user.email},
+				{$set: {isVerified: true}},
+				{useFindAndModify: false},
+				function(error) {
+			if (error) res.send({status: 500, mssg: "Server error, cannot access database."});
+			else res.send({status: 200, mssg: 'Your email is now confirmed!'});
 		});
 	},
 	

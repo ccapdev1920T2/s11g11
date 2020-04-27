@@ -121,21 +121,6 @@ function isMaxUnits(sClasslist, newClass, oldClass){
 
 const animoMiddleware = {
 	
-	validateLogin: function (req, res, next) {
-		let {email, password} = req.body;
-
-		if(!email) { 
-			return res.send(401, 'Unauthorized error, no email');
-		}
-		else if(!validateEmail(email)) {
-			return res.send(401, 'Unauthorized error, invalid email');
-		}
-		if(!password) {
-			return res.send(401, 'Unauthorized error, no password');
-		}
-		next();
-	},
-
 	validateRegister: async function (req, res, next) {
 		try {
 			// check if id and email are already in db
@@ -153,43 +138,22 @@ const animoMiddleware = {
 			res.send({status: 500, mssg: 'Server error. Cannot connect to database.'});
 		}
 	},
-
-	validateAddClass: async function (req, res, next) {
-		let {searchAddC} = req.body;
-		
-		let classObj = await classModel.findOne({classNum: searchAddC}).populate('courseId');
-		if (classObj === null)
-			res.send({status: 401, mssg:'Class number does not exist.'});
-		else {
-			let studClass = await studentModel.findOne({email: req.session.user.email}).populate({path: 'classList', populate: { path: 'courseId'}});
+	
+	validateVerify: async function (req, res, next) {
+		try {
+			let {otpVerify} = req.body;
+			let student = await studentModel.findOne({email: req.session.user.email});
 			
-			// get the student match, convert BSON to JSON, then store the classList to a variable
-			let classes = JSON.parse(JSON.stringify(studClass)).classList; // classList and classes are arrays
-			
-			// get an array that contains class->classNum that match the searchAddC
-			let classMatch = classes.filter(function(elem) {
-				return elem.classNum === searchAddC;
-			}); 
-
-			// get an array that contains class->courseCode that match the courseCode of searchAddC
-			let courseMatch = classes.filter(function(elem) {
-				return elem.courseId[0].courseCode === classObj.courseId[0].courseCode;
-			});
-
-			// if classMatch is NOT empty, that means that the class already exists in student's class list
-			if (classMatch.length > 0) {
-				res.send({status: 401, mssg: 'Class already exists in class list.'});
+			if (student.isVerified){
+				res.send({status: 401, mssg: 'You are already verified!'});
 			}
-			else if (courseMatch.length > 0) {
-				res.send({status: 401, mssg: 'Course already exists in class list.'});
+			else if(otpVerify !== student.otp){
+				res.send({status: 401, mssg: 'Unauthorized error. Wrong OTP inputted.'});
 			}
-			else if (checkStudentSched(studClass.classList, classObj)) {
-				res.send({status: 401, mssg: 'Class schedules overlap.'});
-			}
-			else if (isMaxUnits(studClass.classList, classObj)) {
-				res.send({status: 401, mssg:'Student has reached max total units.'});
-			} 
 			else return next();
+		}
+		catch (e) {
+			res.send({status: 500, mssg: 'Server error. Cannot connect to database.'});
 		}
 	},
 

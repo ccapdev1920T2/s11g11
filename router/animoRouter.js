@@ -21,6 +21,7 @@ router.get('/swapclass', controller.getSwapClass);
 router.post('/logout', controller.postLogout);
 router.post('/login', controller.postLogin);
 router.post('/register', middleware.validateRegister, controller.postRegister);
+router.post('/verification', middleware.validateVerify, controller.postVerify);
 router.post('/addclass', middleware.validateAddClass, controller.postAddClass);
 router.post('/dropclass', middleware.validateDropClass, controller.postDropClass);
 router.post('/swapclass', middleware.validateSwapClass, controller.postSwapClass);

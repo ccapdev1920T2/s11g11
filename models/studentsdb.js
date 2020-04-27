@@ -14,7 +14,9 @@ var studentsSchema = new mongoose.Schema({
 	degprog: String,
 	college: String,
 	compCourses: [ String ],
-	classList: [{type: mongoose.Schema.Types.ObjectId, ref: 'classes'}]
+	classList: [{type: mongoose.Schema.Types.ObjectId, ref: 'classes'}],
+	otp: String,
+	isVerified: Boolean
 }, {collection: "students"});
 
 studentsSchema.virtual('courseId', {
