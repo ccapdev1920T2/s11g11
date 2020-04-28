@@ -1,5 +1,11 @@
 <!DOCTYPE html>
-{{> navbar}}
+
+{{#if loggedIn}}
+    {{> navbar}}
+{{else}}
+    {{> navbar-landing}}
+{{/if}}
+
 <title> Home </title>
 
 <div  style="background-color: #76b160;">

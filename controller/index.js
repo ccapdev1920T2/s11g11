@@ -87,11 +87,13 @@ const rendFunctions = {
 		if (req.session.user) {
 			res.render('home', { 
 				// insert needed contents for home.hbs 
-				userName: req.session.user.lname + ", " + req.session.user.fname
+				userName: req.session.user.lname + ", " + req.session.user.fname,
+				loggedIn: true
 			});
 		} else {
 			res.render('home', {
-					userName: "NOT FOUND"
+				userName: "NOT FOUND",
+				loggedIn: false
 			});
 		}
 	},
@@ -384,7 +386,7 @@ const rendFunctions = {
 
 	postLogout: function(req, res, next) {
 		req.session.destroy();
-		res.redirect("/login");
+		res.redirect("/");
 	}
 };
 
