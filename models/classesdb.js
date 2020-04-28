@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/animosysdb', {useNewUrlParser: true, useUnifiedTopology: true})
+mongoose.connect(`mongodb+srv://sysadmin:${process.env.DB_PASS}@animosysdb-wpwif.mongodb.net/animosysdb?retryWrites=true&w=majority`, 
+				{useNewUrlParser: true, useUnifiedTopology: true})
 		.then(() => { console.log('classesdb Successful!'); },
 		err => { console.log('classesdb Error!');
 });
