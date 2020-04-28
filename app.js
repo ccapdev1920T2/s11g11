@@ -9,6 +9,8 @@ const session = require('express-session'); //keeps track of who's logged in
 const mongoose = require('mongoose');
 const app = express();
 require('dotenv').config();
+const PORT = process.env.PORT||3000;
+
 
 app.use(cookieParser());
 
@@ -49,6 +51,6 @@ const router = require('./router/animoRouter');
 app.use('/', router);
 
 // console output when server is ran
-app.listen(3000, () => {
+app.listen(PORT, () => {
 	console.log("Listening to localhost at port 3000");
 });
