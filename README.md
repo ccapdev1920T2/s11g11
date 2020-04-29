@@ -1,6 +1,6 @@
 # Animo.sys - S11 Group 11
 
-An enrollment website with features similar to the existing animo.sys of DLSU specifically for College of Computer Studies (CSS) students. It will have the following features: Register, Log In, Log Out, View own user profile, View all offered classes, Search and display classes, Add classes, Drop classes, Swap classes, and View summary of enrolled classes.
+An enrollment website with features similar to the existing animo.sys of DLSU specifically for College of Computer Studies (CSS) students. It will have the following features: Register, Acount Verification, Log In, Log Out, View own user profile, View all offered classes, Search and display classes, Add classes, Drop classes, Swap classes, and View summary of enrolled classes.
 
 ## Heroku Deployed App
 
