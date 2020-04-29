@@ -1,6 +1,10 @@
 # Enrollment - S11 Group 11
 
-An enrollment website with features similar to the existing animo.sys of DLSU specifically for BS Information Systems (BSINSYS) students. It will have the following features: Register, Log In, Log Out, View own user profile, View all offered classes, Search and display classes, Add classes, Drop classes, Swap classes, and View summary of enrolled classes.
+An enrollment website with features similar to the existing animo.sys of DLSU specifically for College of Computer Studies (CSS) students. It will have the following features: Register, Log In, Log Out, View own user profile, View all offered classes, Search and display classes, Add classes, Drop classes, Swap classes, and View summary of enrolled classes.
+
+## Link to Heroku
+
+[Animo.sys] (https://animosys.herokuapp.com)
 
 ## Getting Started
 
@@ -28,9 +32,9 @@ Click on `Don't have an account? Register here` and fill in the necessary inform
 Log In using the email and password you used to register or choose one of the following:
 |            E-mail          |     Password      |
 |:--------------------------:|:-----------------:|
-| ninna_manzano@dlsu.edu.ph  |      11111        |
-| kayla_latorre@dlsu.edu.ph  |    kapeuwu        |
-| krissha_calaranan@dlsu.edu.ph  |      rockets123        |
+| ninna_manzano@dlsu.edu.ph  |      11111111     |
+| kayla_latorre@dlsu.edu.ph  |    kapekape       |
+| krissha_calaranan@dlsu.edu.ph  |      rockets123       |
 
 #### View own user profile
 On the rightmost of the navigation bar, you will see the name of the user and a dropdown arrow. Click it and choose `Profile`
