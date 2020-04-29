@@ -19,11 +19,12 @@ Link: [Animo.sys](https://animosys.herokuapp.com)
 5. Enter this to run the server: `node app.js`
 6. Navigate to the project through: `http://localhost:3000/`
 
-### Upon Registering and Logging in
+## Upon Registering and Logging in
 
-Register using a DLSU e-mail address.
-*Note: The password should be at least 8 characters.*
+### Register
+Register using a DLSU e-mail address. The password should at least be 8 characters.
 
+### Log In
 Log In using the email and password you used to register or choose one of the following:
 |            E-mail          |     Password      |
 |:--------------------------:|:-----------------:|
@@ -31,7 +32,7 @@ Log In using the email and password you used to register or choose one of the fo
 | kayla_latorre@dlsu.edu.ph  |    kapekape       |
 | krissha_calaranan@dlsu.edu.ph  |      rockets123       |
 
-### Features
+## Features
 
 - Register
 - Account Verification
