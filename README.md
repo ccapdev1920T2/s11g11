@@ -32,19 +32,20 @@ Log In using the email and password you used to register or choose one of the fo
 | kayla_latorre@dlsu.edu.ph  |    kapekape       |
 | krissha_calaranan@dlsu.edu.ph  |      rockets123       |
 
-## Features
-
-- Register
-- Account Verification
-- Log In
-- Log Out
-- View own user profile
-- View all offered classes
-- Search and display classes
-- Add Classes
-- Drop Classes
-- Swap Classes
-- View summary of enrolled courses
+## Dependencies
+- [express](https://www.npmjs.com/package/express)
+- [express-handlebars](https://www.npmjs.com/package/express-handlebars)
+- [express-session](https://www.npmjs.com/package/express-session)
+- [body-parser](https://www.npmjs.com/package/body-parser)
+- [cookie-parser](https://www.npmjs.com/package/cookie-parser)
+- [dotenv](https://www.npmjs.com/package/dotenv)
+- [mongoose](https://www.npmjs.com/package/mongoose)
+- [validator](https://www.npmjs.com/package/validator)
+- [express-validator](https://www.npmjs.com/package/express-validator)
+- [bcryptjs](https://www.npmjs.com/package/bcrypt)
+- [nodemailer](https://www.npmjs.com/package/nodemailer)
+- [otp-generator](https://www.npmjs.com/package/otp-generator)
+- [nodemon](https://www.npmjs.com/package/nodemon)
 
 ## Authors
 
