@@ -96,7 +96,7 @@ const rendFunctions = {
 	},
 	
 	getVerify: function(req, res, next) {
-		if (req.session.user) {
+		if (req.session.user && !req.session.user.isVerified) {
 			res.render('verification');
 		} else res.redirect('/');
 	},
@@ -118,110 +118,121 @@ const rendFunctions = {
 
 	getProfile: function(req, res, next) {
 		if (req.session.user) {
-			studentModel.findOne({email: req.session.user.email}) // finds the logged-in student 
-					.populate("courseId") // matches the ObjectId in each element of courses collection
-					.then(function(student){ // passes the populated array "compCourses"
-						res.render('userprofile', {
-							// insert needed contents for userprofile.hbs
-							userName: req.session.user.lname + ", " + req.session.user.fname,
-							idNum: req.session.user.idNum,
-							lname: req.session.user.lname,
-							fname: req.session.user.fname,
-							email: req.session.user.email,
-							degprog: req.session.user.degprog,
-							college: req.session.user.college,
-							compCourses: JSON.parse(JSON.stringify(student.courseId)) // parses BSON into JSON (virtual attribute)
-						});
-					});
+			if (req.session.user.isVerified){
+				studentModel.findOne({email: req.session.user.email}) // finds the logged-in student 
+						.populate("courseId") // matches the ObjectId in each element of courses collection
+						.then(function(student){ // passes the populated array "compCourses"
+							res.render('userprofile', {
+								// insert needed contents for userprofile.hbs
+								userName: req.session.user.lname + ", " + req.session.user.fname,
+								idNum: req.session.user.idNum,
+								lname: req.session.user.lname,
+								fname: req.session.user.fname,
+								email: req.session.user.email,
+								degprog: req.session.user.degprog,
+								college: req.session.user.college,
+								compCourses: JSON.parse(JSON.stringify(student.courseId)) // parses BSON into JSON (virtual attribute)
+							});
+						});				
+			} else res.redirect('/error/403/notverified');
 		} else res.redirect('/');
 	},
 
 	getCourseOffer: function(req, res, next) {
 		if (req.session.user) {
-			classModel.find({}).populate('courseId')
-					.then(function(classes){ // passes the populated array 
+			if (req.session.user.isVerified) {
+				classModel.find({}).populate('courseId')
+						.then(function(classes){ // passes the populated array 
 
-						var offers = JSON.parse(JSON.stringify(classes));
-						let details = offers.map((item, i) => Object.assign({}, item, offers[i].courseId));
+							var offers = JSON.parse(JSON.stringify(classes));
+							let details = offers.map((item, i) => Object.assign({}, item, offers[i].courseId));
 
-						res.render('view-courseoffer', {
-							// insert needed contents for vieweaf.hbs 
-							userName: req.session.user.lname + ", " + req.session.user.fname,
-							courseOffer: details
+							res.render('view-courseoffer', {
+								// insert needed contents for vieweaf.hbs 
+								userName: req.session.user.lname + ", " + req.session.user.fname,
+								courseOffer: details
+							});
 						});
-					});
+			} else res.redirect('/error/403/notverified');
 		} else res.redirect('/');		
 	},
 
 	getSearchCOffer: function(req, res) {
 		if (req.session.user) {
-			let query = new RegExp(req.query.searchCO, 'gi'); // convert input string to regex
+			if (req.session.user.isVerified){
+				let query = new RegExp(req.query.searchCO, 'gi'); // convert input string to regex
 
-			// populates the collection with found matches with the query using 'lookup' flag in mongo
-			classModel.aggregate([{'$lookup': {"from": "courses", "localField": "course", "foreignField": "_id", "as": "courseId"}},
-						{ '$match': {$or:[{'courseId.0.courseName': query}, {'courseId.0.courseCode' : query}, {classNum : query}]} }], function(err, match) {
-				if (err) {
-					return res.status(500).end('500 Internal Server error, query not found');
-				}
+				// populates the collection with found matches with the query using 'lookup' flag in mongo
+				classModel.aggregate([{'$lookup': {"from": "courses", "localField": "course", "foreignField": "_id", "as": "courseId"}},
+							{ '$match': {$or:[{'courseId.0.courseName': query}, {'courseId.0.courseCode' : query}, {classNum : query}]} }], function(err, match) {
+					if (err) {
+						return res.status(500).end('500 Internal Server error, query not found');
+					}
 
-				let details = match.map((item, i) => Object.assign({}, item, match[i].courseId));
-				res.render('view-courseoffer', {
-					userName: req.session.user.lname + ", " + req.session.user.fname,
-					courseOffer: details
-				});
-			});
+					let details = match.map((item, i) => Object.assign({}, item, match[i].courseId));
+					res.render('view-courseoffer', {
+						userName: req.session.user.lname + ", " + req.session.user.fname,
+						courseOffer: details
+					});
+				});				
+			} else res.redirect('/error/403/notverified');	
 		} else res.redirect('/');
 	},
 
 	getViewEAF: function(req, res, next) {
 		if (req.session.user) {
-			studentModel.findOne({email: req.session.user.email}) // finds the logged-in student 
-					.populate({path: 'classList',
-						populate: { path: 'courseId'}
-						}) // matches the ObjectId in each element of classes collection
-					.then(function(student){ // passes the populated array "classList"
+			if (req.session.user.isVerified){
+				studentModel.findOne({email: req.session.user.email}) // finds the logged-in student 
+						.populate({path: 'classList',
+							populate: { path: 'courseId'}
+							}) // matches the ObjectId in each element of classes collection
+						.then(function(student){ // passes the populated array "classList"
 
-						var classes = JSON.parse(JSON.stringify(student)).classList;
-						let details = classes.map((item, i) => Object.assign({}, item, classes[i].courseId));
+							var classes = JSON.parse(JSON.stringify(student)).classList;
+							let details = classes.map((item, i) => Object.assign({}, item, classes[i].courseId));
 
-						res.render('vieweaf', {
-							// insert needed contents for vieweaf.hbs
-							userName: req.session.user.lname + ", " + req.session.user.fname,
-							idNum: req.session.user.idNum,
-							lname: req.session.user.lname,
-							fname: req.session.user.fname,
-							degprog: req.session.user.degprog,
-							classList: details
-						});
-					});
+							res.render('vieweaf', {
+								// insert needed contents for vieweaf.hbs
+								userName: req.session.user.lname + ", " + req.session.user.fname,
+								idNum: req.session.user.idNum,
+								lname: req.session.user.lname,
+								fname: req.session.user.fname,
+								degprog: req.session.user.degprog,
+								classList: details
+							});
+						});				
+			} else res.redirect('/error/403/notverified');
 		} else res.redirect('/');
 	},
 
 
 	getAddClass: function(req, res, next) {
-		if (req.session.user) {
-			// for searched 'Course Offerings' table
-			classModel.find({}).populate('courseId').exec(function(err, match){
-				// for 'My Classes' table
-				studentModel.findOne({email: req.session.user.email}) 
-						.populate({path: 'classList', populate: { path: 'courseId'}})
-						.then(function(student){
-							let classes = JSON.parse(JSON.stringify(student.classList));
-							let classDetails = classes.map((item, i) => Object.assign({}, item, classes[i].courseId));
+		if (req.session.user){
+			if (req.session.user.isVerified){
+				// for searched 'Course Offerings' table
+				classModel.find({}).populate('courseId').exec(function(err, match){
+					// for 'My Classes' table
+					studentModel.findOne({email: req.session.user.email}) 
+							.populate({path: 'classList', populate: { path: 'courseId'}})
+							.then(function(student){
+								let classes = JSON.parse(JSON.stringify(student.classList));
+								let classDetails = classes.map((item, i) => Object.assign({}, item, classes[i].courseId));
 
-							let course = JSON.parse(JSON.stringify(match));
-							let courseDetails = course.map((item, i) => Object.assign({}, item, course[i].courseId));
+								let course = JSON.parse(JSON.stringify(match));
+								let courseDetails = course.map((item, i) => Object.assign({}, item, course[i].courseId));
 
-							res.render('addclass', {
-								// insert needed contents for addclass.hbs 
-								userName: req.session.user.lname + ", " + req.session.user.fname,
-								courseOffer: courseDetails,
-								myClasses: classDetails
+								res.render('addclass', {
+									// insert needed contents for addclass.hbs 
+									userName: req.session.user.lname + ", " + req.session.user.fname,
+									courseOffer: courseDetails,
+									myClasses: classDetails
+								});
 							});
-						});
-			});
+				});
+			} else res.redirect('/error/403/notverified');			
 		} else res.redirect('/');
 	},
+
 
 	postAddClass: async function(req, res) {
 		let {searchAddC} = req.body; // accessing input from POST
@@ -247,18 +258,20 @@ const rendFunctions = {
 
 	getDropClass: function(req, res, next) {
 		if (req.session.user) {
-			studentModel.findOne({email: req.session.user.email}) 
-					.populate({path: 'classList', populate: { path: 'courseId'}})
-					.then(function(student){
-						let classes = JSON.parse(JSON.stringify(student.classList));
-						let classDetails = classes.map((item, i) => Object.assign({}, item, classes[i].courseId));
+			if (req.session.user.isVerified){
+				studentModel.findOne({email: req.session.user.email}) 
+						.populate({path: 'classList', populate: { path: 'courseId'}})
+						.then(function(student){
+							let classes = JSON.parse(JSON.stringify(student.classList));
+							let classDetails = classes.map((item, i) => Object.assign({}, item, classes[i].courseId));
 
-						res.render('dropclass', {
-							// insert needed contents for dropclass.hbs 
-							userName: req.session.user.lname + ", " + req.session.user.fname,
-							myClasses: classDetails
-						});
-					});
+							res.render('dropclass', {
+								// insert needed contents for dropclass.hbs 
+								userName: req.session.user.lname + ", " + req.session.user.fname,
+								myClasses: classDetails
+							});
+						});				
+			} else res.redirect('/error/403/notverified');
 		} else res.redirect('/');			
 	},
 
@@ -284,26 +297,28 @@ const rendFunctions = {
 
 	getSwapClass: function(req, res, next) {
 		if (req.session.user) {
-			// for searched 'Course Offerings' table
-			classModel.find({}).populate('courseId').exec(function(err, match){
-				// for 'My Classes' table
-				studentModel.findOne({email: req.session.user.email})
-						.populate({path: 'classList', populate: { path: 'courseId'}})
-						.then(function(student){
-							let classes = JSON.parse(JSON.stringify(student.classList));
-							let classDetails = classes.map((item, i) => Object.assign({}, item, classes[i].courseId));
+			if (req.session.user.isVerified){
+				// for searched 'Course Offerings' table
+				classModel.find({}).populate('courseId').exec(function(err, match){
+					// for 'My Classes' table
+					studentModel.findOne({email: req.session.user.email})
+							.populate({path: 'classList', populate: { path: 'courseId'}})
+							.then(function(student){
+								let classes = JSON.parse(JSON.stringify(student.classList));
+								let classDetails = classes.map((item, i) => Object.assign({}, item, classes[i].courseId));
 
-							let course = JSON.parse(JSON.stringify(match));
-							let courseDetails = course.map((item, i) => Object.assign({}, item, course[i].courseId));
+								let course = JSON.parse(JSON.stringify(match));
+								let courseDetails = course.map((item, i) => Object.assign({}, item, course[i].courseId));
 
-							res.render('swapclass', {
-								// insert needed contents for swapclass.hbs
-								userName: req.session.user.lname + ", " + req.session.user.fname,
-								courseOffer: courseDetails,
-								myClasses: classDetails
+								res.render('swapclass', {
+									// insert needed contents for swapclass.hbs
+									userName: req.session.user.lname + ", " + req.session.user.fname,
+									courseOffer: courseDetails,
+									myClasses: classDetails
+								});
 							});
-						});
-			});
+				});				
+			} else res.redirect('/error/403/notverified');
 		} else res.redirect('/');
 	},
 
