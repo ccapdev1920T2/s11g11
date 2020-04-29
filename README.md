@@ -2,7 +2,7 @@
 
 An enrollment website with features similar to the existing animo.sys of DLSU specifically for College of Computer Studies (CSS) students. It will have the following features: Register, Log In, Log Out, View own user profile, View all offered classes, Search and display classes, Add classes, Drop classes, Swap classes, and View summary of enrolled classes.
 
-## Heroku Deployed App
+### Heroku Deployed App
 
 Link: [Animo.sys](https://animosys.herokuapp.com)
 
@@ -45,7 +45,7 @@ Log In using the email and password you used to register or choose one of the fo
 - Swap Classes
 - View summary of enrolled courses
 
-## Authors
+### Authors
 
 **Krissha Calaranan**  
 **Kayla Latorre**  
