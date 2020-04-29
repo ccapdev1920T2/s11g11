@@ -363,25 +363,27 @@ const rendFunctions = {
 		});
 	},
 	
-	postLogin: function(req, res, next) {
+	postLogin: async function(req, res, next) {
 		let { email, password } = req.body;
 		
+		var student = await studentModel.findOne({email: email});
+		
 		// searches for user in db
-		studentModel.findOne({email: email}, function(error, matchUser){
-			if (error) // 1. Server error
-				res.send({status: 500});
-			else if (!matchUser) // 2. No users match with email-pass input
+		try {
+			if (!student) // 2. No users match with email-pass input
 				res.send({status: 401});
 			else { // log-in success
-				bcrypt.compare(password, matchUser.password, function(err, match) {
+				bcrypt.compare(password, student.password, function(err, match) {
 					if (match){
-						req.session.user = matchUser;
+						req.session.user = student;
 						res.send({status: 200});						
 					} else
 						res.send({status: 401});
 				});
-			}
-		});
+			}		
+		} catch(e) { // 1. Server error
+			res.send({status: 500});
+		}
 	},
 
 	postLogout: function(req, res, next) {
