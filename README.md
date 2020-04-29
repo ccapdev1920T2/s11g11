@@ -11,10 +11,10 @@ Link: [Animo.sys](https://animosys.herokuapp.com)
 - [MongoDB](https://www.mongodb.com/download-center#community)
 - [MongoDB Compass](https://www.mongodb.com/download-center/compass)
 
-### Setting up the Project Locally
+### Setting Up and Running the Project Locally
 1. Run `mongod.exe` in the background
 2. Open **MongoDB Compass** and make a DB named `animosysdb`
-3. Import using MongoDB Compass the three collections found in `\models\data imports` (excluding masterlist_courseclass.csv) with the respective names: *students*, *classes*, *courses*
+3. Import using MongoDB Compass the three collections found in `\models\data imports` (excluding masterlist_courseclass.csv) with the respective names: `students`, `classes`, `courses`
 4. Install dependencies on the **project command line**: `npm install`
 5. Enter this to run the server: `node app.js`
 6. Navigate to the project through: `http://localhost:3000/`
