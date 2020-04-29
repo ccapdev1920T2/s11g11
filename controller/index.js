@@ -359,7 +359,10 @@ const rendFunctions = {
 				{useFindAndModify: false},
 				function(error) {
 			if (error) res.send({status: 500, mssg: "Server error, cannot access database."});
-			else res.send({status: 200, mssg: 'Your email is now confirmed!'});
+			else {
+				req.session.user.isVerified = true;
+				res.send({status: 200, mssg: 'Your email is now confirmed!'});
+			}
 		});
 	},
 	
