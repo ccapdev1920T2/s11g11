@@ -4,6 +4,7 @@ An enrollment website with features similar to the existing animo.sys of DLSU sp
 
 ## Heroku Deployed App
 
+[![Heroku App Status](http://heroku-shields.herokuapp.com/animosys)](https://animosys.herokuapp.com)
 Link: [Animo.sys](https://animosys.herokuapp.com)
 
 ## Prerequisites
