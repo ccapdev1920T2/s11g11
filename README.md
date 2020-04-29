@@ -4,7 +4,7 @@ An enrollment website with features similar to the existing animo.sys of DLSU sp
 
 ## Link to Heroku
 
-[Animo.sys] (https://animosys.herokuapp.com)
+[Animo.sys](https://animosys.herokuapp.com)
 
 ## Getting Started
 
