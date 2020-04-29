@@ -50,7 +50,7 @@ Log In using the email and password you used to register or choose one of the fo
 
 ## Authors
 
-Krissha Calaranan
-Kayla Latorre 
-Ninna Manzano
+Krissha Calaranan 
+Kayla Latorre  
+Ninna Manzano 
 
