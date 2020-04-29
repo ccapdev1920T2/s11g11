@@ -31,6 +31,7 @@ Log In using the email and password you used to register or choose one of the fo
 | ninna_manzano@dlsu.edu.ph  |      11111111     |
 | kayla_latorre@dlsu.edu.ph  |    kapekape       |
 | krissha_calaranan@dlsu.edu.ph  |      rockets123       |
+| anna_catahan@dlsu.edu.ph | whore123 |
 
 ## Dependencies
 - [express](https://www.npmjs.com/package/express)
