@@ -55,10 +55,28 @@ function searchEmail(email) {
 	};
 }
 
+function getFullMssg(error) {
+	switch(error){
+		case "notverified": {
+			return "Please verify your email at the home page.";
+		}
+		default: {
+			return "Page not found.";
+		}
+	}
+}
+
 // main functions for getting and posting data
 const rendFunctions = {
 
 	// GET methods (for rendering pages)
+	getError: function(req, res, next) {
+		res.render('error', {
+			errorCode: req.url.split('/')[2],
+			errorMssg: getFullMssg(req.url.split('/')[3])
+		});
+	},
+
 	getLogin: function(req, res, next) {
 		var {email, password} = req.body;
 

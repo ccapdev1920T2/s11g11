@@ -18,6 +18,7 @@ router.get('/vieweaf', controller.getViewEAF);
 router.get('/addclass', controller.getAddClass);
 router.get('/dropclass', controller.getDropClass);
 router.get('/swapclass', controller.getSwapClass);
+router.get('/error/*', controller.getError);
 
 router.post('/logout', controller.postLogout);
 router.post('/login', controller.postLogin);
@@ -26,5 +27,9 @@ router.post('/verification', middleware.validateVerify, controller.postVerify);
 router.post('/addclass', middleware.validateAddClass, controller.postAddClass);
 router.post('/dropclass', middleware.validateDropClass, controller.postDropClass);
 router.post('/swapclass', middleware.validateSwapClass, controller.postSwapClass);
+
+router.get('*', function(req,res) { // handles 404 errors
+	res.redirect('/error/404/');
+});
 
 module.exports = router;
