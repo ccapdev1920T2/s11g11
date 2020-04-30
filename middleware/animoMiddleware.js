@@ -251,6 +251,11 @@ const animoMiddleware = {
 				return elem.classNum === add;
 			});
 			
+			// get an array that contains class->courseCode that match the courseCode of add
+			let courseMatch = classes.filter(function(elem) {
+				return elem.courseId[0].courseCode === aClassObj.courseId[0].courseCode;
+			});
+			
 			// get an array that contains class->classNum that match the drop
 			let dropMatch = classes.filter(function(elem) {
 				return elem.classNum === drop;
@@ -259,6 +264,10 @@ const animoMiddleware = {
 			// if addMatch is NOT empty, that means that the class already exists in student's class list
 			if (addMatch.length > 0) {
 				res.send({status: 401, mssg: 'Class to add already exists in class list.'});
+			}
+			// if courseMatch is NOT empty, that means that there exists a class with that course already
+			else if (courseMatch.length > 0) {
+				res.send({status: 401, mssg: 'Course already exists in class list.'});
 			}
 			// if dropMatch is empty, that means that the class does not exist in student's class list
 			else if (dropMatch.length === 0) {
