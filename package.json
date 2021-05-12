@@ -19,7 +19,7 @@
     "express-session": "^1.17.0",
     "express-validator": "^6.4.0",
     "mongoose": "^5.9.5",
-    "nodemailer": "^6.4.6",
+    "nodemailer": "^6.4.16",
     "otp-generator": "^1.1.0",
     "validator": "^13.0.0"
   },
